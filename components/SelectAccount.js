@@ -1,10 +1,12 @@
-import { StyleSheet, ScrollView, Text, ToastAndroid, Platform, View, KeyboardAvoidingView, SafeAreaView, Image, TouchableOpacity, TextInput } from 'react-native'
+import { StyleSheet, StatusBar, ScrollView, Text, ToastAndroid, Platform, View, KeyboardAvoidingView, SafeAreaView, Image, TouchableOpacity, TextInput } from 'react-native'
 import React, { useState } from 'react';
 
 
 export default function SelectAccount({ navigation }) {
     return (<ScrollView style={styles.fullView} keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}>
+
+        <StatusBar barStyle="light-content" backgroundColor="#004E75" />
         <KeyboardAvoidingView enabled>
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.navigate("Verification")}><Image source={require('../assets/back_arrow.png')} style={styles.headerBack} /></TouchableOpacity>
@@ -75,7 +77,7 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        paddingTop: 40
+        paddingTop: 20
     },
     headTitle: {
         color: "white",

@@ -73,6 +73,8 @@ export default function Verification({ navigation }) {
 
         <ScrollView style={styles.fullView} keyboardShouldPersistTaps="handled"
             showsVerticalScrollIndicator={false}>
+
+            <StatusBar barStyle="light-content" backgroundColor="#004E75" />
             <KeyboardAvoidingView enabled>
 
                 <ActivityIndicator size="large" animating={st} color="#00ff00" style={{ position: "absolute", top: '50%', left: '45%', zIndex: 10 }} />
@@ -142,7 +144,7 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        paddingTop: 40
+        paddingTop: 20
     },
     headTitle: {
         color: "white",

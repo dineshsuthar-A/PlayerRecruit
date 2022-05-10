@@ -1,4 +1,4 @@
-import { StyleSheet, ScrollView, Text, ActivityIndicator, ToastAndroid, Platform, View, KeyboardAvoidingView, SafeAreaView, Image, TouchableOpacity, TextInput } from 'react-native'
+import { StyleSheet, StatusBar, ScrollView, Text, ActivityIndicator, ToastAndroid, Platform, View, KeyboardAvoidingView, SafeAreaView, Image, TouchableOpacity, TextInput } from 'react-native'
 import React, { useState } from 'react';
 import axios from 'axios';
 
@@ -45,6 +45,7 @@ export default function Registration({ navigation }) {
         <ScrollView style={styles.fullView} keyboardShouldPersistTaps="handled"
             showsVerticalScrollIndicator={false}>
             <KeyboardAvoidingView enabled>
+                <StatusBar barStyle="light-content" backgroundColor="#004E75" />
                 <ActivityIndicator size="large" animating={st} color="#00ff00" style={{ position: "absolute", top: '50%', left: '45%', zIndex: 10 }} />
                 <View style={styles.header}>
                     <TouchableOpacity><Image source={require('../assets/back_arrow.png')} style={styles.headerBack} /></TouchableOpacity>
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        paddingTop: 40
+        paddingTop: 20
     },
     headTitle: {
         color: "white",
