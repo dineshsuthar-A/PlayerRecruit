@@ -1,4 +1,4 @@
-import { StyleSheet, StatusBar, ScrollView, Text, ActivityIndicator, ToastAndroid, Platform, View, KeyboardAvoidingView, SafeAreaView, Image, TouchableOpacity, TextInput } from 'react-native'
+import { StyleSheet, StatusBar, ImageBackground, ScrollView, Text, ActivityIndicator, ToastAndroid, Platform, View, KeyboardAvoidingView, SafeAreaView, Image, TouchableOpacity, TextInput } from 'react-native'
 import React, { useState } from 'react';
 import axios from 'axios';
 
@@ -42,27 +42,31 @@ export default function Registration({ navigation }) {
         }
     }
     return (
-        <ScrollView style={styles.fullView} keyboardShouldPersistTaps="handled"
-            showsVerticalScrollIndicator={false}>
-            <KeyboardAvoidingView enabled>
-                <StatusBar barStyle="light-content" backgroundColor="#004E75" />
-                <ActivityIndicator size="large" animating={st} color="#00ff00" style={{ position: "absolute", top: '50%', left: '45%', zIndex: 10 }} />
-                <View style={styles.header}>
-                    <TouchableOpacity><Image source={require('../assets/back_arrow.png')} style={styles.headerBack} /></TouchableOpacity>
-                    <Text style={styles.headTitle}>User Registration</Text>
-                </View>
-                <View style={styles.main}>
-                    <Image source={require('../assets/logo.png')} style={styles.logo} />
-                    <Text style={{ color: "white", fontFamily: "Roboto", marginTop: 30, fontWeight: "900", fontSize: 20 }}>Register User</Text>
-                    <TextInput onChangeText={(t) => setName(t)} placeholder='Username' style={styles.textBox} />
-                    <TextInput onChangeText={(t) => setPass(t)} placeholder='Password' secureTextEntry={true} style={styles.textBox} />
-                    <TextInput onChangeText={(t) => setRpass(t)} placeholder='Retype Password' secureTextEntry={true} style={styles.textBox} />
-                    <TextInput onChangeText={(t) => setPhone(t)} placeholder='Phone Number' maxLength={10} keyboardType="number-pad" style={styles.textBox} />
-                    <TouchableOpacity onPress={() => RegisterPress()} style={styles.button}><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>Register</Text></TouchableOpacity>
-                    <Text style={{ marginTop: 30, color: "white", fontWeight: "500" }}>Already have an account? <Text style={{ color: "#00B8FE", fontWeight: '500', textAlignVertical: "center" }} >Signin</Text></Text>
-                </View>
-            </KeyboardAvoidingView>
-        </ScrollView>
+
+        <ImageBackground source={require('../assets/bg.png')} style={{ width: "100%", height: "100%" }}>
+            <ScrollView style={styles.fullView} keyboardShouldPersistTaps="handled"
+                showsVerticalScrollIndicator={false}>
+                <KeyboardAvoidingView enabled>
+                    <StatusBar barStyle="light-content" backgroundColor="#004E75" />
+                    <ActivityIndicator size="large" animating={st} color="#00ff00" style={{ position: "absolute", top: '50%', left: '45%', zIndex: 10 }} />
+                    <View style={styles.header}>
+                        <TouchableOpacity><Image source={require('../assets/back_arrow.png')} style={styles.headerBack} /></TouchableOpacity>
+                        <Text style={styles.headTitle}>User Registration</Text>
+                    </View>
+                    <View style={styles.main}>
+                        <Image source={require('../assets/logo.png')} style={styles.logo} />
+                        <Text style={{ color: "white", fontFamily: "Roboto", marginTop: 30, fontWeight: "900", fontSize: 20 }}>Register User</Text>
+                        <TextInput onChangeText={(t) => setName(t)} placeholder='Username' style={styles.textBox} />
+                        <TextInput onChangeText={(t) => setPass(t)} placeholder='Password' secureTextEntry={true} style={styles.textBox} />
+                        <TextInput onChangeText={(t) => setRpass(t)} placeholder='Retype Password' secureTextEntry={true} style={styles.textBox} />
+                        <TextInput onChangeText={(t) => setPhone(t)} placeholder='Phone Number' maxLength={10} keyboardType="number-pad" style={styles.textBox} />
+                        <TouchableOpacity onPress={() => RegisterPress()} style={styles.button}><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>Register</Text></TouchableOpacity>
+                        <Text style={{ marginTop: 30, color: "white", fontWeight: "500" }}>Already have an account? <Text style={{ color: "#00B8FE", fontWeight: '500', textAlignVertical: "center" }} >Signin</Text></Text>
+                    </View>
+                </KeyboardAvoidingView>
+            </ScrollView>
+
+        </ImageBackground >
     )
 }
 
@@ -108,7 +112,7 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        paddingTop: 20
+        paddingTop: 0
     },
     headTitle: {
         color: "white",
@@ -118,7 +122,6 @@ const styles = StyleSheet.create({
     },
     fullView: {
         paddingTop: 20,
-        backgroundColor: '#004E75',
         width: '100%',
         height: '100%'
     },
