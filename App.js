@@ -6,13 +6,14 @@ import Registration from './components/Registration';
 import Verification from './components/Verification';
 import SelectAccount from './components/SelectAccount';
 import axios from 'axios';
+import Login from './components/Login';
 
 axios.defaults.baseURL = "https://d74c3a57-2b0a-4ba1-b62e-8d4f4f9f78d6.mock.pstmn.io";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
+    <NavigationContainer >
       <Stack.Navigator>
         <Stack.Screen
           options={{ headerShown: false }}
@@ -26,6 +27,11 @@ export default function App() {
           options={{ headerShown: false }}
           name="SelectAccount"
           component={SelectAccount} />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="Login"
+          component={Login} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );

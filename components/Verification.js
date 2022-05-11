@@ -13,24 +13,28 @@ export default function Verification({ navigation }) {
     const ref_input4 = useRef();
 
     const verify = async () => {
-        setst(true);
-        const code = code1 + code2 + code3 + code4;
-        const phone = await SecureStore.getItemAsync("phone");
-        console.log(phone);
-        axios.post("/auth/verify/phone", {
-            data: {
-                account_phone: phone,
-                sms_challenge: code
-            }
-        }).then((response) => {
-            console.log(response);
-            setst(false);
-            ToastAndroid.show("Successfully verified", ToastAndroid.SHORT);
-            navigation.navigate("SelectAccount")
-        }).catch((ERR) => {
-            console.log(ERR);
-            setst(false);
-        });
+        if (!(code1 && code2 && code3 && code4)) {
+            ToastAndroid.show("Enter the Code", ToastAndroid.SHORT);
+        } else {
+            setst(true);
+            const code = code1 + code2 + code3 + code4;
+            const phone = await SecureStore.getItemAsync("phone");
+            console.log(phone);
+            axios.post("/auth/verify/phone", {
+                data: {
+                    account_phone: phone,
+                    sms_challenge: code
+                }
+            }).then((response) => {
+                console.log(response);
+                setst(false);
+                ToastAndroid.show("Successfully verified", ToastAndroid.SHORT);
+                navigation.navigate("SelectAccount")
+            }).catch((ERR) => {
+                console.log(ERR);
+                setst(false);
+            });
+        }
     }
     const Resend = async () => {
 
@@ -53,7 +57,7 @@ export default function Verification({ navigation }) {
         })
     }
 
-    const change = (t, n) => {
+    const change = async (t, n) => {
         if (n == 0) {
             setCode1(t);
             ref_input2.current.focus();

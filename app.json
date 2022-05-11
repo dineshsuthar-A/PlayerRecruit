@@ -4,12 +4,12 @@
     "slug": "PlayerRecruit",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/splas.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#004E75"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -22,8 +22,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "foregroundImage": "./assets/logo.png",
+        "backgroundColor": "#004E75"
       },
       "package": "com.BVRTech.PlayerRecruit"
     },
