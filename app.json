@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "PlayerRecruit",
+    "name": "Player Recruit",
     "slug": "PlayerRecruit",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -8,7 +8,7 @@
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splas.png",
-      "resizeMode": "contain",
+      "resizeMode": "stretch",
       "backgroundColor": "#004E75"
     },
     "updates": {
