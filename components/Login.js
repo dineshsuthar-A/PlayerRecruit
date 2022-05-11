@@ -31,7 +31,8 @@ export default function Login({ navigation }) {
 
         <ImageBackground source={require('../assets/bg.png')} style={{ width: "100%", height: "100%" }}>
             <ScrollView style={styles.fullView} keyboardShouldPersistTaps="handled"
-                showsVerticalScrollIndicator={false}>
+                showsVerticalScrollIndicator={false}
+                contentInsetAdjustmentBehavior='automatic'>
                 <KeyboardAvoidingView enabled>
                     <StatusBar barStyle="light-content" backgroundColor="#004E75" />
                     <ActivityIndicator size="large" animating={st} color="#00ff00" style={{ position: "absolute", top: '50%', left: '45%', zIndex: 10 }} />
