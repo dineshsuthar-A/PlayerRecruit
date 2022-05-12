@@ -1,5 +1,5 @@
 import { StyleSheet, StatusBar, ImageBackground, ScrollView, Text, ActivityIndicator, ToastAndroid, Platform, View, KeyboardAvoidingView, SafeAreaView, Image, TouchableOpacity, TextInput } from 'react-native'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import * as SecureStore from 'expo-secure-store';
@@ -12,6 +12,7 @@ export default function Registration({ navigation }) {
     const [st, setst] = useState(false);
 
     const RegisterPress = async () => {
+
 
         if (!(name && pass && rpass && phone)) {
             ToastAndroid.show("Fill the columns", ToastAndroid.SHORT);
@@ -41,6 +42,17 @@ export default function Registration({ navigation }) {
             })
         }
     }
+    const checkToken = async () => {
+        const token = await SecureStore.getItemAsync("token");
+        if (token) {
+            navigation.navigate("SelectAccount");
+        }
+    }
+
+    useEffect(() => {
+        checkToken();
+    }, [])
+
     return (
 
         <ImageBackground source={require('../assets/bg.png')} style={{ backgroundColor: "#004E75", width: "100%", height: "100%" }}>

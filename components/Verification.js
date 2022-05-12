@@ -19,14 +19,13 @@ export default function Verification({ navigation }) {
             setst(true);
             const code = code1 + code2 + code3 + code4;
             const phone = await SecureStore.getItemAsync("phone");
-            console.log(phone);
             axios.post("/auth/verify/phone", {
                 data: {
                     account_phone: phone,
                     sms_challenge: code
                 }
             }).then((response) => {
-                console.log(response);
+                SecureStore.setItemAsync("token", response.data);
                 setst(false);
                 ToastAndroid.show("Successfully verified", ToastAndroid.SHORT);
                 navigation.navigate("SelectAccount")

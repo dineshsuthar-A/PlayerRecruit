@@ -29,7 +29,7 @@ export default function SelectAccount({ navigation }) {
                         justifyContent: "center",
                         alignItems: "center"
                     }}>
-                        <TouchableOpacity style={styles.button}><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>Student Athelete</Text></TouchableOpacity>
+                        <TouchableOpacity onPress={() => navigation.navigate("SelectStudentTemplate")} style={styles.button}><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>Student Athelete</Text></TouchableOpacity>
                         <TouchableOpacity style={styles.button}><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>College Coach</Text></TouchableOpacity>
                         <Text style={{ marginTop: 150, color: "white", fontWeight: "500" }}>Already have an account? <Text style={{ color: "#00B8FE", fontWeight: '500', textAlignVertical: "center" }} onPress={() => navigation.navigate("Login")} >Signin</Text></Text>
                     </View>

@@ -10,7 +10,7 @@ export default function Login({ navigation }) {
         if (!(username && password)) {
             ToastAndroid.show("Fill the columns", ToastAndroid.SHORT);
         } else if (password.length < 6) {
-            ToastAndroid.show("Password length should be more than 6.");
+            ToastAndroid.show("Password length should be more than 6.", ToastAndroid.SHORT);
         } else {
 
             setSt(true);
