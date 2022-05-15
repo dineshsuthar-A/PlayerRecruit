@@ -42,16 +42,7 @@ export default function Registration({ navigation }) {
             })
         }
     }
-    const checkToken = async () => {
-        const token = await SecureStore.getItemAsync("token");
-        if (token) {
-            navigation.navigate("SelectAccount");
-        }
-    }
 
-    useEffect(() => {
-        checkToken();
-    }, [])
 
     return (
 

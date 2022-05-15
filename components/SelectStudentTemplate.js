@@ -9,14 +9,14 @@ export default function SelectStudentTemplate({ navigation }) {
         <Image source={require('../assets/card.png')}></Image>
         <Text style={{ color: "white", fontSize: 18, fontWeight: "700", marginTop: 30 }}>Match with a coach and</Text>
         <Text style={{ color: "white", fontSize: 18, fontWeight: "700", marginBottom: 20 }}>get their contact information</Text>
-        <View style={{ display: 'flex', flexDirection: 'row' }}>
-          <Text style={{ height: 20, width: 20, borderWidth: 1, borderColor: "#CCD4D8", borderRadius: 10, marginRight: 4 }}></Text>
+        <View style={{ display: 'flex', flexDirection: 'row', marginTop: 20 }}>
+          <Text style={styles.dot}></Text>
 
-          <Text style={{ height: 20, width: 20, borderWidth: 1, borderColor: "#CCD4D8", borderRadius: 10, marginRight: 4 }}></Text>
+          <Text style={styles.dot}></Text>
 
-          <Text style={{ height: 20, width: 20, borderWidth: 1, borderColor: "#CCD4D8", borderRadius: 10, marginRight: 4 }}></Text>
+          <Text style={styles.dot}></Text>
 
-          <Text style={{ height: 20, width: 20, borderWidth: 1, borderColor: "#CCD4D8", borderRadius: 10, marginRight: 4 }}></Text>
+          <Text style={styles.dot}></Text>
         </View>
 
         <TouchableOpacity onPress={() => navigation.navigate("RegistrationStudentPersonal")} style={styles.button} ><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>Begin</Text></TouchableOpacity>
@@ -33,5 +33,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 50,
     borderRadius: 30
-  }
+  }, activedot: {
+    height: 15, width: 15, borderWidth: 1, borderColor: "#CCD4D8", borderRadius: 10, marginRight: 4, backgroundColor: "#CCD4D8"
+  },
+  dot: { height: 15, width: 15, borderWidth: 1, borderColor: "#CCD4D8", borderRadius: 10, marginRight: 4 },
 })
