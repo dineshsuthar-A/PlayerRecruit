@@ -37,7 +37,7 @@ export default function Login({ navigation }) {
                     <StatusBar barStyle="light-content" backgroundColor="#004E75" />
                     <ActivityIndicator size="large" animating={st} color="#00ff00" style={{ position: "absolute", top: '50%', left: '45%', zIndex: 10 }} />
                     <View style={styles.header}>
-                        <TouchableOpacity onPress={() => navigation.navigate("Registration")}><Image source={require('../assets/back_arrow.png')} style={styles.headerBack} /></TouchableOpacity>
+                        <TouchableOpacity onPress={() => navigation.pop()}><Image source={require('../assets/back_arrow.png')} style={styles.headerBack} /></TouchableOpacity>
                         <Text style={styles.headTitle}>User Login</Text>
                     </View>
                     <View style={styles.main}>

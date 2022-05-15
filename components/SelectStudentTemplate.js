@@ -11,11 +11,8 @@ export default function SelectStudentTemplate({ navigation }) {
         <Text style={{ color: "white", fontSize: 18, fontWeight: "700", marginBottom: 20 }}>get their contact information</Text>
         <View style={{ display: 'flex', flexDirection: 'row', marginTop: 20 }}>
           <Text style={styles.dot}></Text>
-
           <Text style={styles.dot}></Text>
-
           <Text style={styles.dot}></Text>
-
           <Text style={styles.dot}></Text>
         </View>
 
@@ -36,5 +33,5 @@ const styles = StyleSheet.create({
   }, activedot: {
     height: 15, width: 15, borderWidth: 1, borderColor: "#CCD4D8", borderRadius: 10, marginRight: 4, backgroundColor: "#CCD4D8"
   },
-  dot: { height: 15, width: 15, borderWidth: 1, borderColor: "#CCD4D8", borderRadius: 10, marginRight: 4 },
+  dot: { height: 15, width: 15, borderWidth: 1, borderColor: "#CCD4D8", borderRadius: 10, marginRight: 4 }
 })
