@@ -3,7 +3,7 @@ import { Picker } from '@react-native-picker/picker';
 import React, { useState, useEffect } from 'react';
 
 
-export default function AtleticInfotwo({ route, navigation }) {
+export default function RegistrationStudentAthletic({ route, navigation }) {
     const [rank, setRank] = useState();
     const [weightunit, setweightunit] = useState("cm");
     const [heighunit, setheighunit] = useState("Kg");
@@ -24,7 +24,7 @@ export default function AtleticInfotwo({ route, navigation }) {
             a.hand = hand;
             a.sports = sports;
             a.wingSpan = wingSpan;
-            navigation.navigate("AthleticBio", a);
+            navigation.navigate("RegistrationStudentFinal", a);
         }
     }
     const addSport = (itemValue) => {

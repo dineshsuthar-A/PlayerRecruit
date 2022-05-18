@@ -28,7 +28,7 @@ export default function Verification({ navigation }) {
                 SecureStore.setItemAsync("token", response.data);
                 setst(false);
                 ToastAndroid.show("Successfully verified", ToastAndroid.SHORT);
-                navigation.navigate("SelectAccount")
+                navigation.navigate("RegistrationSelectAccount")
             }).catch((ERR) => {
                 console.log(ERR);
                 setst(false);
@@ -89,7 +89,7 @@ export default function Verification({ navigation }) {
                     </View>
                     <View style={styles.main}>
                         <Image source={require('../assets/logo.png')} style={styles.logo} />
-                        <Text style={{ color: "white", fontFamily: "Roboto", marginTop: 30, fontWeight: "900", fontSize: 20, marginBottom: 15 }}>Verification Code</Text>
+                        <Text style={{ color: "white", fontFamily: "Roboto", marginTop: "12%", fontWeight: "900", fontSize: 20, marginBottom: "5%" }}>Verification Code</Text>
                         <View style={{ display: "flex", flexDirection: 'row', justifyContent: "space-around", width: "100%" }}>
                             <TextInput style={styles.textBox} autoFocus={true} onChangeText={(t) => change(t, 0)} maxLength={1} keyboardType="number-pad" key='1' />
                             <TextInput style={styles.textBox} onChangeText={(t) => change(t, 1)}
@@ -98,7 +98,7 @@ export default function Verification({ navigation }) {
                                 ref={ref_input3} onChangeText={(t) => change(t, 2)} keyboardType="number-pad" key='3' />
                             <TextInput style={styles.textBox} ref={ref_input4} onChangeText={(t) => change(t, 3)} maxLength={1} keyboardType="number-pad" key='4' />
                         </View>
-                        <TouchableOpacity onPress={() => Resend()} ><Text style={{ color: "#00B8FE", marginTop: 30 }}>Resend Verification</Text></TouchableOpacity>
+                        <TouchableOpacity onPress={() => Resend()} ><Text style={{ color: "#00B8FE", marginTop: "11%" }}>Resend Verification</Text></TouchableOpacity>
                         <TouchableOpacity onPress={() => verify()} style={styles.button}><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>Submit</Text></TouchableOpacity>
                     </View>
                 </KeyboardAvoidingView>
@@ -111,11 +111,11 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#00B8FE',
         width: '100%',
-        marginTop: 30,
+        marginTop: "12%",
         alignItems: 'center',
         height: 50,
         borderRadius: 30,
-        marginTop: 180
+        marginTop: "60%"
 
     },
     logo: {
@@ -135,8 +135,8 @@ const styles = StyleSheet.create({
     },
     main: {
         display: "flex",
-        marginLeft: 40,
-        marginRight: 40,
+        marginLeft: "11%",
+        marginRight: "11%",
         justifyContent: "center",
         alignItems: "center"
     },

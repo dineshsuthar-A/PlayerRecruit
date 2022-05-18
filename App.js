@@ -3,18 +3,27 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import 'react-native-gesture-handler';
 import { createStackNavigator, TransitionSpecs, cardStyleInterpolator, CardStyleInterpolators } from '@react-navigation/stack';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import * as SecureStore from 'expo-secure-store';
+
+import Login from './components/Login';
 import Registration from './components/Registration';
 import Verification from './components/Verification';
-import React, { useState, useEffect } from 'react';
-import SelectAccount from './components/SelectAccount';
-import axios from 'axios';
-import Login from './components/Login';
-import SelectStudentTemplate from './components/SelectStudentTemplate';
+
+import RegistrationSelectAccount from './components/RegistrationSelectAccount';
+
+import RegistrationStudentInfo from './components/RegistrationStudentInfo';
 import RegistrationStudentPersonal from './components/RegistrationStudentPersonal';
-import AthleticInformation from './components/AthleticInformation';
-import AtleticInfotwo from './components/AtleticInfotwo';
-import AthleticBio from './components/AthleticBio';
-import * as SecureStore from 'expo-secure-store';
+import RegistrationStudentSchool from './components/RegistrationStudentSchool';
+import RegistrationStudentAthletic from './components/RegistrationStudentAthletic';
+import RegistrationStudentFinal from './components/RegistrationStudentFinal';
+
+import RegistrationCoachInfo from './components/RegistrationCoachInfo';
+import RegistrationCoachPersonal from './components/RegistrationCoachPersonal';
+import RegistrationCoachAcademic from './components/RegistrationCoachAcademic';
+import RegistrationCoachAthletic from './components/RegistrationCoachAthletic';
+import RegistrationCoachFinal from './components/RegistrationCoachFinal';
 
 axios.defaults.baseURL = "https://d74c3a57-2b0a-4ba1-b62e-8d4f4f9f78d6.mock.pstmn.io";
 const Stack = createStackNavigator();
@@ -55,11 +64,11 @@ export default function App() {
 
           <Stack.Screen
             options={{ headerShown: false, cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid, }}
-            name="SelectAccount"
-            component={SelectAccount} />
+            name="RegistrationSelectAccount"
+            component={RegistrationSelectAccount} />
           < Stack.Screen
 
-            options={{ headerShown: false, }}
+            options={{ headerShown: false, cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid, }}
             name="Registration"
             component={Registration} />
           <Stack.Screen
@@ -73,6 +82,7 @@ export default function App() {
             options={{ headerShown: false, cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS }}
             name="Login"
             component={Login} />
+
           <Stack.Screen options={{
             headerMode: 'float',
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
@@ -87,8 +97,8 @@ export default function App() {
             }
           }
           }
-            name='SelectStudentTemplate'
-            component={SelectStudentTemplate} />
+            name='RegistrationStudentInfo'
+            component={RegistrationStudentInfo} />
 
           <Stack.Screen options={{
             headerMode: 'float',
@@ -112,7 +122,7 @@ export default function App() {
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
             headerMode: "float",
             headerStyle: { backgroundColor: '#004E75' },
-            title: 'Athletic Information',
+            title: 'Academic Information',
             headerTintColor: "white",
             headerTitleStyle: {
               fontSize: 18,
@@ -121,8 +131,8 @@ export default function App() {
               fontFamily: "Roboto"
             }
           }}
-            name='AthleticInformation'
-            component={AthleticInformation} />
+            name='RegistrationStudentSchool'
+            component={RegistrationStudentSchool} />
           <Stack.Screen options={{
 
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
@@ -137,8 +147,8 @@ export default function App() {
               fontFamily: "Roboto"
             }
           }}
-            name='AtleticInfotwo'
-            component={AtleticInfotwo} />
+            name='RegistrationStudentAthletic'
+            component={RegistrationStudentAthletic} />
 
           <Stack.Screen options={{
 
@@ -148,7 +158,6 @@ export default function App() {
               backgroundColor: '#004E75',
 
             },
-
             title: 'Athletic Bio',
             headerTintColor: "white",
             headerTitleStyle: {
@@ -158,8 +167,100 @@ export default function App() {
               fontFamily: "Roboto"
             }
           }}
-            name='AthleticBio'
-            component={AthleticBio} />
+            name='RegistrationStudentFinal'
+            component={RegistrationStudentFinal} />
+
+          <Stack.Screen options={{
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+            headerMode: "float",
+            headerStyle: {
+              backgroundColor: '#004E75',
+
+            },
+            title: 'Registration Coach Info',
+            headerTintColor: "white",
+            headerTitleStyle: {
+              fontSize: 18,
+              fontWeight: 'bold',
+              color: "white",
+              fontFamily: "Roboto"
+            }
+          }}
+            name='RegistrationCoachInfo'
+            component={RegistrationCoachInfo} />
+          <Stack.Screen options={{
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+            headerMode: "float",
+            headerStyle: {
+              backgroundColor: '#004E75',
+
+            },
+            title: 'Coach Registration',
+            headerTintColor: "white",
+            headerTitleStyle: {
+              fontSize: 18,
+              fontWeight: 'bold',
+              color: "white",
+              fontFamily: "Roboto"
+            }
+          }}
+            name='RegistrationCoachPersonal'
+            component={RegistrationCoachPersonal} />
+
+          <Stack.Screen options={{
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+            headerMode: "float",
+            headerStyle: {
+              backgroundColor: '#004E75',
+            },
+            title: 'Academic Information',
+            headerTintColor: "white",
+            headerTitleStyle: {
+              fontSize: 18,
+              fontWeight: 'bold',
+              color: "white",
+              fontFamily: "Roboto"
+            }
+          }}
+            name='RegistrationCoachAcademic'
+            component={RegistrationCoachAcademic} />
+          <Stack.Screen options={{
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+            headerMode: "float",
+            headerStyle: {
+              backgroundColor: '#004E75',
+
+            },
+            title: 'Athletic Information',
+            headerTintColor: "white",
+            headerTitleStyle: {
+              fontSize: 18,
+              fontWeight: 'bold',
+              color: "white",
+              fontFamily: "Roboto"
+            }
+          }}
+            name='RegistrationCoachAthletic'
+            component={RegistrationCoachAthletic} />
+          <Stack.Screen options={{
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+            headerMode: "float",
+            headerStyle: {
+              backgroundColor: '#004E75',
+            },
+            title: 'Athletic Bio',
+            headerTintColor: "white",
+            headerTitleStyle: {
+              fontSize: 18,
+              fontWeight: 'bold',
+              color: "white",
+              fontFamily: "Roboto"
+            }
+          }}
+            name='RegistrationCoachFinal'
+            component={RegistrationCoachFinal} />
+
+
         </Stack.Navigator>
       </NavigationContainer >
       :

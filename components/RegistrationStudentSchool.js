@@ -2,7 +2,7 @@ import { StyleSheet, StatusBar, ImageBackground, ScrollView, ToastAndroid, Text,
 import { Picker } from '@react-native-picker/picker';
 import React, { useState, useEffect } from 'react';
 
-export default function AthleticInformation({ route, navigation }) {
+export default function RegistrationStudentSchool({ route, navigation }) {
     const [school, setSchool] = useState();
     const [schoolname, setSchoolname] = useState();
     const [syear, setsyear] = useState();
@@ -21,7 +21,7 @@ export default function AthleticInformation({ route, navigation }) {
             a.gpa = gpa;
             a.sat = sat;
             a.act = act;
-            navigation.navigate("AtleticInfotwo", a);
+            navigation.navigate("RegistrationStudentAthletic", a);
         }
     }
     return (

@@ -2,7 +2,7 @@ import { StyleSheet, StatusBar, ImageBackground, ScrollView, Text, ToastAndroid,
 import React, { useState } from 'react';
 
 
-export default function SelectAccount({ navigation }) {
+export default function RegistrationSelectAccount({ navigation }) {
 
     return (
 
@@ -18,20 +18,20 @@ export default function SelectAccount({ navigation }) {
                     </View>
                     <View style={styles.main}>
                         <Image source={require('../assets/logo.png')} style={styles.logo} />
-                        <Text style={{ color: "white", fontFamily: "Roboto", marginTop: 30, fontWeight: "bold", fontSize: 20, marginBottom: 5 }}>Welcome,</Text>
+                        <Text style={{ color: "white", fontFamily: "Roboto", marginTop: "11%", fontWeight: "bold", fontSize: 20, marginBottom: "1%" }}>Welcome,</Text>
                     </View>
                     <Text style={{ color: "white", fontFamily: "Roboto", fontWeight: "700", fontSize: 19, textAlign: "center" }}>Select the account registration type</Text>
                     <View style={{
-                        marginTop: 30,
+                        marginTop: "6%",
                         display: "flex",
-                        marginLeft: 40,
-                        marginRight: 40,
+                        marginLeft: "11%",
+                        marginRight: "11%",
                         justifyContent: "center",
                         alignItems: "center"
                     }}>
-                        <TouchableOpacity onPress={() => navigation.navigate("SelectStudentTemplate")} style={styles.button}><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>Student Athelete</Text></TouchableOpacity>
-                        <TouchableOpacity style={styles.button}><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>College Coach</Text></TouchableOpacity>
-                        <Text style={{ marginTop: 150, color: "white", fontWeight: "500" }}>Already have an account? <Text style={{ color: "#00B8FE", fontWeight: '500', textAlignVertical: "center" }} onPress={() => navigation.navigate("Login")} >Signin</Text></Text>
+                        <TouchableOpacity onPress={() => navigation.navigate("RegistrationStudentInfo")} style={styles.button}><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>Student Athelete</Text></TouchableOpacity>
+                        <TouchableOpacity onPress={() => navigation.navigate("RegistrationCoachInfo")} style={styles.button}><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>College Coach</Text></TouchableOpacity>
+                        <Text style={{ marginTop: "45%", color: "white", fontWeight: "500" }}>Already have an account? <Text style={{ color: "#00B8FE", fontWeight: '500', textAlignVertical: "center" }} onPress={() => navigation.navigate("Login")} >Signin</Text></Text>
                     </View>
                 </KeyboardAvoidingView>
             </ScrollView>
@@ -43,48 +43,29 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#00B8FE',
         width: '100%',
-        marginTop: 30,
         alignItems: 'center',
         height: 50,
         borderRadius: 30,
-        marginTop: 20
+        marginTop: "5%"
 
     },
     logo: {
-        width: 150,
+        marginTop: "4%",
         height: 150,
-        marginTop: 20,
-    },
-    textBox: {
-        backgroundColor: "white",
-        color: "black",
-        height: 50,
-        width: 50,
-        borderRadius: 2,
-        textAlign: "center",
-        fontSize: 20,
-        fontWeight: "bold"
+        width: 150
     },
     main: {
         display: "flex",
-        marginLeft: 40,
-        marginRight: 40,
+        marginLeftHorizontal: "11%",
         justifyContent: "center",
         alignItems: "center"
     },
-    headerBack: {
-        height: 40,
-        width: 40,
-        marginLeft: 20,
-        marginRight: 20
-    },
     header: {
         display: "flex",
-
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
-        marginBottom: 10
+        marginBottom: "1%"
     },
     headTitle: {
         color: "white",
@@ -93,9 +74,8 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     fullView: {
-        paddingTop: 20,
+        paddingTop: "4%",
         width: '100%',
-        height: '100%',
-        paddingBottom: 20
+        height: '100%'
     },
 })

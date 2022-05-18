@@ -57,13 +57,13 @@ export default function Registration({ navigation }) {
                     </View>
                     <View style={styles.main}>
                         <Image source={require('../assets/logo.png')} style={styles.logo} />
-                        <Text style={{ color: "white", fontFamily: "Roboto", marginTop: 30, fontWeight: "900", fontSize: 20 }}>Register User</Text>
+                        <Text style={{ color: "white", fontFamily: "Roboto", marginTop: "11%", fontWeight: "900", fontSize: 20 }}>Register User</Text>
                         <TextInput onChangeText={(t) => setName(t)} placeholder='Username' style={styles.textBox} />
                         <TextInput onChangeText={(t) => setPass(t)} placeholder='Password' secureTextEntry={true} style={styles.textBox} />
                         <TextInput onChangeText={(t) => setRpass(t)} placeholder='Retype Password' secureTextEntry={true} style={styles.textBox} />
                         <TextInput onChangeText={(t) => setPhone(t)} placeholder='Phone Number' maxLength={10} keyboardType="number-pad" style={styles.textBox} />
                         <TouchableOpacity onPress={() => RegisterPress()} style={styles.button}><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>Register</Text></TouchableOpacity>
-                        <Text style={{ marginTop: 30, color: "white", fontWeight: "500" }}>Already have an account? <Text onPress={() => navigation.navigate("Login")} style={{ color: "#00B8FE", fontWeight: '500', textAlignVertical: "center" }} >Signin</Text></Text>
+                        <Text style={{ marginTop: "12%", color: "white", fontWeight: "500" }}>Already have an account? <Text onPress={() => navigation.navigate("Login")} style={{ color: "#00B8FE", fontWeight: '500', textAlignVertical: "center" }} >Signin</Text></Text>
                     </View>
                 </KeyboardAvoidingView>
             </ScrollView>
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#00B8FE',
         width: '100%',
-        marginTop: 30,
+        marginTop: "14%",
         alignItems: 'center',
         height: 50,
         borderRadius: 30
@@ -85,11 +85,11 @@ const styles = StyleSheet.create({
     logo: {
         width: 150,
         height: 150,
-        marginTop: 20
+        marginTop: "5%"
     },
     textBox: {
         backgroundColor: "white",
-        marginTop: 15,
+        marginTop: "5%",
         color: "black",
         width: "100%",
         height: 50,
@@ -99,24 +99,19 @@ const styles = StyleSheet.create({
     },
     main: {
         display: "flex",
-        marginLeft: 40,
-        marginRight: 40,
+        marginLeft: "11%",
+        marginRight: "11%",
         justifyContent: "center",
         alignItems: "center"
-    },
-    headerBack: {
-        height: 40,
-        width: 40,
-        marginLeft: 20,
-        marginRight: 20
     },
     header: {
         display: "flex",
         justifyContent: "center",
-        marginBottom: 10,
+        marginBottom: "1%",
         flexDirection: "row",
         alignItems: "center",
-        paddingTop: 0
+        paddingTop: 0,
+        marginTop: '3%'
     },
     headTitle: {
         color: "white",
@@ -125,7 +120,7 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     fullView: {
-        paddingTop: 20,
+        paddingTop: "2%",
         width: '100%',
         height: '100%'
     },

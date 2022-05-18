@@ -42,12 +42,12 @@ export default function Login({ navigation }) {
                     </View>
                     <View style={styles.main}>
                         <Image source={require('../assets/logo.png')} style={styles.logo} />
-                        <Text style={{ color: "white", fontFamily: "Roboto", marginTop: 30, fontWeight: "900", fontSize: 20 }}>Login with your account info</Text>
+                        <Text style={{ color: "white", fontFamily: "Roboto", marginTop: "11%", fontWeight: "900", fontSize: 20 }}>Login with your account info</Text>
                         <TextInput onChangeText={(t) => setUsername(t)} placeholder='Username' style={styles.textBox} />
                         <TextInput onSubmitEditing={() => login()} onChangeText={(t) => setPassword(t)} placeholder='Password' secureTextEntry={true} style={styles.textBox} />
-                        <TouchableOpacity  ><Text style={{ color: "#00B8FE", marginTop: 10 }}>Forgot account info?</Text></TouchableOpacity>
+                        <TouchableOpacity  ><Text style={{ color: "#00B8FE", marginTop: "5%" }}>Forgot account info?</Text></TouchableOpacity>
                         <TouchableOpacity onPress={() => login()} style={styles.button}><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>Login</Text></TouchableOpacity>
-                        <Text style={{ marginTop: 30, color: "white", fontWeight: "500" }}>Don't have an account? <Text style={{ color: "#00B8FE", fontWeight: '500', textAlignVertical: "center" }} onPress={() => navigation.navigate("Registration")}> Register</Text></Text>
+                        <Text style={{ marginTop: "11%", color: "white", fontWeight: "500" }}>Don't have an account? <Text style={{ color: "#00B8FE", fontWeight: '500', textAlignVertical: "center" }} onPress={() => navigation.navigate("Registration")}> Register</Text></Text>
                     </View>
                 </KeyboardAvoidingView>
             </ScrollView>
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#00B8FE',
         width: '100%',
-        marginTop: 130,
+        marginTop: "35%",
         alignItems: 'center',
         height: 50,
         borderRadius: 30
@@ -69,11 +69,11 @@ const styles = StyleSheet.create({
     logo: {
         width: 150,
         height: 150,
-        marginTop: 20
+        marginTop: "7%"
     },
     textBox: {
         backgroundColor: "white",
-        marginTop: 15,
+        marginTop: "6%",
         color: "black",
         width: "100%",
         height: 50,
@@ -83,8 +83,8 @@ const styles = StyleSheet.create({
     },
     main: {
         display: "flex",
-        marginLeft: 40,
-        marginRight: 40,
+        marginLeft: "11%",
+        marginRight: "11%",
         justifyContent: "center",
         alignItems: "center"
     },

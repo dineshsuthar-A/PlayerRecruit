@@ -2,7 +2,8 @@ import { StyleSheet, StatusBar, ImageBackground, ScrollView, Text, ActivityIndic
 import { Picker } from '@react-native-picker/picker';
 import React, { useState, useEffect } from 'react';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-export default function RegistrationStudentPersonal({ navigation }) {
+
+export default function RegistrationCoachPersonal({ navigation }) {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [date, setDate] = useState();
     const [gender, setGender] = useState();
@@ -13,20 +14,22 @@ export default function RegistrationStudentPersonal({ navigation }) {
     const [state, setState] = useState();
 
     const onNext = () => {
-        if (!(date && gender && firstname && lastname && city && ethnicity && state)) {
-            ToastAndroid.show("Fill All Details", ToastAndroid.SHORT);
-        } else {
+        navigation.navigate("RegistrationCoachAcademic");
 
-            navigation.navigate("RegistrationStudentSchool", {
-                firstname,
-                lastname,
-                gender,
-                date,
-                city,
-                ethnicity,
-                state
-            });
-        }
+        // if (!(date && gender && firstname && lastname && city && ethnicity && state)) {
+        //     ToastAndroid.show("Fill All Details", ToastAndroid.SHORT);
+        // } else {
+
+        //     navigation.navigate("RegistrationCoachAcademic", {
+        //         firstname,
+        //         lastname,
+        //         gender,
+        //         date,
+        //         city,
+        //         ethnicity,
+        //         state
+        //     });
+        // }
     }
 
     const [statedata, setstatedata] = useState(

@@ -1,10 +1,11 @@
+
 import { StyleSheet, Text, View, ImageBackground, ToastAndroid, ScrollView, StatusBar, KeyboardAvoidingView, TouchableOpacity, Image, TextInput } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { Platform } from 'expo-modules-core';
 
 
-export default function AthleticBio({ route, navigation }) {
+export default function RegistrationCoachFinal({ route, navigation }) {
     const [bio, setBio] = useState();
     const [image, setImage] = useState(null);
 
@@ -14,6 +15,7 @@ export default function AthleticBio({ route, navigation }) {
         if (Platform.OS !== 'web') {
             const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
         }
+
         let result = await ImagePicker.launchImageLibraryAsync({
 
             mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -32,7 +34,6 @@ export default function AthleticBio({ route, navigation }) {
             ToastAndroid.show("Enter Bio", ToastAndroid.SHORT);
         } else {
             const object = route.params;
-
         }
 
 
@@ -54,7 +55,7 @@ export default function AthleticBio({ route, navigation }) {
                     </View>
                     <View style={styles.bioAndReel}>
                         <Text style={styles.bioText}>Bio</Text>
-                        <TextInput onChangeText={(t) => setBio(t)} style={styles.bioTextBox} placeholder='Tell coaches a little about yourself…' multiline={true} />
+                        <TextInput onChangeText={(t) => setBio(t)} style={styles.bioTextBox} placeholder='Tell athletes a little about yourself…' multiline={true} />
                         <Text style={styles.bioTextHigh}>Highlight Reel</Text>
                         <Image style={styles.highImage} source={require("../assets/image.png")} />
                     </View>
