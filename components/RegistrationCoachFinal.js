@@ -28,13 +28,7 @@ export default function RegistrationCoachFinal({ route, navigation }) {
         }
     }
     const onFinish = () => {
-        if (image == null) {
-            ToastAndroid.show("Select Profile Photo", ToastAndroid.SHORT);
-        } else if (!bio) {
-            ToastAndroid.show("Enter Bio", ToastAndroid.SHORT);
-        } else {
-            const object = route.params;
-        }
+        navigation.navigate("Main");
 
 
     }

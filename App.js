@@ -24,6 +24,7 @@ import RegistrationCoachPersonal from './components/RegistrationCoachPersonal';
 import RegistrationCoachAcademic from './components/RegistrationCoachAcademic';
 import RegistrationCoachAthletic from './components/RegistrationCoachAthletic';
 import RegistrationCoachFinal from './components/RegistrationCoachFinal';
+import Navigation from './components/Navigation';
 
 axios.defaults.baseURL = "https://d74c3a57-2b0a-4ba1-b62e-8d4f4f9f78d6.mock.pstmn.io";
 const Stack = createStackNavigator();
@@ -60,14 +61,22 @@ export default function App() {
   return (
     flag ?
       <NavigationContainer>
-        <Stack.Navigator initialRouteName={{ rout }} >
+        <Stack.Navigator initialRouteName="Main" >
+          <Stack.Screen options={{
+            cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
+            headerShown: false,
+          }}
+            name='Main'
+            component={Navigation} />
+
 
           <Stack.Screen
             options={{ headerShown: false, cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid, }}
             name="RegistrationSelectAccount"
             component={RegistrationSelectAccount} />
-          < Stack.Screen
 
+
+          < Stack.Screen
             options={{ headerShown: false, cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid, }}
             name="Registration"
             component={Registration} />
@@ -104,7 +113,7 @@ export default function App() {
             headerMode: 'float',
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
             headerStyle: {
-              backgroundColor: '#004E75',
+              backgroundColor: '#004467',
             },
             title: 'Student Registration',
             headerTintColor: "white",
