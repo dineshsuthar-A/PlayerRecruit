@@ -41,36 +41,39 @@ export default function RegistrationStudentFinal({ route, navigation }) {
 
     return (
         <ImageBackground source={require('../assets/bg.png')} style={{ backgroundColor: "#004E75", width: "100%", height: "100%" }}>
-            <ScrollView style={styles.fullView} keyboardShouldPersistTaps="handled" contentInsetAdjustmentBehavior='automatic'
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.fullView} keyboardShouldPersistTaps="handled" contentInsetAdjustmentBehavior='automatic'
                 showsVerticalScrollIndicator={false}>
                 <KeyboardAvoidingView enabled>
                     <StatusBar barStyle="light-content" backgroundColor="#004E75" />
-                    <View style={styles.dpArea}>
-
-                        <Image style={{ width: 150, height: 150, borderRadius: 75 }} source={image ? { uri: image } : require("../assets/logo.png")} />
-                        <TouchableOpacity onPress={() => pickImage()} style={styles.choosePhoto}>
-                            <Image style={{ width: 17, height: 17 }} source={require("../assets/editIcon.png")} />
-                            <Text style={styles.chooseText}>  Choose photo</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.bioAndReel}>
-                        <Text style={styles.bioText}>Bio</Text>
-                        <TextInput onChangeText={(t) => setBio(t)} style={styles.bioTextBox} placeholder='Tell coaches a little about yourself…' multiline={true} />
-                        <Text style={styles.bioTextHigh}>Highlight Reel</Text>
-                        <Image style={styles.highImage} source={require("../assets/image.png")} />
-                    </View>
-                    <TouchableOpacity style={styles.choosePhoto}>
-                        <Image style={{ width: 17, height: 17 }} source={require("../assets/editIcon.png")} />
-                        <Text style={styles.chooseText}>  Set video link</Text>
-                    </TouchableOpacity>
-                    <View style={styles.below}>
-                        <View style={{ display: 'flex', flexDirection: 'row' }}>
-                            <Text style={styles.activedot}></Text>
-                            <Text style={styles.activedot}></Text>
-                            <Text style={styles.activedot}></Text>
-                            <Text style={styles.activedot}></Text>
+                    <View style={{ display: 'flex', width: '100%', height: '100%' }}>
+                        <View style={{ flex: 0.75, paddingHorizontal: '11%' }}>
+                            <View style={styles.dpArea}>
+                                <Image style={{ width: 140, height: 140, borderRadius: 70 }} source={image ? { uri: image } : require("../assets/logo.png")} />
+                                <TouchableOpacity onPress={() => pickImage()} style={styles.choosePhoto}>
+                                    <Image style={{ width: 17, height: 17 }} source={require("../assets/editIcon.png")} />
+                                    <Text style={styles.chooseText}>  Choose photo</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={styles.bioAndReel}>
+                                <Text style={styles.bioText}>Bio</Text>
+                                <TextInput onChangeText={(t) => setBio(t)} style={styles.bioTextBox} placeholder='Tell athletes a little about yourself…' multiline={true} />
+                                <Text style={styles.bioTextHigh}>Highlight Reel</Text>
+                                <Image style={styles.highImage} source={require("../assets/image.png")} />
+                                <TouchableOpacity style={styles.choosePhoto}>
+                                    <Image style={{ width: 17, height: 17 }} source={require("../assets/editIcon.png")} />
+                                    <Text style={styles.chooseText}>  Set video link</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                        <TouchableOpacity onPress={() => onFinish()} style={styles.button}><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>Finish</Text></TouchableOpacity>
+                        <View style={styles.below}>
+                            <View style={{ display: 'flex', flexDirection: 'row', }}>
+                                <Text style={styles.activedot}></Text>
+                                <Text style={styles.activedot}></Text>
+                                <Text style={styles.activedot}></Text>
+                                <Text style={styles.activedot}></Text>
+                            </View>
+                            <TouchableOpacity onPress={() => onFinish()} style={styles.button}><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>Finish</Text></TouchableOpacity>
+                        </View>
                     </View>
                 </KeyboardAvoidingView>
             </ScrollView>
@@ -82,14 +85,14 @@ export default function RegistrationStudentFinal({ route, navigation }) {
 const styles = StyleSheet.create({
     highImage: {
         width: "100%",
-        marginTop: 10,
+        marginTop: "1%",
         height: 135
     },
     bioTextHigh: {
         color: "white",
         fontWeight: "bold",
         fontSize: 16,
-        marginTop: 15
+        marginTop: '6%'
     },
     bioText: {
         color: "white",
@@ -98,19 +101,16 @@ const styles = StyleSheet.create({
     },
     bioTextBox: {
         backgroundColor: "white",
-        height: 80,
         width: "100%",
-        textAlignVertical: 'top',
         padding: 10,
         borderRadius: 5,
-        marginTop: 10
+        marginTop: "1%",
+        height: '24%',
+        textAlignVertical: 'top'
     },
     bioAndReel: {
-        paddingHorizontal: 40,
-        marginTop: 10
     },
     chooseText: {
-
         color: "#00B8FE",
     },
     choosePhoto: {
@@ -118,22 +118,18 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        paddingTop: 5
+        paddingTop: 5,
     },
     dpArea: {
-        marginTop: 5,
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center"
     },
     below: {
-        display: "flex",
-        marginLeft: 40,
-        marginRight: 40,
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 25
+        flex: 0.25,
+        alignItems: 'center',
+        paddingHorizontal: '11%'
     },
     activedot: {
         height: 15, width: 15, borderWidth: 1, borderColor: "#CCD4D8", borderRadius: 10, marginRight: 4, backgroundColor: "#CCD4D8"
@@ -142,7 +138,7 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#00B8FE',
         width: '100%',
-        marginTop: 20,
+        marginTop: "10%",
         alignItems: 'center',
         height: 50,
         borderRadius: 30

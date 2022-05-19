@@ -26,32 +26,37 @@ export default function RegistrationStudentSchool({ route, navigation }) {
     }
     return (
         <ImageBackground source={require('../assets/bg.png')} style={{ backgroundColor: "#004E75", width: "100%", height: "100%" }}>
-            <ScrollView style={styles.fullView} keyboardShouldPersistTaps="handled" contentInsetAdjustmentBehavior='automatic'
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.fullView} keyboardShouldPersistTaps="handled" contentInsetAdjustmentBehavior='automatic'
                 showsVerticalScrollIndicator={false}>
                 <KeyboardAvoidingView enabled>
                     <StatusBar barStyle="light-content" backgroundColor="#004E75" />
-                    <Text style={{ marginLeft: 40, color: "white", fontWeight: "bold", fontSize: 16, fontFamily: "Roboto" }}>Which type of school do you attend?</Text>
-                    <View style={{ display: "flex", flexDirection: "row", marginLeft: 40, marginTop: 10 }}>
-                        <TouchableOpacity onPress={() => setSchool("Highschool")} style={school != "Highschool" ? styles.gender : styles.activeGender}><Image source={require("../assets/schoolblack.png")} /><Text > Highschool</Text></TouchableOpacity>
-                        <TouchableOpacity onPress={() => setSchool("College")} style={school != "College" ? styles.gender : styles.activeGender}><Image source={require("../assets/schoolblack.png")} /><Text> College</Text></TouchableOpacity>
-                    </View>
-                    <View style={styles.main}>
-                        <TextInput onChangeText={(t) => setSchoolname(t)} placeholder='School/College name' style={styles.textBox} />
-                        <TextInput onChangeText={(t) => setsyear(t)} placeholder='Scholastic year' style={styles.textBox} />
-                        <TextInput onChangeText={(t) => setgpa(t)} placeholder='GPA' style={styles.textBox} />
-                        <TextInput onChangeText={(t) => setsat(t)} placeholder='SAT' style={styles.textBox} />
-                        <TextInput onChangeText={(t) => setact(t)} placeholder='ACT' style={styles.textBox} />
+                    <View style={{ display: 'flex', width: '100%', height: '100%' }}>
 
-                        <View style={{ display: 'flex', flexDirection: 'row', marginTop: 110 }}>
-                            <Text style={styles.activedot}></Text>
-
-                            <Text style={styles.activedot}></Text>
-
-                            <Text style={styles.dot}></Text>
-
-                            <Text style={styles.dot}></Text>
+                        <View style={styles.main}>
+                            <Text style={{ color: "white", fontWeight: "bold", fontSize: 16, fontFamily: "Roboto" }}>Which type of school do you attend?</Text>
+                            <View style={{ display: "flex", flexDirection: "row", marginTop: 10 }}>
+                                <TouchableOpacity onPress={() => setSchool("Highschool")} style={school != "Highschool" ? styles.gender : styles.activeGender}><Image source={require("../assets/schoolblack.png")} /><Text > Highschool</Text></TouchableOpacity>
+                                <TouchableOpacity onPress={() => setSchool("College")} style={school != "College" ? styles.gender : styles.activeGender}><Image source={require("../assets/schoolblack.png")} /><Text> College</Text></TouchableOpacity>
+                            </View>
+                            <TextInput onChangeText={(t) => setSchoolname(t)} placeholder='School/College name' style={styles.textBox} />
+                            <TextInput onChangeText={(t) => setsyear(t)} placeholder='Scholastic year' style={styles.textBox} />
+                            <TextInput onChangeText={(t) => setgpa(t)} placeholder='GPA' style={styles.textBox} />
+                            <TextInput onChangeText={(t) => setsat(t)} placeholder='SAT' style={styles.textBox} />
+                            <TextInput onChangeText={(t) => setact(t)} placeholder='ACT' style={styles.textBox} />
                         </View>
-                        <TouchableOpacity onPress={() => onNext()} style={styles.button}><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>Next</Text></TouchableOpacity>
+                        <View style={{ flex: 0.2, width: '100%', paddingHorizontal: '11%', alignItems: 'center' }}>
+                            <View style={{ display: 'flex', flexDirection: 'row' }}>
+                                <Text style={styles.activedot}></Text>
+
+                                <Text style={styles.activedot}></Text>
+
+                                <Text style={styles.dot}></Text>
+
+                                <Text style={styles.dot}></Text>
+                            </View>
+                            <TouchableOpacity onPress={() => onNext()} style={styles.button}><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>Next</Text></TouchableOpacity>
+                        </View>
+
                     </View>
                 </KeyboardAvoidingView>
             </ScrollView>
@@ -90,7 +95,7 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#00B8FE',
         width: '100%',
-        marginTop: 20,
+        marginTop: "10%",
         alignItems: 'center',
         height: 50,
         borderRadius: 30
@@ -118,11 +123,8 @@ const styles = StyleSheet.create({
         borderRadius: 20
     },
     main: {
-        display: "flex",
-        marginLeft: 40,
-        marginRight: 40,
-        justifyContent: "center",
-        alignItems: "center"
+        flex: 0.8,
+        paddingHorizontal: '11%'
     },
     headerBack: {
         height: 40,

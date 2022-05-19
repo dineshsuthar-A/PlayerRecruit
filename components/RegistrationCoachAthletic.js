@@ -10,39 +10,41 @@ export default function RegistrationCoachAthletic({ route, navigation }) {
     }
     return (
         <ImageBackground source={require('../assets/bg.png')} style={{ backgroundColor: "#004E75", width: "100%", height: "100%" }}>
-            <ScrollView style={styles.fullView} keyboardShouldPersistTaps="handled" contentInsetAdjustmentBehavior='automatic'
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.fullView} keyboardShouldPersistTaps="handled" contentInsetAdjustmentBehavior='automatic'
                 showsVerticalScrollIndicator={false}>
                 <KeyboardAvoidingView enabled>
                     <StatusBar barStyle="light-content" backgroundColor="#004E75" />
 
-                    <View style={{ paddingHorizontal: '11%', marginTop: '10%' }}>
-                        <Text style={styles.text}>What sport do you coach?</Text>
-                        <TextInput placeholder='Select Sport' style={styles.textbox} />
-                        <Text style={styles.text}>What’s your team name?</Text>
-                        <TextInput style={styles.textbox} />
+                    <View style={{ display: 'flex', width: '100%', height: '100%' }}>
+                        <View style={{ paddingHorizontal: '11%', flex: 0.75, justifyContent: 'center' }}>
+                            <Text style={styles.text}>What sport do you coach?</Text>
+                            <TextInput placeholder='Select Sport' style={styles.textbox} />
+                            <Text style={styles.text}>What’s your team name?</Text>
+                            <TextInput style={styles.textbox} />
 
-                        <Text style={styles.text}>Do you coach men’s or women’s?</Text>
-                        <View style={{ display: "flex", flexDirection: "row", marginTop: "2%", marginBottom: "7%" }}>
-                            <TouchableOpacity onPress={() => setGender("Male")} style={gender == "Male" ? styles.activetab : styles.tab}><Image source={require("../assets/maleblack.png")} /><Text >Male</Text></TouchableOpacity>
-                            <TouchableOpacity onPress={() => setGender("Female")} style={gender == "Female" ? styles.activetab : styles.tab}><Image source={require("../assets/femaleblack.png")} /><Text>Female</Text></TouchableOpacity>
+                            <Text style={styles.text}>Do you coach men’s or women’s?</Text>
+                            <View style={{ display: "flex", flexDirection: "row", marginTop: "2%", marginBottom: "7%" }}>
+                                <TouchableOpacity onPress={() => setGender("Male")} style={gender == "Male" ? styles.activetab : styles.tab}><Image source={require("../assets/maleblack.png")} /><Text >Male</Text></TouchableOpacity>
+                                <TouchableOpacity onPress={() => setGender("Female")} style={gender == "Female" ? styles.activetab : styles.tab}><Image source={require("../assets/femaleblack.png")} /><Text>Female</Text></TouchableOpacity>
+                            </View>
+                            <Text style={styles.text}>What division/league is your team in?</Text>
+                            <TextInput style={styles.textbox} />
+                            <Text style={styles.text}>What’s your job title?</Text>
+                            <TextInput style={styles.textbox} />
+
                         </View>
-                        <Text style={styles.text}>What division/league is your team in?</Text>
-                        <TextInput style={styles.textbox} />
-                        <Text style={styles.text}>What’s your job title?</Text>
-                        <TextInput style={styles.textbox} />
+                        <View style={{ paddingHorizontal: '11%', alignItems: 'center', flex: 0.25 }}>
+                            <View style={{ display: 'flex', flexDirection: 'row' }}>
+                                <Text style={styles.activedot}></Text>
 
-                    </View>
-                    <View style={{ paddingHorizontal: '11%', alignItems: 'center', bottom: 0, width: '100%', height: '100%', marginTop: '4%' }}>
-                        <View style={{ display: 'flex', flexDirection: 'row', marginBottom: "6%" }}>
-                            <Text style={styles.activedot}></Text>
+                                <Text style={styles.activedot}></Text>
 
-                            <Text style={styles.activedot}></Text>
+                                <Text style={styles.activedot}></Text>
 
-                            <Text style={styles.activedot}></Text>
-
-                            <Text style={styles.dot}></Text>
+                                <Text style={styles.dot}></Text>
+                            </View>
+                            <TouchableOpacity onPress={() => onNext()} style={styles.button}><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>Next</Text></TouchableOpacity>
                         </View>
-                        <TouchableOpacity onPress={() => onNext()} style={styles.button}><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>Next</Text></TouchableOpacity>
                     </View>
 
                 </KeyboardAvoidingView>
@@ -84,7 +86,7 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#00B8FE',
         width: '100%',
-        marginTop: 20,
+        marginTop: "10%",
         alignItems: 'center',
         height: 50,
         borderRadius: 30

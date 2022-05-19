@@ -13,33 +13,31 @@ export default function RegistrationCoachAcademic({ route, navigation }) {
     }
     return (
         <ImageBackground source={require('../assets/bg.png')} style={{ backgroundColor: "#004E75", width: "100%", height: "100%" }}>
-            <ScrollView style={styles.fullView} keyboardShouldPersistTaps="handled" contentInsetAdjustmentBehavior='automatic'
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.fullView} keyboardShouldPersistTaps="handled" contentInsetAdjustmentBehavior='automatic'
                 showsVerticalScrollIndicator={false}>
                 <KeyboardAvoidingView enabled>
                     <StatusBar barStyle="light-content" backgroundColor="#004E75" />
-                    <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingHorizontal: '11%', marginTop: '10%' }}>
-                        <TextInput placeholder='College Name' style={styles.textbox} />
-                        <TextInput placeholder='College State' style={styles.textbox} />
-                        <View style={{ display: "flex", flexDirection: 'row', justifyContent: "center", alignContent: "center", marginTop: "6%", width: '100%' }}>
-                            <TextInput onChangeText={(t) => setEmail(t)} placeholder='University Email' style={styles.textBoxMail} />
-                            <View style={{ backgroundColor: "white", justifyContent: "center", width: '10%', height: 50, borderBottomRightRadius: 5, borderTopRightRadius: 5 }}><Image source={require("../assets/checkIcon.png")} style={{ width: 20, height: 20 }} /></View>
+                    <View style={{ display: 'flex', width: '100%', height: '100%', }}>
+                        <View style={{ flex: 0.85, alignItems: 'center', paddingHorizontal: '11%', marginTop: '10%' }}>
+                            <TextInput placeholder='College Name' style={styles.textbox} />
+                            <TextInput placeholder='College State' style={styles.textbox} />
+                            <View style={{ display: "flex", flexDirection: 'row', justifyContent: "center", alignContent: "center", marginTop: "6%", width: '100%' }}>
+                                <TextInput onChangeText={(t) => setEmail(t)} placeholder='University Email' style={styles.textBoxMail} />
+                                <View style={{ backgroundColor: "white", justifyContent: "center", width: '10%', height: 50, borderBottomRightRadius: 5, borderTopRightRadius: 5 }}><Image source={require("../assets/checkIcon.png")} style={{ width: 20, height: 20 }} /></View>
+                            </View>
                         </View>
-                    </View>
 
-                    <View style={{ paddingHorizontal: '11%', alignItems: 'center', bottom: 0, width: '100%', height: '100%', marginTop: '75%' }}>
-                        <View style={{ display: 'flex', flexDirection: 'row', marginBottom: "6%" }}>
-                            <Text style={styles.activedot}></Text>
-
-                            <Text style={styles.activedot}></Text>
-
-                            <Text style={styles.dot}></Text>
-
-                            <Text style={styles.dot}></Text>
+                        <View style={{ flex: 0.15, paddingHorizontal: '11%', alignItems: 'center', justifyContent: 'center' }}>
+                            <View style={{ display: 'flex', flexDirection: 'row', }}>
+                                <Text style={styles.activedot}></Text>
+                                <Text style={styles.activedot}></Text>
+                                <Text style={styles.dot}></Text>
+                                <Text style={styles.dot}></Text>
+                            </View>
+                            <TouchableOpacity onPress={() => onNext()} style={styles.button}><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>Next</Text></TouchableOpacity>
                         </View>
-                        <TouchableOpacity onPress={() => onNext()} style={styles.button}><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>Next</Text></TouchableOpacity>
+
                     </View>
-
-
 
                 </KeyboardAvoidingView>
             </ScrollView>
@@ -59,11 +57,10 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#00B8FE',
         width: '100%',
-        marginTop: 20,
+        marginTop: "10%",
         alignItems: 'center',
         height: 50,
         borderRadius: 30
-
     },
     fullView: {
         width: '100%',

@@ -4,18 +4,22 @@ import React from 'react'
 export default function RegistrationCoachInfo({ navigation }) {
     return (
         <ImageBackground source={require('../assets/bg.png')} style={{ backgroundColor: "#004E75", width: "100%", height: "100%" }}>
-            <View style={{ display: 'flex', justifyContent: "center", alignItems: 'center', padding: "11%", marginTop: "12%" }}>
-                <Text style={{ color: "white", fontSize: 18, fontWeight: "700", marginBottom: "18%" }}>What you're making</Text>
-                <Image source={require('../assets/card.png')}></Image>
-                <Text style={{ color: "white", fontSize: 18, fontWeight: "700", marginTop: "10%" }}>Connect with student athletes.</Text>
-                <Text style={{ color: "white", fontSize: 18, fontWeight: "700", marginBottom: "6%" }}></Text>
-                <View style={{ display: 'flex', flexDirection: 'row', marginTop: "6%" }}>
-                    <Text style={styles.dot}></Text>
-                    <Text style={styles.dot}></Text>
-                    <Text style={styles.dot}></Text>
-                    <Text style={styles.dot}></Text>
+            <View style={{ display: 'flex', justifyContent: "center", alignItems: 'center', width: '100%', height: '100%', paddingHorizontal: '11%', paddingTop: '10%' }}>
+                <View style={{ flex: 0.75, width: '100%', alignItems: 'center', justifyContent: 'center' }}>
+                    <Text style={{ color: "white", fontSize: 18, fontWeight: "700", marginBottom: "18%" }}>What you're making</Text>
+                    <Image source={require('../assets/card.png')}></Image>
+                    <Text style={{ color: "white", fontSize: 18, fontWeight: "700", marginTop: "17%" }}>Connect with student athletes.</Text>
+
                 </View>
-                <TouchableOpacity onPress={() => navigation.navigate("RegistrationCoachPersonal")} style={styles.button} ><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>Begin</Text></TouchableOpacity>
+                <View style={{ flex: 0.25, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ display: 'flex', flexDirection: 'row' }}>
+                        <Text style={styles.dot}></Text>
+                        <Text style={styles.dot}></Text>
+                        <Text style={styles.dot}></Text>
+                        <Text style={styles.dot}></Text>
+                    </View>
+                    <TouchableOpacity onPress={() => navigation.navigate("RegistrationCoachPersonal")} style={styles.button} ><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>Begin</Text></TouchableOpacity>
+                </View>
             </View>
         </ImageBackground>
     )
@@ -25,7 +29,7 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#00B8FE',
         width: '100%',
-        marginTop: "11%",
+        marginTop: "10%",
         alignItems: 'center',
         height: 50,
         borderRadius: 30

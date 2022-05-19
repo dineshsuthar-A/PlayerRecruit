@@ -76,30 +76,34 @@ export default function Verification({ navigation }) {
 
         <ImageBackground source={require('../assets/bg.png')} style={{ width: "100%", height: "100%" }}>
 
-            <ScrollView style={styles.fullView} keyboardShouldPersistTaps="handled"
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.fullView} keyboardShouldPersistTaps="handled"
                 showsVerticalScrollIndicator={false}>
 
                 <StatusBar barStyle="light-content" backgroundColor="#004E75" />
                 <KeyboardAvoidingView enabled>
 
                     <ActivityIndicator size="large" animating={st} color="#00ff00" style={{ position: "absolute", top: '50%', left: '45%', zIndex: 10 }} />
-                    <View style={styles.header}>
-                        <TouchableOpacity onPress={() => navigation.navigate("Registration")}><Image source={require('../assets/back_arrow.png')} style={styles.headerBack} /></TouchableOpacity>
-                        <Text style={styles.headTitle}>User Registration</Text>
-                    </View>
-                    <View style={styles.main}>
-                        <Image source={require('../assets/logo.png')} style={styles.logo} />
-                        <Text style={{ color: "white", fontFamily: "Roboto", marginTop: "12%", fontWeight: "900", fontSize: 20, marginBottom: "5%" }}>Verification Code</Text>
-                        <View style={{ display: "flex", flexDirection: 'row', justifyContent: "space-around", width: "100%" }}>
-                            <TextInput style={styles.textBox} autoFocus={true} onChangeText={(t) => change(t, 0)} maxLength={1} keyboardType="number-pad" key='1' />
-                            <TextInput style={styles.textBox} onChangeText={(t) => change(t, 1)}
-                                ref={ref_input2} maxLength={1} keyboardType="number-pad" key='2' />
-                            <TextInput style={styles.textBox} maxLength={1}
-                                ref={ref_input3} onChangeText={(t) => change(t, 2)} keyboardType="number-pad" key='3' />
-                            <TextInput style={styles.textBox} ref={ref_input4} onChangeText={(t) => change(t, 3)} maxLength={1} keyboardType="number-pad" key='4' />
+                    <View style={{ width: '100%', height: '100%', display: 'flex', flex: 1 }}>
+                        <View style={styles.header}>
+                            <TouchableOpacity onPress={() => navigation.navigate("Registration")}><Image source={require('../assets/back_arrow.png')} style={styles.headerBack} /></TouchableOpacity>
+                            <Text style={styles.headTitle}>User Registration</Text>
                         </View>
-                        <TouchableOpacity onPress={() => Resend()} ><Text style={{ color: "#00B8FE", marginTop: "11%" }}>Resend Verification</Text></TouchableOpacity>
-                        <TouchableOpacity onPress={() => verify()} style={styles.button}><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>Submit</Text></TouchableOpacity>
+                        <View style={styles.main}>
+                            <Image source={require('../assets/logo.png')} style={styles.logo} />
+                            <Text style={{ color: "white", fontFamily: "Roboto", marginTop: "12%", fontWeight: "900", fontSize: 20, marginBottom: "5%" }}>Verification Code</Text>
+                            <View style={{ display: "flex", flexDirection: 'row', justifyContent: "space-around", width: "100%" }}>
+                                <TextInput style={styles.textBox} autoFocus={true} onChangeText={(t) => change(t, 0)} maxLength={1} keyboardType="number-pad" key='1' />
+                                <TextInput style={styles.textBox} onChangeText={(t) => change(t, 1)}
+                                    ref={ref_input2} maxLength={1} keyboardType="number-pad" key='2' />
+                                <TextInput style={styles.textBox} maxLength={1}
+                                    ref={ref_input3} onChangeText={(t) => change(t, 2)} keyboardType="number-pad" key='3' />
+                                <TextInput style={styles.textBox} ref={ref_input4} onChangeText={(t) => change(t, 3)} maxLength={1} keyboardType="number-pad" key='4' />
+                            </View>
+                            <TouchableOpacity onPress={() => Resend()} ><Text style={{ color: "#00B8FE", marginTop: "11%" }}>Resend Verification</Text></TouchableOpacity>
+                        </View>
+                        <View style={{ flex: 0.5, justifyContent: 'flex-start', paddingHorizontal: '11%' }}>
+                            <TouchableOpacity onPress={() => verify()} style={styles.button}><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>Submit</Text></TouchableOpacity>
+                        </View>
                     </View>
                 </KeyboardAvoidingView>
             </ScrollView>
@@ -111,7 +115,6 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#00B8FE',
         width: '100%',
-        marginTop: "12%",
         alignItems: 'center',
         height: 50,
         borderRadius: 30,
@@ -134,7 +137,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold"
     },
     main: {
-        display: "flex",
+        flex: 0.8,
         marginLeft: "11%",
         marginRight: "11%",
         justifyContent: "center",
@@ -150,7 +153,7 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        paddingTop: 0
+        flex: 0.2
     },
     headTitle: {
         color: "white",
@@ -162,6 +165,5 @@ const styles = StyleSheet.create({
         paddingTop: 20,
         width: '100%',
         height: '100%',
-        paddingBottom: 20
     },
 })

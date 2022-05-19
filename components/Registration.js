@@ -47,23 +47,31 @@ export default function Registration({ navigation }) {
     return (
 
         <ImageBackground source={require('../assets/bg.png')} style={{ backgroundColor: "#004E75", width: "100%", height: "100%" }}>
-            <ScrollView style={styles.fullView} keyboardShouldPersistTaps="handled" contentInsetAdjustmentBehavior='automatic'
+            <StatusBar barStyle="light-content" backgroundColor="#004E75" />
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.fullView} keyboardShouldPersistTaps="handled" contentInsetAdjustmentBehavior='automatic'
                 showsVerticalScrollIndicator={false}>
                 <KeyboardAvoidingView enabled>
-                    <StatusBar barStyle="light-content" backgroundColor="#004E75" />
                     <ActivityIndicator size="large" animating={st} color="#00ff00" style={{ position: "absolute", top: '50%', left: '45%', zIndex: 10 }} />
-                    <View style={styles.header}>
-                        <Text style={styles.headTitle}>User Registration</Text>
-                    </View>
-                    <View style={styles.main}>
-                        <Image source={require('../assets/logo.png')} style={styles.logo} />
-                        <Text style={{ color: "white", fontFamily: "Roboto", marginTop: "11%", fontWeight: "900", fontSize: 20 }}>Register User</Text>
-                        <TextInput onChangeText={(t) => setName(t)} placeholder='Username' style={styles.textBox} />
-                        <TextInput onChangeText={(t) => setPass(t)} placeholder='Password' secureTextEntry={true} style={styles.textBox} />
-                        <TextInput onChangeText={(t) => setRpass(t)} placeholder='Retype Password' secureTextEntry={true} style={styles.textBox} />
-                        <TextInput onChangeText={(t) => setPhone(t)} placeholder='Phone Number' maxLength={10} keyboardType="number-pad" style={styles.textBox} />
-                        <TouchableOpacity onPress={() => RegisterPress()} style={styles.button}><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>Register</Text></TouchableOpacity>
-                        <Text style={{ marginTop: "12%", color: "white", fontWeight: "500" }}>Already have an account? <Text onPress={() => navigation.navigate("Login")} style={{ color: "#00B8FE", fontWeight: '500', textAlignVertical: "center" }} >Signin</Text></Text>
+                    <View style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center' }}>
+                        <View style={styles.header}>
+                            <Text style={styles.headTitle}>User Registration</Text>
+                        </View>
+                        <View style={styles.main}>
+                            <View style={{ flex: 0.2, alignItems: 'center' }}>
+                                <Image source={require('../assets/logo.png')} style={styles.logo} />
+                                <Text style={{ color: "white", fontFamily: "Roboto", fontWeight: "900", fontSize: 20, marginBottom: '3%' }}>Register User</Text>
+                            </View>
+                            <View style={{ flex: 0.5, alignItems: 'center', paddingHorizontal: '11%', width: '100%', }}>
+                                <TextInput onChangeText={(t) => setName(t)} placeholder='Username' style={styles.textBox} />
+                                <TextInput onChangeText={(t) => setPass(t)} placeholder='Password' secureTextEntry={true} style={styles.textBox} />
+                                <TextInput onChangeText={(t) => setRpass(t)} placeholder='Retype Password' secureTextEntry={true} style={styles.textBox} />
+                                <TextInput onChangeText={(t) => setPhone(t)} placeholder='Phone Number' maxLength={10} keyboardType="number-pad" style={styles.textBox} />
+                            </View>
+                        </View>
+                        <View style={{ flex: 0.4, width: '100%', paddingHorizontal: '11%', alignItems: 'center' }}>
+                            <TouchableOpacity onPress={() => RegisterPress()} style={styles.button}><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>Register</Text></TouchableOpacity>
+                            <Text style={{ color: "white", fontWeight: "500", marginTop: '12%' }}>Already have an account? <Text onPress={() => navigation.navigate("Login")} style={{ color: "#00B8FE", fontWeight: '500', textAlignVertical: "center" }} >Signin</Text></Text>
+                        </View>
                     </View>
                 </KeyboardAvoidingView>
             </ScrollView>
@@ -76,42 +84,38 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#00B8FE',
         width: '100%',
-        marginTop: "14%",
         alignItems: 'center',
         height: 50,
-        borderRadius: 30
+        borderRadius: 30,
 
     },
     logo: {
         width: 150,
         height: 150,
-        marginTop: "5%"
+        marginBottom: '8%'
     },
     textBox: {
         backgroundColor: "white",
-        marginTop: "5%",
         color: "black",
         width: "100%",
         height: 50,
         borderRadius: 5,
         paddingLeft: 20,
-        padding: 10
+        padding: 10,
+        marginBottom: '6%'
     },
     main: {
-        display: "flex",
+        flex: 0.4,
         marginLeft: "11%",
         marginRight: "11%",
-        justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        width: '100%',
+        justifyContent: 'flex-end'
     },
     header: {
-        display: "flex",
-        justifyContent: "center",
-        marginBottom: "1%",
+        flex: 0.1,
         flexDirection: "row",
         alignItems: "center",
-        paddingTop: 0,
-        marginTop: '3%'
     },
     headTitle: {
         color: "white",
