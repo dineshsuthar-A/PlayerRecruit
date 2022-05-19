@@ -60,7 +60,7 @@ export default function App() {
   return (
     flag ?
       <NavigationContainer>
-        <Stack.Navigator initialRouteName={"SelectAccount"} >
+        <Stack.Navigator initialRouteName={{ rout }} >
 
           <Stack.Screen
             options={{ headerShown: false, cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid, }}

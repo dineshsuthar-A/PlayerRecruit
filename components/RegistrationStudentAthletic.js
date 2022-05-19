@@ -220,11 +220,11 @@ const styles = StyleSheet.create({
     },
     main: {
         paddingHorizontal: '11%',
-        flex: 0.65,
-        paddingTop: '5%'
+        flex: 0.60,
+        paddingTop: '3%'
     },
     below: {
-        flex: 0.35,
+        flex: 0.4,
         alignItems: "center",
         paddingHorizontal: '11%',
     },
