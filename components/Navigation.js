@@ -26,7 +26,7 @@ export default function Navigation() {
                     iconname = focused ? "trophy-sharp" : "trophy-outline";
                 }
                 if (rn == "Chat") {
-                    iconname = focused ? "person" : "person";
+                    iconname = focused ? "person" : "person-outline";
                 }
                 return <Ionicons name={iconname} size={si} color="white" />
             },
