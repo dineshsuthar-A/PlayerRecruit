@@ -41,9 +41,9 @@ export default function Navigation() {
 
         })}>
             <Tab.Screen options={{ headerShown: false, }} name="Profile" component={Profile} />
-            <Tab.Screen name="Discovery" component={Discover} />
-            <Tab.Screen name="Matches" component={Matches} />
-            <Tab.Screen name="Chat" component={Message} />
+            <Tab.Screen options={{ headerShown: false, }} name="Discovery" component={Discover} />
+            <Tab.Screen options={{ headerStyle: { backgroundColor: '#004467' }, headerTitle: 'Coaches liked you!', headerTintColor: 'white', headerTitleStyle: { fontSize: 18, marginLeft: 20 } }} name="Matches" component={Matches} />
+            <Tab.Screen options={{ headerStyle: { backgroundColor: '#004467' }, headerTitle: 'Messenger', headerTintColor: 'white', headerTitleStyle: { fontSize: 18, marginLeft: 20 } }} name="Chat" component={Message} />
         </Tab.Navigator >
     )
 }

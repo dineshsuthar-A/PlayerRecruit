@@ -44,7 +44,6 @@ export default function RegistrationStudentAthletic({ route, navigation }) {
         const arr = sports;
         arr.splice(ind, 1);
         setSports(arr);
-
     }
 
     return (
@@ -74,7 +73,7 @@ export default function RegistrationStudentAthletic({ route, navigation }) {
                                     </Picker>
                                 </View>
                             </View>
-                            <ScrollView style={styles.listItemssport}>
+                            <ScrollView style={styles.listItemssport} contentContainerStyle={{ flexGrow: 1 }}>
                                 {
                                     sports.map((i, index) =>
                                         <TouchableOpacity onPress={() => deleteValue(index)} style={styles.rowItem} key={index}>
