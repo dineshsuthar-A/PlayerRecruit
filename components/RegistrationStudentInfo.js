@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function RegistrationStudentInfo({ navigation }) {
   return (
-    <ImageBackground source={require('../assets/bg.png')} style={{ backgroundColor: "#004E75", width: "100%", height: "100%" }}>
+    <ImageBackground source={require('../assets/bg.png')} style={{ backgroundColor: "#004467", width: "100%", height: "100%" }}>
       <View style={{ display: 'flex', alignItems: 'center', width: '100%', height: '100%', paddingHorizontal: '11%', paddingTop: '10%' }}>
         <View style={{ flex: 0.75, width: '100%', alignItems: 'center', justifyContent: 'center' }}>
           <Text style={{ color: "white", fontSize: 18, fontWeight: "700", marginBottom: "14%" }}>What you're making</Text>

@@ -25,11 +25,11 @@ export default function RegistrationStudentSchool({ route, navigation }) {
         }
     }
     return (
-        <ImageBackground source={require('../assets/bg.png')} style={{ backgroundColor: "#004E75", width: "100%", height: "100%" }}>
+        <ImageBackground source={require('../assets/bg.png')} style={{ backgroundColor: "#004467", width: "100%", height: "100%" }}>
             <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.fullView} keyboardShouldPersistTaps="handled" contentInsetAdjustmentBehavior='automatic'
                 showsVerticalScrollIndicator={false}>
                 <KeyboardAvoidingView enabled>
-                    <StatusBar barStyle="light-content" backgroundColor="#004E75" />
+                    <StatusBar barStyle="light-content" backgroundColor="#004467" />
                     <View style={{ display: 'flex', width: '100%', height: '100%' }}>
 
                         <View style={styles.main}>
@@ -44,7 +44,7 @@ export default function RegistrationStudentSchool({ route, navigation }) {
                             <TextInput onChangeText={(t) => setsat(t)} placeholder='SAT' style={styles.textBox} />
                             <TextInput onChangeText={(t) => setact(t)} placeholder='ACT' style={styles.textBox} />
                         </View>
-                        <View style={{ flex: 0.2, width: '100%', paddingHorizontal: '11%', alignItems: 'center' }}>
+                        <View style={{ flex: 0.2, width: '100%', paddingHorizontal: '11%', alignItems: 'center', marginTop: '3%' }}>
                             <View style={{ display: 'flex', flexDirection: 'row' }}>
                                 <Text style={styles.activedot}></Text>
 

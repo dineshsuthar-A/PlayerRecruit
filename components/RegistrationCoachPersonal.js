@@ -12,24 +12,24 @@ export default function RegistrationCoachPersonal({ navigation }) {
     const [city, setCity] = useState();
     const [ethnicity, setethnicity] = useState();
     const [state, setState] = useState();
-
+    const [orginaldate, setoriginaldate] = useState();
     const onNext = () => {
-        navigation.navigate("RegistrationCoachAcademic");
 
-        // if (!(date && gender && firstname && lastname && city && ethnicity && state)) {
-        //     ToastAndroid.show("Fill All Details", ToastAndroid.SHORT);
-        // } else {
+        if (!(date && gender && firstname && lastname && city && ethnicity && state)) {
+            ToastAndroid.show("Fill All Details", ToastAndroid.SHORT);
+        } else {
 
-        //     navigation.navigate("RegistrationCoachAcademic", {
-        //         firstname,
-        //         lastname,
-        //         gender,
-        //         date,
-        //         city,
-        //         ethnicity,
-        //         state
-        //     });
-        // }
+            navigation.navigate("RegistrationCoachAcademic", {
+                firstname,
+                lastname,
+                gender,
+                "date": orginaldate,
+                city,
+                ethnicity,
+                state
+            });
+
+        }
     }
 
     const [statedata, setstatedata] = useState(
@@ -80,6 +80,7 @@ export default function RegistrationCoachPersonal({ navigation }) {
         setDatePickerVisibility(false);
     };
     const handleConfirm = (d) => {
+        setoriginaldate(d.toString());
         var day = d.getDate();
         var month = d.getMonth() + 1;
         var year = d.getFullYear();
@@ -89,11 +90,11 @@ export default function RegistrationCoachPersonal({ navigation }) {
     };
 
     return (
-        <ImageBackground source={require('../assets/bg.png')} style={{ backgroundColor: "#004E75", width: "100%", height: "100%" }}>
+        <ImageBackground source={require('../assets/bg.png')} style={{ backgroundColor: "#004467", width: "100%", height: "100%" }}>
             <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.fullView} keyboardShouldPersistTaps="handled" contentInsetAdjustmentBehavior='automatic'
                 showsVerticalScrollIndicator={false}>
                 <KeyboardAvoidingView enabled>
-                    <StatusBar barStyle="light-content" backgroundColor="#004E75" />
+                    <StatusBar barStyle="light-content" backgroundColor="#004467" />
                     <View style={{ width: '100%', height: '100%', display: 'flex' }}>
                         <View style={{ flex: 0.75, width: '100%', paddingHorizontal: '11%' }}>
                             <View style={styles.main}>
@@ -134,7 +135,7 @@ export default function RegistrationCoachPersonal({ navigation }) {
                                 </View>
                             </View>
                         </View>
-                        <View style={{ flex: 0.25, alignItems: 'center', paddingHorizontal: '11%', width: '100%' }}>
+                        <View style={{ flex: 0.25, alignItems: 'center', paddingHorizontal: '11%', width: '100%', marginTop: '2%' }}>
                             <View style={{ display: 'flex', flexDirection: 'row' }}>
                                 <Text style={styles.activedot}></Text>
 

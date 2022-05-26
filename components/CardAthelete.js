@@ -31,7 +31,7 @@ export default function CardAthelete() {
 
 
                         <View style={{ flex: 1, width: '100%', height: '100%', display: 'flex' }}>
-                            <View style={{ flex: 0.2 }}>
+                            <View style={{ flex: 0.25 }}>
                                 <View style={{ display: 'flex', flexDirection: 'row' }}>
                                     <View style={{ paddingHorizontal: '4%', paddingTop: '6%', flex: 0.7 }}>
                                         <Text style={{ fontSize: 20 }}>John </Text>
@@ -105,7 +105,7 @@ export default function CardAthelete() {
 
 
                         <View style={{ flex: 1, width: '100%', height: '100%', display: 'flex', backgroundColor: 'white', opacity: 0.8 }}>
-                            <View style={{ flex: 0.15 }}>
+                            <View style={{ flex: 0.25 }}>
                                 <View style={{ display: 'flex', flexDirection: 'row' }}>
                                     <View style={{ paddingHorizontal: '4%', paddingTop: '6%', flex: 0.7 }}>
                                         <Text style={{ fontSize: 20 }}>John </Text>

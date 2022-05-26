@@ -13,27 +13,21 @@ export default function Filter() {
     const [readstate, setreadstate] = useState();
     const [readsport, setreadsport] = useState();
     const sportAdd = () => {
-        let arr = sports;
-        arr.push(readsport);
-        setsports(arr);
+        setsports([...sports, readsport]);
         setreadsport("");
     }
 
-    const deletesport = (val) => {
-        let arr = sports;
-        arr.pop(val);
-        setsports(arr);
+    const deletesport = (ind) => {
+        sports.splice(ind, 1);
+        setsports([...sports]);
     }
     const stateAdd = () => {
-        let arr = states;
-        arr.push(readstate);
-        setstates(arr);
+        setstates([...states, readstate]);
         setreadstate("");
     }
-    const deletestate = (val) => {
-        let arr = states;
-        arr.pop(val);
-        setstates(arr);
+    const deletestate = (ind) => {
+        states.splice(ind, 1);
+        setstates([...states]);
     }
 
     return (
@@ -71,7 +65,7 @@ export default function Filter() {
                                         paddingRight: 3, marginTop: '2%'
                                     }}>
                                         <Text style={{ fontSize: 12, marginRight: 6 }}>{i}</Text>
-                                        <TouchableOpacity onPress={() => deletestate(i)}><AntDesign name="closecircle" size={18} color="grey" /></TouchableOpacity>
+                                        <TouchableOpacity onPress={() => deletestate(index)}><AntDesign name="closecircle" size={18} color="grey" /></TouchableOpacity>
                                     </View>
                                 ) : null}
 
@@ -99,7 +93,7 @@ export default function Filter() {
                                         paddingRight: 3
                                     }}>
                                         <Text style={{ fontSize: 12, marginRight: 6 }}>{i}</Text>
-                                        <TouchableOpacity onPress={() => deletesport(i)}><AntDesign name="closecircle" size={18} color="grey" /></TouchableOpacity>
+                                        <TouchableOpacity onPress={() => deletesport(index)}><AntDesign name="closecircle" size={18} color="grey" /></TouchableOpacity>
                                     </View>) : null
                         }
 

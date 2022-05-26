@@ -24,11 +24,14 @@ export default function Verification({ navigation }) {
                     account_phone: phone,
                     sms_challenge: code
                 }
-            }).then((response) => {
-                SecureStore.setItemAsync("token", response.data);
+            }).then(async (response) => {
+                console.log(response.data);
+
+                await SecureStore.setItemAsync("userid", response.data.user_id);
+                await SecureStore.setItemAsync("token", response.data.access_token);
                 setst(false);
                 ToastAndroid.show("Successfully verified", ToastAndroid.SHORT);
-                navigation.navigate("RegistrationSelectAccount")
+                navigation.navigate("RegistrationSelectAccount");
             }).catch((ERR) => {
                 console.log(ERR);
                 setst(false);
@@ -79,7 +82,7 @@ export default function Verification({ navigation }) {
             <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.fullView} keyboardShouldPersistTaps="handled"
                 showsVerticalScrollIndicator={false}>
 
-                <StatusBar barStyle="light-content" backgroundColor="#004E75" />
+                <StatusBar barStyle="light-content" backgroundColor="#004467" />
                 <KeyboardAvoidingView enabled>
 
                     <ActivityIndicator size="large" animating={st} color="#00ff00" style={{ position: "absolute", top: '50%', left: '45%', zIndex: 10 }} />

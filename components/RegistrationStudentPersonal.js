@@ -11,6 +11,8 @@ export default function RegistrationStudentPersonal({ navigation }) {
     const [city, setCity] = useState();
     const [ethnicity, setethnicity] = useState();
     const [state, setState] = useState();
+    const [orginaldate, setoriginaldate] = useState();
+
 
     const onNext = () => {
         if (!(date && gender && firstname && lastname && city && ethnicity && state)) {
@@ -21,7 +23,7 @@ export default function RegistrationStudentPersonal({ navigation }) {
                 firstname,
                 lastname,
                 gender,
-                date,
+                "date": orginaldate,
                 city,
                 ethnicity,
                 state
@@ -77,6 +79,7 @@ export default function RegistrationStudentPersonal({ navigation }) {
         setDatePickerVisibility(false);
     };
     const handleConfirm = (d) => {
+        setoriginaldate(d.toString());
         var day = d.getDate();
         var month = d.getMonth() + 1;
         var year = d.getFullYear();
@@ -86,65 +89,63 @@ export default function RegistrationStudentPersonal({ navigation }) {
     };
 
     return (
-        <ImageBackground source={require('../assets/bg.png')} style={{ backgroundColor: "#004E75", width: "100%", height: "100%" }}>
+        <ImageBackground source={require('../assets/bg.png')} style={{ backgroundColor: "#004467", width: "100%", height: "100%" }}>
             <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.fullView} keyboardShouldPersistTaps="handled" contentInsetAdjustmentBehavior='automatic'
                 showsVerticalScrollIndicator={false}>
-                <KeyboardAvoidingView enabled>
-                    <StatusBar barStyle="light-content" backgroundColor="#004E75" />
-                    <View style={{ width: '100%', height: '100%', display: 'flex' }}>
-                        <View style={{ flex: 0.75, width: '100%', paddingHorizontal: '11%' }}>
-                            <View style={styles.main}>
-                                <TextInput onChangeText={(t) => setFirstname(t)} placeholderTextColor="grey" placeholder='First name' style={styles.textBox} />
-                                <TextInput onChangeText={(t) => setLastname(t)} placeholderTextColor="grey" placeholder='Last name' style={styles.textBox} />
-                                <TouchableOpacity onPress={() => showDatePicker()} style={{ backgroundColor: "white", width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20, alignItems: "center", borderRadius: 5, height: 50, marginTop: '5%' }}><Text style={date ? { color: "black", marginRight: 10 } : { color: 'grey', marginRight: 10 }}  >{date ? date : "Birthday"}</Text><Image source={require('../assets/event_black.png')} /></TouchableOpacity>
-                                <DateTimePickerModal
-                                    isVisible={isDatePickerVisible}
-                                    mode="date"
-                                    onConfirm={handleConfirm}
-                                    onCancel={hideDatePicker}
-                                />
-                            </View>
-                            <View style={{ display: "flex", flexDirection: "row", marginTop: '5%', marginBottom: "5%" }}>
-                                <TouchableOpacity onPress={() => setGender("Male")} style={gender == "Male" ? styles.activeGender : styles.gender}><Image source={require("../assets/maleblack.png")} /><Text >Male</Text></TouchableOpacity>
-                                <TouchableOpacity onPress={() => setGender("Female")} style={gender == "Female" ? styles.activeGender : styles.gender}><Image source={require("../assets/femaleblack.png")} /><Text>Female</Text></TouchableOpacity>
-                            </View>
-
-                            <View style={styles.main}>
-                                <View style={{ width: "100%", borderRadius: 5, overflowX: 'hidden', overflow: "hidden", backgroundColor: "white", height: 50, alignItems: 'center', paddingHorizontal: 10, }}>
-                                    <Picker style={styles.pickerbox} selectedValue={state} onValueChange={(itemValue, itemIndex) => setState(itemValue)} >
-                                        <Picker.Item label="State" style={{ fontSize: 14, marginLeft: 40, color: 'grey' }} />
-                                        {
-                                            statedata.map((i, index) => <Picker.Item style={{ fontSize: 14.5, fontFamily: "Roboto" }} label={i} value={i} key={index} />)
-                                        }
-                                    </Picker>
-                                </View>
-                                <TextInput placeholder='City' onChangeText={(t) => setCity(t)} placeholderTextColor="grey" style={styles.textBox} />
-
-                                <View style={styles.pickerOuter}>
-                                    <Picker
-                                        style={styles.pickerbox} selectedValue={ethnicity} onValueChange={(itemValue, itemIndex) => setethnicity(itemValue)}>
-                                        <Picker.Item label="Ethnicity" value="null" style={{ fontSize: 14, marginLeft: 40, color: 'grey' }} />
-                                        {
-                                            etha.map((i, index) => <Picker.Item style={{ fontSize: 14.5, fontFamily: "Roboto" }} label={i} value={i} key={index} />)
-                                        }
-                                    </Picker>
-                                </View>
-                            </View>
+                <StatusBar barStyle="light-content" backgroundColor="#004467" />
+                <View style={{ width: '100%', height: '100%', display: 'flex' }}>
+                    <View style={{ flex: 0.75, width: '100%', paddingHorizontal: '11%' }}>
+                        <View style={styles.main}>
+                            <TextInput onChangeText={(t) => setFirstname(t)} placeholderTextColor="grey" placeholder='First name' style={styles.textBox} />
+                            <TextInput onChangeText={(t) => setLastname(t)} placeholderTextColor="grey" placeholder='Last name' style={styles.textBox} />
+                            <TouchableOpacity onPress={() => showDatePicker()} style={{ backgroundColor: "white", width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20, alignItems: "center", borderRadius: 5, height: 50, marginTop: '5%' }}><Text style={date ? { color: "black", marginRight: 10 } : { color: 'grey', marginRight: 10 }}  >{date ? date : "Birthday"}</Text><Image source={require('../assets/event_black.png')} /></TouchableOpacity>
+                            <DateTimePickerModal
+                                isVisible={isDatePickerVisible}
+                                mode="date"
+                                onConfirm={handleConfirm}
+                                onCancel={hideDatePicker}
+                            />
                         </View>
-                        <View style={{ flex: 0.25, alignItems: 'center', paddingHorizontal: '11%', width: '100%' }}>
-                            <View style={{ display: 'flex', flexDirection: 'row' }}>
-                                <Text style={styles.activedot}></Text>
+                        <View style={{ display: "flex", flexDirection: "row", marginTop: '5%', marginBottom: "5%" }}>
+                            <TouchableOpacity onPress={() => setGender("Male")} style={gender == "Male" ? styles.activeGender : styles.gender}><Image source={require("../assets/maleblack.png")} /><Text >Male</Text></TouchableOpacity>
+                            <TouchableOpacity onPress={() => setGender("Female")} style={gender == "Female" ? styles.activeGender : styles.gender}><Image source={require("../assets/femaleblack.png")} /><Text>Female</Text></TouchableOpacity>
+                        </View>
 
-                                <Text style={styles.dot}></Text>
-
-                                <Text style={styles.dot}></Text>
-
-                                <Text style={styles.dot}></Text>
+                        <View style={styles.main}>
+                            <View style={{ width: "100%", borderRadius: 5, overflowX: 'hidden', overflow: "hidden", backgroundColor: "white", height: 50, alignItems: 'center', paddingHorizontal: 10, }}>
+                                <Picker style={styles.pickerbox} selectedValue={state} onValueChange={(itemValue, itemIndex) => setState(itemValue)} >
+                                    <Picker.Item label="State" style={{ fontSize: 14, marginLeft: 40, color: 'grey' }} />
+                                    {
+                                        statedata.map((i, index) => <Picker.Item style={{ fontSize: 14.5, fontFamily: "Roboto" }} label={i} value={i} key={index} />)
+                                    }
+                                </Picker>
                             </View>
-                            <TouchableOpacity onPress={() => onNext()} style={styles.button}><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>Next</Text></TouchableOpacity>
+                            <TextInput placeholder='City' onChangeText={(t) => setCity(t)} placeholderTextColor="grey" style={styles.textBox} />
+
+                            <View style={styles.pickerOuter}>
+                                <Picker
+                                    style={styles.pickerbox} selectedValue={ethnicity} onValueChange={(itemValue, itemIndex) => setethnicity(itemValue)}>
+                                    <Picker.Item label="Ethnicity" value="null" style={{ fontSize: 14, marginLeft: 40, color: 'grey' }} />
+                                    {
+                                        etha.map((i, index) => <Picker.Item style={{ fontSize: 14.5, fontFamily: "Roboto" }} label={i} value={i} key={index} />)
+                                    }
+                                </Picker>
+                            </View>
                         </View>
                     </View>
-                </KeyboardAvoidingView>
+                    <View style={{ flex: 0.25, alignItems: 'center', paddingHorizontal: '11%', width: '100%', marginTop: '2%' }}>
+                        <View style={{ display: 'flex', flexDirection: 'row' }}>
+                            <Text style={styles.activedot}></Text>
+
+                            <Text style={styles.dot}></Text>
+
+                            <Text style={styles.dot}></Text>
+
+                            <Text style={styles.dot}></Text>
+                        </View>
+                        <TouchableOpacity onPress={() => onNext()} style={styles.button}><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>Next</Text></TouchableOpacity>
+                    </View>
+                </View>
             </ScrollView>
 
         </ImageBackground >

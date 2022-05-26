@@ -1,6 +1,8 @@
 import { StyleSheet, StatusBar, ScrollView, ImageBackground, ActivityIndicator, Text, ToastAndroid, Platform, View, KeyboardAvoidingView, SafeAreaView, Image, TouchableOpacity, TextInput } from 'react-native';
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
+
+import * as SecureStore from 'expo-secure-store';
 export default function Login({ navigation }) {
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
@@ -16,10 +18,12 @@ export default function Login({ navigation }) {
             setSt(true);
             axios.post("/auth/login/", {
                 username, password
-            }).then((response) => {
+            }).then(async (response) => {
                 setSt(false);
-                console.log(response);
+                await SecureStore.setItemAsync("userid", response.data.user_id);
+                await SecureStore.setItemAsync("token", response.data.access_token);
                 ToastAndroid.show("Logged In", ToastAndroid.SHORT);
+                navigation.navigate("RegistrationSelectAccount")
             }).catch((err) => {
                 setSt(false);
                 console.log(err);
@@ -34,7 +38,7 @@ export default function Login({ navigation }) {
                 showsVerticalScrollIndicator={false}
                 contentInsetAdjustmentBehavior='automatic'>
                 <KeyboardAvoidingView enabled>
-                    <StatusBar barStyle="light-content" backgroundColor="#004E75" />
+                    <StatusBar barStyle="light-content" backgroundColor="#004467" />
                     <ActivityIndicator size="large" animating={st} color="#00ff00" style={{ position: "absolute", top: '50%', left: '45%', zIndex: 10 }} />
 
                     <View style={{ display: 'flex', width: '100%', height: '100%' }}>

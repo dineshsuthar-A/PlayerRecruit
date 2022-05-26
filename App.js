@@ -26,7 +26,7 @@ import RegistrationCoachAthletic from './components/RegistrationCoachAthletic';
 import RegistrationCoachFinal from './components/RegistrationCoachFinal';
 import Navigation from './components/Navigation';
 
-axios.defaults.baseURL = "https://d74c3a57-2b0a-4ba1-b62e-8d4f4f9f78d6.mock.pstmn.io";
+axios.defaults.baseURL = "https://2ba667d8-6f03-47d7-bbac-f054f840be1d.mock.pstmn.io";
 const Stack = createStackNavigator();
 const config = {
   animation: 'slide',
@@ -95,7 +95,7 @@ export default function App() {
           <Stack.Screen options={{
             headerMode: 'float',
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-            headerStyle: { backgroundColor: '#004E75', },
+            headerStyle: { backgroundColor: '#004467', },
             title: 'Registration Student Info',
             headerTintColor: "white",
             headerTitleStyle: {
@@ -130,7 +130,7 @@ export default function App() {
           <Stack.Screen options={{
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
             headerMode: "float",
-            headerStyle: { backgroundColor: '#004E75' },
+            headerStyle: { backgroundColor: '#004467' },
             title: 'Academic Information',
             headerTintColor: "white",
             headerTitleStyle: {
@@ -146,7 +146,7 @@ export default function App() {
 
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
             headerMode: "float",
-            headerStyle: { backgroundColor: '#004E75' },
+            headerStyle: { backgroundColor: '#004467' },
             title: 'Athletic Information',
             headerTintColor: "white",
             headerTitleStyle: {
@@ -164,7 +164,7 @@ export default function App() {
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
             headerMode: "float",
             headerStyle: {
-              backgroundColor: '#004E75',
+              backgroundColor: '#004467',
 
             },
             title: 'Athletic Bio',
@@ -183,7 +183,7 @@ export default function App() {
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
             headerMode: "float",
             headerStyle: {
-              backgroundColor: '#004E75',
+              backgroundColor: '#004467',
 
             },
             title: 'Registration Coach Info',
@@ -201,7 +201,7 @@ export default function App() {
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
             headerMode: "float",
             headerStyle: {
-              backgroundColor: '#004E75',
+              backgroundColor: '#004467',
 
             },
             title: 'Coach Registration',
@@ -220,7 +220,7 @@ export default function App() {
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
             headerMode: "float",
             headerStyle: {
-              backgroundColor: '#004E75',
+              backgroundColor: '#004467',
             },
             title: 'Academic Information',
             headerTintColor: "white",
@@ -237,7 +237,7 @@ export default function App() {
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
             headerMode: "float",
             headerStyle: {
-              backgroundColor: '#004E75',
+              backgroundColor: '#004467',
 
             },
             title: 'Athletic Information',
@@ -255,7 +255,7 @@ export default function App() {
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
             headerMode: "float",
             headerStyle: {
-              backgroundColor: '#004E75',
+              backgroundColor: '#004467',
             },
             title: 'Athletic Bio',
             headerTintColor: "white",

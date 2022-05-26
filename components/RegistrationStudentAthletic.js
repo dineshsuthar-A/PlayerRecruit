@@ -1,7 +1,7 @@
 import { StyleSheet, ToastAndroid, StatusBar, ImageBackground, ScrollView, Text, ActivityIndicator, Platform, View, KeyboardAvoidingView, SafeAreaView, Image, TouchableOpacity, TextInput } from 'react-native'
 import { Picker } from '@react-native-picker/picker';
 import React, { useState, useEffect } from 'react';
-
+import { AntDesign } from '@expo/vector-icons';
 
 export default function RegistrationStudentAthletic({ route, navigation }) {
     const [rank, setRank] = useState();
@@ -41,17 +41,16 @@ export default function RegistrationStudentAthletic({ route, navigation }) {
         }
     }
     const deleteValue = (ind) => {
-        const arr = sports;
-        arr.splice(ind, 1);
-        setSports(arr);
+        sports.splice(ind, 1);
+        setSports([...sports]);
     }
 
     return (
-        <ImageBackground source={require('../assets/bg.png')} style={{ backgroundColor: "#004E75", width: "100%", height: "100%" }}>
+        <ImageBackground source={require('../assets/bg.png')} style={{ backgroundColor: "#004467", width: "100%", height: "100%" }}>
             <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.fullView} keyboardShouldPersistTaps="handled" contentInsetAdjustmentBehavior='automatic'
                 showsVerticalScrollIndicator={false}>
                 <KeyboardAvoidingView enabled>
-                    <StatusBar barStyle="light-content" backgroundColor="#004E75" />
+                    <StatusBar barStyle="light-content" backgroundColor="#004467" />
                     <View style={{ display: 'flex', width: '100%', height: '100%' }}>
                         <View style={styles.main}>
                             <Text style={styles.TextLine}>What sport do you play?</Text>
@@ -76,11 +75,11 @@ export default function RegistrationStudentAthletic({ route, navigation }) {
                             <ScrollView style={styles.listItemssport} contentContainerStyle={{ flexGrow: 1 }}>
                                 {
                                     sports.map((i, index) =>
-                                        <TouchableOpacity onPress={() => deleteValue(index)} style={styles.rowItem} key={index}>
+                                        <View style={styles.rowItem} key={index}>
                                             <Text style={styles.rowItemTextsport}>{i.sport}</Text>
                                             <Text style={styles.rowItemText}>{i.rank} Position</Text>
-                                            <Image style={{ width: 15, height: 15 }} source={require("../assets/editIcon.png")} />
-                                        </TouchableOpacity>)
+                                            <TouchableOpacity onPress={() => deleteValue(index)}><AntDesign name="closecircle" size={18} color="#00B8FE" style={{ backgroundColor: 'white', borderRadius: 200 }} /></TouchableOpacity>
+                                        </View>)
                                 }
                             </ScrollView>
 
@@ -161,7 +160,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     listItemssport: {
-        height: 30,
+        height: 20,
         width: "100%",
         overflow: "scroll",
         paddingRight: 10,

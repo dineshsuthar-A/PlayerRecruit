@@ -7,7 +7,7 @@ export default function RegistrationSelectAccount({ navigation }) {
     return (
 
         <ImageBackground source={require('../assets/bg.png')} style={{ width: "100%", height: "100%" }}>
-            <StatusBar barStyle="light-content" backgroundColor="#004E75" />
+            <StatusBar barStyle="light-content" backgroundColor="#004467" />
             <View style={styles.body}>
                 <View style={styles.header}>
                     <Text style={styles.headTitle}>Select Account Type</Text>
@@ -17,7 +17,7 @@ export default function RegistrationSelectAccount({ navigation }) {
                     <Text style={{ color: "white", fontFamily: "Roboto", marginTop: "11%", fontWeight: "bold", fontSize: 20, marginBottom: "1%" }}>Welcome,</Text>
                     <Text style={{ color: "white", fontFamily: "Roboto", fontWeight: "700", fontSize: 19, textAlign: "center" }}>Select the account registration type</Text>
 
-                    <View style={{ width: '100%', paddingHorizontal: '11%' }}>
+                    <View style={{ width: '100%', paddingHorizontal: '11%', paddingVertical: '5%' }}>
                         <TouchableOpacity onPress={() => navigation.navigate("RegistrationStudentInfo")} style={styles.button}><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>Student Athelete</Text></TouchableOpacity>
                         <TouchableOpacity onPress={() => navigation.navigate("RegistrationCoachInfo")} style={styles.button}><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>College Coach</Text></TouchableOpacity>
                     </View>

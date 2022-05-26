@@ -46,8 +46,8 @@ export default function Registration({ navigation }) {
 
     return (
 
-        <ImageBackground source={require('../assets/bg.png')} style={{ backgroundColor: "#004E75", width: "100%", height: "100%" }}>
-            <StatusBar barStyle="light-content" backgroundColor="#004E75" />
+        <ImageBackground source={require('../assets/bg.png')} style={{ backgroundColor: "#004467", width: "100%", height: "100%" }}>
+            <StatusBar barStyle="light-content" backgroundColor="#004467" />
             <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.fullView} keyboardShouldPersistTaps="handled" contentInsetAdjustmentBehavior='automatic'
                 showsVerticalScrollIndicator={false}>
                 <KeyboardAvoidingView enabled>

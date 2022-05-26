@@ -9,18 +9,30 @@ export default function RegistrationCoachAcademic({ route, navigation }) {
     const [email, setEmail] = useState();
 
     const onNext = () => {
-        navigation.navigate("RegistrationCoachAthletic");
+        if (!(collegeState && collegeState && email)) {
+            ToastAndroid.show("Fill all columns", ToastAndroid.SHORT);
+        } else {
+            const a = route.params;
+            a.collegename = collegename;
+            a.collegeState = collegeState;
+            a.email = email;
+
+            navigation.navigate("RegistrationCoachAthletic", {
+                a
+            });
+
+        }
     }
     return (
-        <ImageBackground source={require('../assets/bg.png')} style={{ backgroundColor: "#004E75", width: "100%", height: "100%" }}>
+        <ImageBackground source={require('../assets/bg.png')} style={{ backgroundColor: "#004467", width: "100%", height: "100%" }}>
             <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.fullView} keyboardShouldPersistTaps="handled" contentInsetAdjustmentBehavior='automatic'
                 showsVerticalScrollIndicator={false}>
                 <KeyboardAvoidingView enabled>
-                    <StatusBar barStyle="light-content" backgroundColor="#004E75" />
+                    <StatusBar barStyle="light-content" backgroundColor="#004467" />
                     <View style={{ display: 'flex', width: '100%', height: '100%', }}>
                         <View style={{ flex: 0.85, alignItems: 'center', paddingHorizontal: '11%', marginTop: '10%' }}>
-                            <TextInput placeholder='College Name' style={styles.textbox} />
-                            <TextInput placeholder='College State' style={styles.textbox} />
+                            <TextInput placeholder='College Name' onChangeText={(t) => setCollegename(t)} style={styles.textbox} />
+                            <TextInput placeholder='College State' onChangeText={(t) => setCollegeState(t)} style={styles.textbox} />
                             <View style={{ display: "flex", flexDirection: 'row', justifyContent: "center", alignContent: "center", marginTop: "6%", width: '100%' }}>
                                 <TextInput onChangeText={(t) => setEmail(t)} placeholder='University Email' style={styles.textBoxMail} />
                                 <View style={{ backgroundColor: "white", justifyContent: "center", width: '10%', height: 50, borderBottomRightRadius: 5, borderTopRightRadius: 5 }}><Image source={require("../assets/checkIcon.png")} style={{ width: 20, height: 20 }} /></View>
