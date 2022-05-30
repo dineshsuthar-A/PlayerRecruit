@@ -16,18 +16,16 @@ export default function Login({ navigation }) {
         } else {
 
             setSt(true);
-            axios.post("/auth/login/", {
+            axios.post("/api/login", {
                 username, password
             }).then(async (response) => {
                 setSt(false);
-                await SecureStore.setItemAsync("userid", response.data.user_id);
                 await SecureStore.setItemAsync("token", response.data.access_token);
                 ToastAndroid.show("Logged In", ToastAndroid.SHORT);
                 navigation.navigate("RegistrationSelectAccount")
             }).catch((err) => {
                 setSt(false);
-                console.log(err);
-                ToastAndroid.show("Failed", ToastAndroid.SHORT);
+                ToastAndroid.show(err.response.data.error, ToastAndroid.SHORT);
             })
         }
     }

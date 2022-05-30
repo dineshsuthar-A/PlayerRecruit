@@ -10,15 +10,12 @@ import * as SecureStore from 'expo-secure-store';
 import Login from './components/Login';
 import Registration from './components/Registration';
 import Verification from './components/Verification';
-
 import RegistrationSelectAccount from './components/RegistrationSelectAccount';
-
 import RegistrationStudentInfo from './components/RegistrationStudentInfo';
 import RegistrationStudentPersonal from './components/RegistrationStudentPersonal';
 import RegistrationStudentSchool from './components/RegistrationStudentSchool';
 import RegistrationStudentAthletic from './components/RegistrationStudentAthletic';
 import RegistrationStudentFinal from './components/RegistrationStudentFinal';
-
 import RegistrationCoachInfo from './components/RegistrationCoachInfo';
 import RegistrationCoachPersonal from './components/RegistrationCoachPersonal';
 import RegistrationCoachAcademic from './components/RegistrationCoachAcademic';
@@ -26,7 +23,8 @@ import RegistrationCoachAthletic from './components/RegistrationCoachAthletic';
 import RegistrationCoachFinal from './components/RegistrationCoachFinal';
 import Navigation from './components/Navigation';
 
-axios.defaults.baseURL = "https://2ba667d8-6f03-47d7-bbac-f054f840be1d.mock.pstmn.io";
+axios.defaults.baseURL = "http://192.168.92.158:5000/";
+
 const Stack = createStackNavigator();
 const config = {
   animation: 'slide',
@@ -61,7 +59,7 @@ export default function App() {
   return (
     flag ?
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Main" >
+        <Stack.Navigator initialRouteName="Registration" >
           <Stack.Screen options={{
             cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
             headerShown: false,

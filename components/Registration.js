@@ -1,7 +1,7 @@
 import { StyleSheet, StatusBar, ImageBackground, ScrollView, Text, ActivityIndicator, ToastAndroid, Platform, View, KeyboardAvoidingView, SafeAreaView, Image, TouchableOpacity, TextInput } from 'react-native'
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
+var validator = require('validator');
 import * as SecureStore from 'expo-secure-store';
 
 export default function Registration({ navigation }) {
@@ -16,29 +16,34 @@ export default function Registration({ navigation }) {
 
         if (!(name && pass && rpass && phone)) {
             ToastAndroid.show("Fill the columns", ToastAndroid.SHORT);
-        } else if (pass != rpass) {
-            ToastAndroid.show("Password doesn't matched! Retry", ToastAndroid.SHORT);
         } else if (phone.length != 10) {
             ToastAndroid.show("Enter valid Phone Number", ToastAndroid.SHORT);
         } else if (pass.length < 6) {
             ToastAndroid.show("Password length should be more than 6", ToastAndroid.SHORT);
-        } else {
+        } else if (!(validator.isEmail(rpass))) {
+
+            ToastAndroid.show("Enter valid mail id.", ToastAndroid.SHORT);
+        }
+        else {
             setst(true);
-            axios.post("auth/signup/", {
-                data: {
-                    username: name,
-                    password: pass,
-                    account_phone: phone
-                }
+            axios.post("/api/register", {
+
+                "username": name,
+                "email": rpass,
+                "phone": phone,
+                "password": pass
+
             }).then(async (response) => {
                 setst(false);
+                await SecureStore.setItemAsync("email", rpass);
                 await SecureStore.setItemAsync("phone", phone);
-                await SecureStore.setItemAsync("pass", pass);
+                await SecureStore.setItemAsync("password", pass);
                 await SecureStore.setItemAsync("name", name);
+                ToastAndroid.show(response.data.otp.toString(), ToastAndroid.SHORT);
                 navigation.navigate("Verification");
             }).catch((err) => {
                 setst(false);
-                console.log(err);
+                ToastAndroid.show(err.response.data.error, ToastAndroid.SHORT);
             })
         }
     }
@@ -63,9 +68,9 @@ export default function Registration({ navigation }) {
                             </View>
                             <View style={{ flex: 0.5, alignItems: 'center', paddingHorizontal: '11%', width: '100%', }}>
                                 <TextInput onChangeText={(t) => setName(t)} placeholder='Username' style={styles.textBox} />
-                                <TextInput onChangeText={(t) => setPass(t)} placeholder='Password' secureTextEntry={true} style={styles.textBox} />
-                                <TextInput onChangeText={(t) => setRpass(t)} placeholder='Retype Password' secureTextEntry={true} style={styles.textBox} />
+                                <TextInput onChangeText={(t) => setRpass(t)} placeholder='Email' style={styles.textBox} />
                                 <TextInput onChangeText={(t) => setPhone(t)} placeholder='Phone Number' maxLength={10} keyboardType="number-pad" style={styles.textBox} />
+                                <TextInput onChangeText={(t) => setPass(t)} placeholder='Password' secureTextEntry={true} style={styles.textBox} />
                             </View>
                         </View>
                         <View style={{ flex: 0.4, width: '100%', paddingHorizontal: '11%', alignItems: 'center' }}>

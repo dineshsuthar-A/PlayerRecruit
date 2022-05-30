@@ -8,32 +8,31 @@ export default function Verification({ navigation }) {
     const [code3, setCode3] = useState();
     const [code4, setCode4] = useState();
     const [st, setst] = useState(false);
+    const ref_input1 = useRef();
     const ref_input2 = useRef();
     const ref_input3 = useRef();
     const ref_input4 = useRef();
 
     const verify = async () => {
         if (!(code1 && code2 && code3 && code4)) {
-            ToastAndroid.show("Enter the Code", ToastAndroid.SHORT);
+            ToastAndroid.show("Enter verification code first.", ToastAndroid.SHORT);
         } else {
             setst(true);
             const code = code1 + code2 + code3 + code4;
-            const phone = await SecureStore.getItemAsync("phone");
-            axios.post("/auth/verify/phone", {
-                data: {
-                    account_phone: phone,
-                    sms_challenge: code
-                }
+            const email = await SecureStore.getItemAsync("email");
+            axios.post("/api/verify", {
+                "email": email,
+                "otp": parseInt(code)
             }).then(async (response) => {
-                console.log(response.data);
-
-                await SecureStore.setItemAsync("userid", response.data.user_id);
                 await SecureStore.setItemAsync("token", response.data.access_token);
                 setst(false);
                 ToastAndroid.show("Successfully verified", ToastAndroid.SHORT);
-                navigation.navigate("RegistrationSelectAccount");
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: "RegistrationSelectAccount" }]
+                });
             }).catch((ERR) => {
-                console.log(ERR);
+                ToastAndroid.show(ERR.response.data.error, ToastAndroid.SHORT);
                 setst(false);
             });
         }
@@ -43,34 +42,55 @@ export default function Verification({ navigation }) {
         setst(true);
         const phone = await SecureStore.getItemAsync("phone");
         const pass = await SecureStore.getItemAsync("pass");
+        const email = await SecureStore.getItemAsync("email");
         const name = await SecureStore.getItemAsync("name");
-        axios.post("auth/signup/", {
-            username: name,
-            password: pass,
-            account_phone: phone
+        axios.post("api/register", {
+            "username": name,
+            "email": email,
+            "phone": phone,
+            "password": pass
 
         }).then((response) => {
             setst(false);
-            ToastAndroid.show("Verification code sent", ToastAndroid.SHORT);
+            ToastAndroid.show(response.data.otp.toString(), ToastAndroid.SHORT);
 
         }).catch((err) => {
             setst(false);
+            ToastAndroid.show(err.response.data.error, ToastAndroid.SHORT);
             console.log(err);
         })
     }
 
     const change = async (t, n) => {
         if (n == 0) {
-            setCode1(t);
-            ref_input2.current.focus();
+            if (t.key == "Backspace") {
+                setCode1();
+            } else {
+                setCode1(t.key);
+                ref_input2.current.focus();
+            }
         } else if (n == 1) {
-            ref_input3.current.focus();
-            setCode2(t);
+            if (t.key == "Backspace") {
+                setCode2();
+                ref_input1.current.focus();
+            } else {
+                setCode2(t.key);
+                ref_input3.current.focus();
+            }
         } else if (n == 2) {
-            setCode3(t);
-            ref_input4.current.focus();
+            if (t.key == "Backspace") {
+                setCode3();
+                ref_input2.current.focus();
+            } else {
+                setCode3(t.key)
+                ref_input4.current.focus();
+            }
         } else {
-            setCode4(t);
+            if (t.key == "Backspace") {
+                setCode4();
+                ref_input3.current.focus();
+            } else
+                setCode4(t.key);
         }
     }
 
@@ -95,12 +115,11 @@ export default function Verification({ navigation }) {
                             <Image source={require('../assets/logo.png')} style={styles.logo} />
                             <Text style={{ color: "white", fontFamily: "Roboto", marginTop: "12%", fontWeight: "900", fontSize: 20, marginBottom: "5%" }}>Verification Code</Text>
                             <View style={{ display: "flex", flexDirection: 'row', justifyContent: "space-around", width: "100%" }}>
-                                <TextInput style={styles.textBox} autoFocus={true} onChangeText={(t) => change(t, 0)} maxLength={1} keyboardType="number-pad" key='1' />
-                                <TextInput style={styles.textBox} onChangeText={(t) => change(t, 1)}
-                                    ref={ref_input2} maxLength={1} keyboardType="number-pad" key='2' />
-                                <TextInput style={styles.textBox} maxLength={1}
-                                    ref={ref_input3} onChangeText={(t) => change(t, 2)} keyboardType="number-pad" key='3' />
-                                <TextInput style={styles.textBox} ref={ref_input4} onChangeText={(t) => change(t, 3)} maxLength={1} keyboardType="number-pad" key='4' />
+                                <TextInput value={code1} ref={ref_input1} style={styles.textBox} autoFocus={true} onKeyPress={({ nativeEvent }) => change(nativeEvent, 0)} maxLength={1} keyboardType="number-pad" key='1' />
+                                <TextInput value={code2} style={styles.textBox} onKeyPress={({ nativeEvent }) => change(nativeEvent, 1)} ref={ref_input2} maxLength={1} keyboardType="number-pad" key='2' />
+                                <TextInput value={code3} onKeyPress={({ nativeEvent }) => change(nativeEvent, 2)} style={styles.textBox} maxLength={1}
+                                    ref={ref_input3} keyboardType="number-pad" key='3' />
+                                <TextInput value={code4} onKeyPress={({ nativeEvent }) => change(nativeEvent, 3)} style={styles.textBox} ref={ref_input4} onSubmitEditing={() => verify()} maxLength={1} keyboardType="number-pad" key='4' />
                             </View>
                             <TouchableOpacity onPress={() => Resend()} ><Text style={{ color: "#00B8FE", marginTop: "11%" }}>Resend Verification</Text></TouchableOpacity>
                         </View>
