@@ -1,8 +1,10 @@
 
-import { StyleSheet, StatusBar, ImageBackground, ScrollView, ToastAndroid, Text, ActivityIndicator, Platform, View, KeyboardAvoidingView, SafeAreaView, Image, TouchableOpacity, TextInput } from 'react-native'
+import { StyleSheet, StatusBar, ImageBackground, ScrollView, ToastAndroid, Text, Dimensions, Platform, View, KeyboardAvoidingView, SafeAreaView, Image, TouchableOpacity, TextInput } from 'react-native'
 import { Picker } from '@react-native-picker/picker';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+
+const windowHeight = Dimensions.get("window").height;
 export default function RegistrationCoachAthletic({ route, navigation }) {
     const [gender, setGender] = useState();
     const [sportCoach, setSportCoach] = useState();
@@ -26,8 +28,7 @@ export default function RegistrationCoachAthletic({ route, navigation }) {
     }
     return (
         <ImageBackground source={require('../assets/bg.png')} style={{ backgroundColor: "#004467", width: "100%", height: "100%" }}>
-            <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.fullView} keyboardShouldPersistTaps="handled" contentInsetAdjustmentBehavior='automatic'
-                showsVerticalScrollIndicator={false}>
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.fullView} showsVerticalScrollIndicator={false}>
                 <KeyboardAvoidingView enabled>
                     <StatusBar barStyle="light-content" backgroundColor="#004467" />
 
@@ -59,7 +60,7 @@ export default function RegistrationCoachAthletic({ route, navigation }) {
 
                                 <Text style={styles.dot}></Text>
                             </View>
-                            <TouchableOpacity onPress={() => onNext()} style={styles.button}><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>Next</Text></TouchableOpacity>
+                            <TouchableOpacity onPress={() => onNext()} style={styles.button}><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold', fontSize: windowHeight * 0.02 }}>Next</Text></TouchableOpacity>
                         </View>
                     </View>
 
@@ -71,7 +72,7 @@ export default function RegistrationCoachAthletic({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
-    text: { color: "white", fontSize: 14.5, fontWeight: '700' },
+    text: { color: "white", fontSize: windowHeight * 0.02, fontWeight: '700' },
     tab: {
         backgroundColor: "#CBD5DB",
         display: "flex",
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         marginRight: 10
     },
-    textbox: { backgroundColor: 'white', width: '100%', height: 50, borderRadius: 5, paddingLeft: 10, marginTop: '2%', marginBottom: '7%' },
+    textbox: { backgroundColor: 'white', width: '100%', height: windowHeight * 0.07, borderRadius: 5, paddingLeft: 10, marginTop: windowHeight * 0.01, marginBottom: windowHeight * 0.025, },
     activedot: {
         height: 15, width: 15, borderWidth: 1, borderColor: "#CCD4D8", borderRadius: 10, marginRight: 4, backgroundColor: "#CCD4D8"
     },
@@ -102,9 +103,9 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#00B8FE',
         width: '100%',
-        marginTop: "10%",
+        marginTop: windowHeight * 0.06,
         alignItems: 'center',
-        height: 50,
+        height: windowHeight * 0.07,
         borderRadius: 30
 
     },

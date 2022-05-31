@@ -1,4 +1,4 @@
-import { StyleSheet, StatusBar, ScrollView, ImageBackground, ActivityIndicator, Text, ToastAndroid, Platform, View, KeyboardAvoidingView, SafeAreaView, Image, TouchableOpacity, TextInput } from 'react-native'
+import { StyleSheet, StatusBar, ScrollView, ImageBackground, ActivityIndicator, Text, ToastAndroid, View, Image, TouchableOpacity, TextInput } from 'react-native';
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
@@ -97,39 +97,36 @@ export default function Verification({ navigation }) {
 
     return (
 
-        <ImageBackground source={require('../assets/bg.png')} style={{ width: "100%", height: "100%" }}>
+        <ImageBackground source={require('../assets/bg.png')} style={styles.fullView}>
 
-            <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.fullView} keyboardShouldPersistTaps="handled"
-                showsVerticalScrollIndicator={false}>
 
-                <StatusBar barStyle="light-content" backgroundColor="#004467" />
-                <KeyboardAvoidingView enabled>
+            <StatusBar barStyle="light-content" backgroundColor="#004467" />
+            <ActivityIndicator size="large" animating={st} color="#00ff00" style={{ position: "absolute", top: '50%', left: '45%', zIndex: 10 }} />
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }}  >
+                <View style={{ flex: 1 }}>
 
-                    <ActivityIndicator size="large" animating={st} color="#00ff00" style={{ position: "absolute", top: '50%', left: '45%', zIndex: 10 }} />
-                    <View style={{ width: '100%', height: '100%', display: 'flex', flex: 1 }}>
-                        <View style={styles.header}>
-                            <TouchableOpacity onPress={() => navigation.navigate("Registration")}><Image source={require('../assets/back_arrow.png')} style={styles.headerBack} /></TouchableOpacity>
-                            <Text style={styles.headTitle}>User Registration</Text>
-                        </View>
-                        <View style={styles.main}>
-                            <Image source={require('../assets/logo.png')} style={styles.logo} />
-                            <Text style={{ color: "white", fontFamily: "Roboto", marginTop: "12%", fontWeight: "900", fontSize: 20, marginBottom: "5%" }}>Verification Code</Text>
-                            <View style={{ display: "flex", flexDirection: 'row', justifyContent: "space-around", width: "100%" }}>
-                                <TextInput value={code1} ref={ref_input1} style={styles.textBox} autoFocus={true} onKeyPress={({ nativeEvent }) => change(nativeEvent, 0)} maxLength={1} keyboardType="number-pad" key='1' />
-                                <TextInput value={code2} style={styles.textBox} onKeyPress={({ nativeEvent }) => change(nativeEvent, 1)} ref={ref_input2} maxLength={1} keyboardType="number-pad" key='2' />
-                                <TextInput value={code3} onKeyPress={({ nativeEvent }) => change(nativeEvent, 2)} style={styles.textBox} maxLength={1}
-                                    ref={ref_input3} keyboardType="number-pad" key='3' />
-                                <TextInput value={code4} onKeyPress={({ nativeEvent }) => change(nativeEvent, 3)} style={styles.textBox} ref={ref_input4} onSubmitEditing={() => verify()} maxLength={1} keyboardType="number-pad" key='4' />
-                            </View>
-                            <TouchableOpacity onPress={() => Resend()} ><Text style={{ color: "#00B8FE", marginTop: "11%" }}>Resend Verification</Text></TouchableOpacity>
-                        </View>
-                        <View style={{ flex: 0.5, justifyContent: 'flex-start', paddingHorizontal: '11%' }}>
-                            <TouchableOpacity onPress={() => verify()} style={styles.button}><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>Submit</Text></TouchableOpacity>
-                        </View>
+                    <View style={styles.header}>
+                        <TouchableOpacity onPress={() => navigation.navigate("Registration")}><Image source={require('../assets/back_arrow.png')} style={styles.headerBack} /></TouchableOpacity>
+                        <Text style={styles.headTitle}>User Registration</Text>
                     </View>
-                </KeyboardAvoidingView>
+                    <View style={styles.main}>
+                        <Image source={require('../assets/logo.png')} style={styles.logo} />
+                        <Text style={{ color: "white", fontFamily: "Roboto", marginTop: "12%", fontWeight: "900", fontSize: 20, marginBottom: "5%" }}>Verification Code</Text>
+                        <View style={{ display: "flex", flexDirection: 'row', justifyContent: "space-around", width: "100%" }}>
+                            <TextInput value={code1} ref={ref_input1} style={styles.textBox} autoFocus={true} onKeyPress={({ nativeEvent }) => change(nativeEvent, 0)} maxLength={1} keyboardType="number-pad" key='1' />
+                            <TextInput value={code2} style={styles.textBox} onKeyPress={({ nativeEvent }) => change(nativeEvent, 1)} ref={ref_input2} maxLength={1} keyboardType="number-pad" key='2' />
+                            <TextInput value={code3} onKeyPress={({ nativeEvent }) => change(nativeEvent, 2)} style={styles.textBox} maxLength={1}
+                                ref={ref_input3} keyboardType="number-pad" key='3' />
+                            <TextInput value={code4} onKeyPress={({ nativeEvent }) => change(nativeEvent, 3)} style={styles.textBox} ref={ref_input4} onSubmitEditing={() => verify()} maxLength={1} keyboardType="number-pad" key='4' />
+                        </View>
+                        <TouchableOpacity onPress={() => Resend()} ><Text style={{ color: "#00B8FE", marginVertical: "11%" }}>Resend Verification</Text></TouchableOpacity>
+                    </View>
+                    <View style={{ flex: 0.3, justifyContent: 'center', paddingHorizontal: '11%' }}>
+                        <TouchableOpacity onPress={() => verify()} style={styles.button}><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>Submit</Text></TouchableOpacity>
+                    </View>
+                </View>
             </ScrollView>
-        </ImageBackground>
+        </ImageBackground >
     )
 }
 
@@ -140,7 +137,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         height: 50,
         borderRadius: 30,
-        marginTop: "60%"
 
     },
     logo: {
@@ -159,23 +155,23 @@ const styles = StyleSheet.create({
         fontWeight: "bold"
     },
     main: {
-        flex: 0.8,
+        flex: 0.5,
         marginLeft: "11%",
         marginRight: "11%",
-        justifyContent: "center",
-        alignItems: "center"
+        justifyContent: "flex-start",
+        alignItems: "center",
     },
     headerBack: {
         height: 40,
         width: 40,
         marginLeft: 20,
-        marginRight: 20
+        marginRight: 20,
+
     },
     header: {
-        display: "flex",
+        flex: 0.2,
         flexDirection: "row",
         alignItems: "center",
-        flex: 0.2
     },
     headTitle: {
         color: "white",
@@ -184,7 +180,6 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     fullView: {
-        paddingTop: 20,
         width: '100%',
         height: '100%',
     },

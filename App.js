@@ -59,14 +59,13 @@ export default function App() {
   return (
     flag ?
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Registration" >
+        <Stack.Navigator initialRouteName="RegistrationSelectAccount" >
           <Stack.Screen options={{
             cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
             headerShown: false,
           }}
             name='Main'
             component={Navigation} />
-
 
           <Stack.Screen
             options={{ headerShown: false, cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid, }}
@@ -78,6 +77,7 @@ export default function App() {
             options={{ headerShown: false, cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid, }}
             name="Registration"
             component={Registration} />
+
           <Stack.Screen
             options={{
               headerShown: false,
@@ -85,6 +85,7 @@ export default function App() {
             }}
             name="Verification"
             component={Verification} />
+
           <Stack.Screen
             options={{ headerShown: false, cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS }}
             name="Login"
@@ -102,8 +103,7 @@ export default function App() {
               color: "white",
               fontFamily: "Roboto"
             }
-          }
-          }
+          }}
             name='RegistrationStudentInfo'
             component={RegistrationStudentInfo} />
 

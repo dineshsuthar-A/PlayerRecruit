@@ -2,7 +2,8 @@
 import { StyleSheet, Text, View, ImageBackground, Modal, ScrollView, StatusBar, KeyboardAvoidingView, TouchableOpacity, Image, TextInput, Dimensions, ToastAndroid } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import * as ImagePicker from 'expo-image-picker';
-import { Platform } from 'expo-modules-core';
+
+const windowHeight = Dimensions.get("window").height;
 import * as SecureStore from 'expo-secure-store';
 export default function RegistrationCoachFinal({ route, navigation }) {
     const [bio, setBio] = useState();
@@ -10,7 +11,6 @@ export default function RegistrationCoachFinal({ route, navigation }) {
     const [videoLink, setvideoLink] = useState();
     const [modal, setModalVisible] = useState(false);
     const windowWidth = Dimensions.get('window').width;
-    const windowHeight = Dimensions.get('window').height;
 
 
     const pickImage = async () => {
@@ -47,58 +47,57 @@ export default function RegistrationCoachFinal({ route, navigation }) {
 
     return (
         <ImageBackground source={require('../assets/bg.png')} style={{ backgroundColor: "#004467", width: "100%", height: "100%" }}>
-            <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.fullView} keyboardShouldPersistTaps="handled" contentInsetAdjustmentBehavior='automatic'
-                showsVerticalScrollIndicator={false}>
-                <KeyboardAvoidingView enabled>
-                    <StatusBar barStyle="light-content" backgroundColor="#004467" />
-                    <View style={{ display: 'flex', width: '100%', height: '100%' }}>
-                        <View style={{ flex: 0.75, paddingHorizontal: '11%' }}>
-                            <View style={styles.dpArea}>
-                                <Image style={{ width: 140, height: 140, borderRadius: 70 }} source={image ? { uri: image } : require("../assets/logo.png")} />
-                                <TouchableOpacity onPress={() => pickImage()} style={styles.choosePhoto}>
-                                    <Image style={{ width: 17, height: 17 }} source={require("../assets/editIcon.png")} />
-                                    <Text style={styles.chooseText}>  Choose photo</Text>
-                                </TouchableOpacity>
-                            </View>
-                            <View style={styles.bioAndReel}>
-                                <Text style={styles.bioText}>Bio</Text>
-                                <TextInput onChangeText={(t) => setBio(t)} style={styles.bioTextBox} placeholder='Tell athletes a little about yourself…' multiline={true} />
-                                <Text style={styles.bioTextHigh}>Highlight Reel</Text>
-                                <Image style={styles.highImage} source={require("../assets/image.png")} />
-                                <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.choosePhoto}>
-                                    <Image style={{ width: 17, height: 17 }} source={require("../assets/editIcon.png")} />
-                                    <Text style={styles.chooseText}>  Set video link</Text>
-                                </TouchableOpacity>
-                            </View>
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.fullView} showsVerticalScrollIndicator={false}>
+                <StatusBar barStyle="light-content" backgroundColor="#004467" />
+                <View style={{ width: '100%', height: '100%', paddingTop: windowHeight * 0.01 }}>
+                    <View style={{ paddingHorizontal: '11%' }}>
+                        <View style={styles.dpArea}>
+                            <Image style={{ height: windowHeight * 0.2, width: windowHeight * 0.2, borderRadius: (windowHeight * 0.2) / 2 }} source={image ? { uri: image } : require("../assets/logo.png")} />
+                            <TouchableOpacity onPress={() => pickImage()} style={styles.choosePhoto}>
+                                <Image style={{ width: windowHeight * 0.02, height: windowHeight * 0.02 }} source={require("../assets/editIcon.png")} />
+                                <Text style={styles.chooseText}>  Choose photo</Text>
+                            </TouchableOpacity>
                         </View>
-                        <View style={styles.below}>
-                            <View style={{ display: 'flex', flexDirection: 'row', }}>
-                                <Text style={styles.activedot}></Text>
-                                <Text style={styles.activedot}></Text>
-                                <Text style={styles.activedot}></Text>
-                                <Text style={styles.activedot}></Text>
-                            </View>
-                            <TouchableOpacity onPress={() => onFinish()} style={styles.button}><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>Finish</Text></TouchableOpacity>
+                        <View style={styles.bioAndReel}>
+                            <Text style={styles.bioText}>Bio</Text>
+                            <TextInput onChangeText={(t) => setBio(t)} style={styles.bioTextBox} placeholder='Tell athletes a little about yourself…' multiline={true} />
+                            <Text style={styles.bioTextHigh}>Highlight Reel</Text>
+                            <Image style={styles.highImage} source={require("../assets/image.png")} />
+                            <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.choosePhoto}>
+                                <Image style={{ width: windowHeight * 0.02, height: windowHeight * 0.02 }} source={require("../assets/editIcon.png")} />
+                                <Text style={styles.chooseText}>  Set video link</Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
-                    <Modal
-                        animationType="fade"
-                        transparent={true}
-                        visible={modal}
-                        onRequestClose={() => {
-                            setModalVisible(!modal);
-                        }}>
-                        <View style={styles.centeredView}>
-                            <View style={styles.modalView}>
+                    <View style={styles.below}>
+                        <View style={{ display: 'flex', flexDirection: 'row', }}>
+                            <Text style={styles.activedot}></Text>
+                            <Text style={styles.activedot}></Text>
+                            <Text style={styles.activedot}></Text>
+                            <Text style={styles.activedot}></Text>
+                        </View>
+                        <TouchableOpacity onPress={() => onFinish()} style={styles.button}><Text style={{ height: '100%', textAlignVertical: 'center', color: 'white', fontWeight: 'bold' }}>Finish</Text></TouchableOpacity>
+                    </View>
+                </View>
 
-                                <View style={{ alignItems: 'center' }}>
-                                    <TextInput onChangeText={(t) => setvideoLink(t)} placeholder='Video Link' style={{ marginBottom: 20, borderWidth: 1, borderColor: 'grey', width: windowWidth - 100, paddingLeft: 10, height: 50, borderRadius: 5 }} />
-                                    <TouchableOpacity onPress={() => setModalVisible(false)} style={{ backgroundColor: '#2196F3', alignItems: 'center', height: 30, justifyContent: 'center', width: 150, borderRadius: 50, marginBottom: 10 }} ><Text style={{ color: 'white', fontWeight: "bold", fontSize: 14 }}>Submit</Text></TouchableOpacity>
-                                </View>
+
+                <Modal
+                    animationType="fade"
+                    transparent={true}
+                    visible={modal}
+                    onRequestClose={() => {
+                        setModalVisible(!modal);
+                    }}>
+                    <View style={styles.centeredView}>
+                        <View style={styles.modalView}>
+
+                            <View style={{ alignItems: 'center' }}>
+                                <TextInput onChangeText={(t) => setvideoLink(t)} placeholder='Video Link' style={{ marginBottom: 20, borderWidth: 1, borderColor: 'grey', width: windowWidth - 100, paddingLeft: 10, height: 50, borderRadius: 5 }} />
+                                <TouchableOpacity onPress={() => setModalVisible(false)} style={{ backgroundColor: '#2196F3', alignItems: 'center', height: 30, justifyContent: 'center', width: 150, borderRadius: 50, marginBottom: 10 }} ><Text style={{ color: 'white', fontWeight: "bold", fontSize: 14 }}>Submit</Text></TouchableOpacity>
                             </View>
                         </View>
-                    </Modal>
-                </KeyboardAvoidingView>
+                    </View>
+                </Modal>
             </ScrollView>
         </ImageBackground>
     )
@@ -126,29 +125,31 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flex: 1
     },
+
+
     highImage: {
         width: "100%",
-        marginTop: "1%",
-        height: 135
+        marginTop: windowHeight * 0.01,
+        height: windowHeight * 0.2
     },
     bioTextHigh: {
         color: "white",
         fontWeight: "bold",
-        fontSize: 16,
-        marginTop: '6%'
+        fontSize: windowHeight * 0.023,
+        marginTop: windowHeight * 0.02
     },
     bioText: {
         color: "white",
         fontWeight: "bold",
-        fontSize: 16
+        fontSize: windowHeight * 0.023
     },
     bioTextBox: {
         backgroundColor: "white",
         width: "100%",
         padding: 10,
         borderRadius: 5,
-        marginTop: "1%",
-        height: '24%',
+        marginTop: windowHeight * 0.008,
+        height: windowHeight * 0.13,
         textAlignVertical: 'top'
     },
     bioAndReel: {
@@ -161,7 +162,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        paddingTop: 5,
+        paddingTop: windowHeight * 0.002,
     },
     dpArea: {
         display: "flex",
@@ -170,9 +171,9 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     below: {
-        flex: 0.25,
         alignItems: 'center',
-        paddingHorizontal: '11%'
+        paddingHorizontal: '11%',
+        paddingTop: windowHeight * 0.03
     },
     activedot: {
         height: 15, width: 15, borderWidth: 1, borderColor: "#CCD4D8", borderRadius: 10, marginRight: 4, backgroundColor: "#CCD4D8"
@@ -181,10 +182,10 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#00B8FE',
         width: '100%',
-        marginTop: "10%",
+        marginTop: windowHeight * 0.03,
         alignItems: 'center',
-        height: 50,
-        borderRadius: 30
+        height: windowHeight * 0.07,
+        borderRadius: windowHeight * 0.05
 
     },
 })
