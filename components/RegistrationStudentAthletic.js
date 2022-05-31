@@ -2,18 +2,28 @@ import { StyleSheet, ToastAndroid, StatusBar, ImageBackground, ScrollView, Text,
 import { Picker } from '@react-native-picker/picker';
 import React, { useState, useEffect } from 'react';
 import { AntDesign } from '@expo/vector-icons';
+import { useFocusEffect } from '@react-navigation/native';
+const dataapis = require("../apicalls/dataapis");
+
 const windowHeight = Dimensions.get("window").height;
+
 export default function RegistrationStudentAthletic({ route, navigation }) {
     const [rank, setRank] = useState();
-    const [weightunit, setweightunit] = useState("cm");
-    const [heighunit, setheighunit] = useState("Kg");
-    const [wspanunit, setwspanunit] = useState("cm");
+    const [weightunit, setweightunit] = useState(1);
+    const [heighunit, setheighunit] = useState(1);
+    const [wspanunit, setwspanunit] = useState(1);
     const [sports, setSports] = useState([]);
     const [height, setHeight] = useState();
     const [wingSpan, setwingSpan] = useState();
     const [weight, setweight] = useState();
     const [hand, setHand] = useState("Right");
     const [sppick, setsppick] = useState();
+    const [lengthunitData, setlengthunitData] = useState();
+    const [weighunitData, setweighunitData] = useState();
+    const [positiondata, setPositionData] = useState();
+    const [sportsData, setSportsData] = useState();
+    const [sportsIndex, setSportsIndex] = useState();
+
 
     const onNext = () => {
         if (!(weight && hand && sports.length > 0 && height && wingSpan)) {
@@ -23,27 +33,61 @@ export default function RegistrationStudentAthletic({ route, navigation }) {
             a.weight = weight;
             a.hand = hand;
             a.sports = sports;
-            a.wingSpan = wingSpan;
+            a.wingspan = wingSpan;
+            a.wingspanunit = wspanunit;
+            a.weightunit = weightunit;
+            a.heightunit = heighunit;
+            a.height = height;
+            console.log(a);
             navigation.navigate("RegistrationStudentFinal", a);
         }
     }
-    const addSport = (itemValue) => {
-        if (sppick != 0 && itemValue != 0) {
+
+    const addSport = (itemValue, itemIndex) => {
+        if (sppick != null && itemValue != null) {
             const arr = sports;
-            const obj = { "sport": sppick, "rank": itemValue };
+            const obj = { "sport": sportsData[sportsIndex - 1], "rank": positiondata[itemIndex - 1] };
             arr.push(obj);
             setSports(arr);
-            setsppick(0);
-            setRank(0);
+            setsppick(null);
+            setRank(null);
         }
         else {
             setRank(itemValue);
         }
     }
+
     const deleteValue = (ind) => {
         sports.splice(ind, 1);
         setSports([...sports]);
     }
+
+    const getdata = () => {
+        dataapis.getpositiondata().then((response) => {
+            setPositionData(response.data.position);
+        }).catch((err) => {
+            ToastAndroid.show("Some error occured.", ToastAndroid.SHORT);
+        });
+        dataapis.getweightunitdata().then((response) => {
+            setweighunitData(response.data.units);
+        }).catch((err) => {
+            ToastAndroid.show("Some error occured.", ToastAndroid.SHORT);
+        });
+        dataapis.getheightdata().then((response) => {
+            setlengthunitData(response.data.units);
+        }).catch((err) => {
+            ToastAndroid.show("Some error occured.", ToastAndroid.SHORT);
+        });
+        dataapis.getsportsdata().then((response) => {
+            setSportsData(response.data.sports);
+        }).catch((error) => {
+            ToastAndroid.show("Some error occured.", ToastAndroid.SHORT);
+        });
+    }
+
+    useFocusEffect(React.useCallback(() => {
+        getdata();
+    }, []));
 
     return (
         <ImageBackground source={require('../assets/bg.png')} style={{ backgroundColor: "#004467", width: "100%", height: "100%" }}>
@@ -54,19 +98,24 @@ export default function RegistrationStudentAthletic({ route, navigation }) {
                         <Text style={styles.TextLine}>What sport do you play?</Text>
                         <View style={styles.inputBoxes}>
                             <View style={styles.pickerOutersport}>
-                                <Picker style={styles.pickerbox} selectedValue={sppick} onValueChange={(itemValue, itemIndex) => setsppick(itemValue)}>
-                                    <Picker.Item style={{ color: "grey", fontWeight: 14.5, fontFamily: "Roboto" }} label="Select sports" value={0} />
-                                    <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label="Basketball" value="Basketball" />
-                                    <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label="Cricker" value="Cricker" />
-                                    <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label="Football" value="Football" />
+                                <Picker style={styles.pickerbox} selectedValue={sppick} onValueChange={(itemValue, itemIndex) => {
+                                    setSportsIndex(itemIndex);
+                                    setsppick(itemValue);
+                                }}>
+                                    <Picker.Item style={{ color: "grey", fontWeight: 14.5, fontFamily: "Roboto" }} label="Select sports" value={null} />
+                                    {sportsData ?
+                                        sportsData.map((i, index) => <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label={i.sportsname} value={i.id} key={index} />)
+                                        : null
+                                    }
                                 </Picker>
                             </View>
                             <View style={styles.pickerOuter}>
-                                <Picker style={styles.pickerbox} selectedValue={rank} onValueChange={(itemValue, itemIndex) => addSport(itemValue)}>
-                                    <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label="Pos" value={0} />
-                                    <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label="1st" value="1st" />
-                                    <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label="2nd" value="2nd" />
-                                    <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label="3rd" value="3rd" />
+                                <Picker style={styles.pickerbox} selectedValue={rank} onValueChange={(itemValue, itemIndex) => addSport(itemValue, itemIndex)}>
+                                    <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label="Pos" value={null} />
+                                    {positiondata ?
+                                        positiondata.map((i, index) => <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label={i.position} value={i.id} key={index} />)
+                                        : null
+                                    }
                                 </Picker>
                             </View>
                         </View>
@@ -74,8 +123,8 @@ export default function RegistrationStudentAthletic({ route, navigation }) {
                             {
                                 sports.map((i, index) =>
                                     <View style={styles.rowItem} key={index}>
-                                        <Text style={styles.rowItemTextsport}>{i.sport}</Text>
-                                        <Text style={styles.rowItemText}>{i.rank} Position</Text>
+                                        <Text style={styles.rowItemTextsport}>{i.sport.sportsname}</Text>
+                                        <Text style={styles.rowItemText}>{i.rank.position} Position</Text>
                                         <TouchableOpacity onPress={() => deleteValue(index)}><AntDesign name="closecircle" size={18} color="#00B8FE" style={{ backgroundColor: 'white', borderRadius: 200 }} /></TouchableOpacity>
                                     </View>)
                             }
@@ -86,9 +135,10 @@ export default function RegistrationStudentAthletic({ route, navigation }) {
                             <TextInput style={styles.textBox} onChangeText={(t) => setHeight(t)} />
                             <View style={styles.pickerOuter}>
                                 <Picker style={styles.pickerbox} selectedValue={heighunit} onValueChange={(itemValue, itemIndex) => setheighunit(itemValue)}>
-                                    <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label="cm" value={"cm"} />
-                                    <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label="in" value={"in"} />
-                                    <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label="m" value={"m"} />
+                                    {lengthunitData ?
+                                        lengthunitData.map((i, index) => <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label={i.unit} value={i.id} key={index} />)
+                                        : null
+                                    }
                                 </Picker>
                             </View>
                         </View>
@@ -97,9 +147,10 @@ export default function RegistrationStudentAthletic({ route, navigation }) {
                             <TextInput style={styles.textBox} onChangeText={(t) => setweight(t)} />
                             <View style={styles.pickerOuter}>
                                 <Picker style={styles.pickerbox} selectedValue={weightunit} onValueChange={(itemValue, itemIndex) => setweightunit(itemValue)}>
-                                    <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label="Kg" value={"Kg"} />
-                                    <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label="lbs" value={"lbs"} />
-                                    <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label="g" value={"g"} />
+                                    {weighunitData ?
+                                        weighunitData.map((i, index) => <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label={i.units} value={i.id} key={index} />)
+                                        : null
+                                    }
                                 </Picker>
                             </View>
                         </View>
@@ -108,9 +159,10 @@ export default function RegistrationStudentAthletic({ route, navigation }) {
                             <TextInput style={styles.textBox} onChangeText={(t) => setwingSpan(t)} />
                             <View style={styles.pickerOuter}>
                                 <Picker style={styles.pickerbox} selectedValue={wspanunit} onValueChange={(itemValue, itemIndex) => setwspanunit(itemValue)}>
-                                    <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label="cm" value={"cm"} />
-                                    <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label="in" value={2} />
-                                    <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label="m" value={3} />
+                                    {lengthunitData ?
+                                        lengthunitData.map((i, index) => <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label={i.unit} value={i.id} key={index} />)
+                                        : null
+                                    }
                                 </Picker>
                             </View>
                         </View>
@@ -182,9 +234,9 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         width: "100%",
     },
-    pickerOuter: { width: "32%", borderRadius: 5, overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, marginTop: windowHeight * 0.01 },
+    pickerOuter: { width: "34%", borderRadius: 5, overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, marginTop: windowHeight * 0.01 },
     pickerOuterhand: { width: "100%", borderRadius: 5, overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, paddingLeft: 10, marginTop: windowHeight * 0.01 },
-    pickerOutersport: { width: "60%", borderRadius: 5, overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, paddingLeft: 10, marginTop: windowHeight * 0.01 },
+    pickerOutersport: { width: "62%", borderRadius: 5, overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, paddingLeft: 10, marginTop: windowHeight * 0.01 },
     TextLine: {
         color: "white",
         fontSize: windowHeight * 0.023,
@@ -206,7 +258,7 @@ const styles = StyleSheet.create({
     textBox: {
         backgroundColor: "white",
         color: "black",
-        width: "60%",
+        width: "62%",
         height: windowHeight * 0.07,
         borderRadius: 5,
         paddingLeft: 20,

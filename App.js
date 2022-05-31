@@ -59,7 +59,7 @@ export default function App() {
   return (
     flag ?
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="RegistrationSelectAccount" >
+        <Stack.Navigator initialRouteName="RegistrationCoachAthletic" >
           <Stack.Screen options={{
             cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
             headerShown: false,

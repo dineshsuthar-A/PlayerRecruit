@@ -5,6 +5,7 @@ import { Platform } from 'expo-modules-core';
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
 
+
 const windowHeight = Dimensions.get('window').height;
 export default function RegistrationStudentFinal({ route, navigation }) {
     const [bio, setBio] = useState();
@@ -28,13 +29,23 @@ export default function RegistrationStudentFinal({ route, navigation }) {
             aspect: [4, 4],
             quality: 1,
         });
-        console.log(result);
         if (!result.cancelled) {
-            setImage({
-                "uri": result.uri,
-                "type": result.type,
-                "filename": "dp"
-            });
+
+            const uriParts = result?.uri.split(".");
+            const imgExt = uriParts && uriParts[uriParts?.length - 1];
+            const fileName = `profilepic.${imgExt}`;
+            const imgType = `image/${imgExt}`;
+
+
+            if (result?.uri) {
+                setImage({
+                    uri: result?.uri,
+                    type: imgType,
+                    name: fileName,
+                });
+            }
+
+
         }
     }
     const onFinish = async () => {
@@ -46,37 +57,60 @@ export default function RegistrationStudentFinal({ route, navigation }) {
             ToastAndroid.show("Add Video Link", ToastAndroid.SHORT);
         } else {
             const object = route.params;
-            console.log(object);
-            const phone = await SecureStore.getItemAsync("phone");
-            const token = 'Bearer ' + await SecureStore.getItemAsync("token");
-            const user_id = await SecureStore.getItemAsync("userid");
-            console.log(user_id, token);
-            axios.post("/studentAthletes/profile/personal/" + user_id,
+            const fd = new FormData();
+            fd.append("image", image);
+            const token = "Bearer " + await SecureStore.getItemAsync("token");
+            await axios.post("/api/student/register",
                 {
-                    "first_name": object.firstname,
-                    "last_name": object.lastname,
-                    "primary_contact_phone": phone,
-                    "primary_contact_email": "contact@email.com",
-                    "DOB": object.date,
-                    "sex": object.gender,
-                    "ethnicity": object.ethnicity,
-                    "city": object.city,
+                    "firstname": object.firstname,
+                    "lastname": object.lastname,
+                    "dob": object.date,
+                    "gender": object.gender,
                     "state": object.state,
-                    "personal_bio": bio
+                    "city": object.city,
+                    "ethnicity": object.ethnicity,
+                    "school_type": object.school,
+                    "school_name": object.schoolname,
+                    "scholastic_year": parseInt(object.scholasticyear),
+                    "gpa": object.gpa,
+                    "sat": parseFloat(object.sat),
+                    "act": parseFloat(object.act),
+                    "sports": object.sports,
+                    "height": parseFloat(object.height),
+                    "height_unit": object.heightunit,
+                    "weight": parseFloat(object.weight),
+                    "weight_unit": object.weightunit,
+                    "wingspan": parseFloat(object.wingspan),
+                    "wingspan_unit": object.wingspanunit,
+                    "dominant_hand": object.hand,
+                    "personal_bio": bio,
+                    "video": videoLink
                 },
                 {
                     headers: {
-                        'Content-Type': 'application/json',
-
-                        Authorization: token
+                        "Authorization": token
                     }
-                },
-
+                }
             ).then((response) => {
                 console.log(response);
-            }).catch((error) => {
-                console.log(error.response.data);
-            })
+
+            }).catch((err) => {
+                console.log(err.response.data);
+            });
+            axios.post("/api/student/uploadimage", fd
+                , {
+                    headers: {
+
+                        "Content-Type": "multipart/form-data",
+                        "Authorization": token
+                    }
+                }).then((response) => {
+                    console.log(response.data);
+                }).catch((err) => {
+                    console.log(err);
+                });
+
+
         }
 
 

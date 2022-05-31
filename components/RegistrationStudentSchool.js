@@ -1,21 +1,24 @@
 import { StyleSheet, StatusBar, ImageBackground, ScrollView, ToastAndroid, Text, Dimensions, Platform, View, KeyboardAvoidingView, SafeAreaView, Image, TouchableOpacity, TextInput } from 'react-native'
 import { Picker } from '@react-native-picker/picker';
 import React, { useState, useEffect } from 'react';
-
+import { useFocusEffect } from '@react-navigation/native';
+import dataapis from '../apicalls/dataapis';
 const windowHeight = Dimensions.get('window').height;
 export default function RegistrationStudentSchool({ route, navigation }) {
     const [school, setSchool] = useState();
     const [schoolname, setSchoolname] = useState();
     const [syear, setsyear] = useState();
-    const [gpa, setgpa] = useState();
+    const [gpa, setgpa] = useState(null);
     const [sat, setsat] = useState();
     const [act, setact] = useState();
+    const [GPADATA, setGPADATA] = useState();
 
     const onNext = () => {
         if (!(school && schoolname && syear && gpa && sat && act)) {
             ToastAndroid.show("Fill all columns", ToastAndroid.SHORT);
         } else {
             const a = route.params;
+            console.log(a);
             a.school = school;
             a.schoolname = schoolname;
             a.scholasticyear = syear;
@@ -25,6 +28,16 @@ export default function RegistrationStudentSchool({ route, navigation }) {
             navigation.navigate("RegistrationStudentAthletic", a);
         }
     }
+    const getdata = () => {
+        dataapis.getgpadata().then((response) => {
+            setGPADATA(response.data.gpa);
+        }).catch((err) => {
+            ToastAndroid.show("Some error occured,Try again.", ToastAndroid.SHORT);
+        })
+    }
+    useFocusEffect(React.useCallback(() => {
+        getdata();
+    }, []));
     return (
         <ImageBackground source={require('../assets/bg.png')} style={{ backgroundColor: "#004467", width: "100%", height: "100%" }}>
             <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.fullView} showsVerticalScrollIndicator={false} >
@@ -37,11 +50,20 @@ export default function RegistrationStudentSchool({ route, navigation }) {
                             <TouchableOpacity onPress={() => setSchool("Highschool")} style={school != "Highschool" ? styles.gender : styles.activeGender}><Image source={require("../assets/schoolblack.png")} /><Text > Highschool</Text></TouchableOpacity>
                             <TouchableOpacity onPress={() => setSchool("College")} style={school != "College" ? styles.gender : styles.activeGender}><Image source={require("../assets/schoolblack.png")} /><Text> College</Text></TouchableOpacity>
                         </View>
-                        <TextInput onChangeText={(t) => setSchoolname(t)} placeholder='School/College name' style={styles.textBox} />
-                        <TextInput onChangeText={(t) => setsyear(t)} placeholder='Scholastic year' style={styles.textBox} />
-                        <TextInput onChangeText={(t) => setgpa(t)} placeholder='GPA' style={styles.textBox} />
-                        <TextInput onChangeText={(t) => setsat(t)} placeholder='SAT' style={styles.textBox} />
-                        <TextInput onChangeText={(t) => setact(t)} placeholder='ACT' style={styles.textBox} />
+                        <TextInput onChangeText={(t) => setSchoolname(t)} placeholder='School/College name' placeholderTextColor='grey' style={styles.textBox} />
+                        <TextInput onChangeText={(t) => setsyear(t)} placeholder='Scholastic year' placeholderTextColor='grey' style={styles.textBox} />
+                        <View style={{ width: "100%", borderRadius: 5, overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, alignItems: 'center', marginTop: windowHeight * 0.02, paddingLeft: windowHeight * 0.02 }}>
+                            <Picker style={styles.pickerbox} selectedValue={gpa} onValueChange={(itemValue, itemIndex) => setgpa(itemValue)} >
+                                <Picker.Item label="GPA" style={{ fontSize: windowHeight * 0.019, marginLeft: 40, color: 'grey' }} value={null} />
+
+                                {GPADATA ?
+                                    GPADATA.map((i, index) => <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} key={index} value={i.id} label={i.gpa.toString()} />)
+                                    : null
+                                }
+                            </Picker>
+                        </View>
+                        <TextInput onChangeText={(t) => setsat(t)} placeholderTextColor='grey' placeholder='SAT' style={styles.textBox} />
+                        <TextInput onChangeText={(t) => setact(t)} placeholderTextColor='grey' placeholder='ACT' style={styles.textBox} />
                     </View>
                     <View style={{ flex: 0.2, width: '100%', paddingHorizontal: '11%', alignItems: 'center', marginTop: '3%' }}>
                         <View style={{ display: 'flex', flexDirection: 'row' }}>
@@ -74,6 +96,11 @@ const styles = StyleSheet.create({
         padding: windowHeight * 0.008,
         paddingHorizontal: 10,
         marginRight: 10
+    }, pickerbox: {
+        backgroundColor: 'white',
+        width: '100%',
+        height: '100%',
+
     },
     activeGender: {
         backgroundColor: "#00B8FE",
@@ -108,12 +135,6 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         paddingLeft: 20,
         fontSize: windowHeight * 0.02
-    },
-    pickerbox: {
-        marginTop: windowHeight * 0.02,
-        backgroundColor: 'white',
-        width: '100%',
-        borderRadius: 20
     },
     main: {
         flex: 0.8,

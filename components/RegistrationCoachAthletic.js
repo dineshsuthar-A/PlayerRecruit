@@ -3,6 +3,8 @@ import { StyleSheet, StatusBar, ImageBackground, ScrollView, ToastAndroid, Text,
 import { Picker } from '@react-native-picker/picker';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useFocusEffect } from '@react-navigation/native';
+const dataapis = require("../apicalls/dataapis");
 
 const windowHeight = Dimensions.get("window").height;
 export default function RegistrationCoachAthletic({ route, navigation }) {
@@ -11,7 +13,8 @@ export default function RegistrationCoachAthletic({ route, navigation }) {
     const [teamName, setTeamName] = useState();
     const [division, setDivision] = useState();
     const [jobTitle, setJobTitle] = useState();
-
+    const [sportsData, setSportsData] = useState();
+    const [divisionData, setDivisionData] = useState();
 
     const onNext = () => {
         if (!(sportCoach && teamName && division && jobTitle)) {
@@ -26,6 +29,23 @@ export default function RegistrationCoachAthletic({ route, navigation }) {
             navigation.navigate("RegistrationCoachFinal", a);
         }
     }
+    const getData = () => {
+        dataapis.getsportsdata().then((response) => {
+            setSportsData(response.data.sports);
+        }).catch((error) => {
+            ToastAndroid.show("Some error occured.", ToastAndroid.SHORT);
+        });
+
+        dataapis.getdivisiondata().then((response) => {
+            setDivisionData(response.data.divisions);
+        }).catch((error) => {
+            ToastAndroid.show("Some error occured.", ToastAndroid.SHORT);
+        });
+
+    }
+    useFocusEffect(React.useCallback(() => {
+        getData();
+    }, []));
     return (
         <ImageBackground source={require('../assets/bg.png')} style={{ backgroundColor: "#004467", width: "100%", height: "100%" }}>
             <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.fullView} showsVerticalScrollIndicator={false}>
@@ -35,7 +55,17 @@ export default function RegistrationCoachAthletic({ route, navigation }) {
                     <View style={{ display: 'flex', width: '100%', height: '100%' }}>
                         <View style={{ paddingHorizontal: '11%', flex: 0.75, justifyContent: 'center' }}>
                             <Text style={styles.text}>What sport do you coach?</Text>
-                            <TextInput placeholder='Select Sport' onChangeText={(t) => setSportCoach(t)} style={styles.textbox} />
+                            <View style={styles.pickerOuterhand}>
+                                <Picker style={styles.pickerbox} selectedValue={sportCoach} onValueChange={(itemValue, itemIndex) => {
+                                    setSportCoach(itemValue);
+                                }}>
+                                    <Picker.Item style={{ color: "grey", fontWeight: windowHeight * 0.02, fontFamily: "Roboto" }} label="Select sports" value={null} />
+                                    {sportsData ?
+                                        sportsData.map((i, index) => <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label={i.sportsname} value={i.id} key={index} />)
+                                        : null
+                                    }
+                                </Picker>
+                            </View>
                             <Text style={styles.text}>What’s your team name?</Text>
                             <TextInput style={styles.textbox} onChangeText={(t) => setTeamName(t)} />
 
@@ -45,7 +75,17 @@ export default function RegistrationCoachAthletic({ route, navigation }) {
                                 <TouchableOpacity onPress={() => setGender("Female")} style={gender == "Female" ? styles.activetab : styles.tab}><Image source={require("../assets/femaleblack.png")} /><Text>Female</Text></TouchableOpacity>
                             </View>
                             <Text style={styles.text}>What division/league is your team in?</Text>
-                            <TextInput style={styles.textbox} onChangeText={(t) => setDivision(t)} />
+                            <View style={styles.pickerOuterhand}>
+                                <Picker style={styles.pickerbox} selectedValue={division} onValueChange={(itemValue, itemIndex) => {
+                                    setDivision(itemValue);
+                                }}>
+                                    <Picker.Item style={{ color: "grey", fontWeight: windowHeight * 0.02, fontFamily: "Roboto" }} value={null} />
+                                    {divisionData ?
+                                        divisionData.map((i, index) => <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label={i.divisions} value={i.id} key={index} />)
+                                        : null
+                                    }
+                                </Picker>
+                            </View>
                             <Text style={styles.text}>What’s your job title?</Text>
                             <TextInput style={styles.textbox} onChangeText={(t) => setJobTitle(t)} />
 
@@ -112,7 +152,11 @@ const styles = StyleSheet.create({
     fullView: {
         width: '100%',
         height: '100%',
-    }
+    },
+    pickerOuterhand: { marginTop: windowHeight * 0.01, marginBottom: windowHeight * 0.025, width: "100%", borderRadius: 5, overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, paddingLeft: 10, marginTop: windowHeight * 0.01 },
 
-
+    pickerbox: {
+        backgroundColor: 'white',
+        width: "100%",
+    },
 })

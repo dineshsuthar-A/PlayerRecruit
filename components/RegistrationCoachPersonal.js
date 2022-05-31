@@ -2,7 +2,11 @@ import { StyleSheet, StatusBar, ImageBackground, ScrollView, Text, Dimensions, T
 import { Picker } from '@react-native-picker/picker';
 import React, { useState, useEffect } from 'react';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { useFocusEffect } from '@react-navigation/native';
+import axios from 'axios';
 const windowHeight = Dimensions.get('window').height;
+const dataapis = require("../apicalls/dataapis");
+
 export default function RegistrationCoachPersonal({ navigation }) {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [date, setDate] = useState();
@@ -13,6 +17,8 @@ export default function RegistrationCoachPersonal({ navigation }) {
     const [ethnicity, setethnicity] = useState();
     const [state, setState] = useState();
     const [orginaldate, setoriginaldate] = useState();
+    const [statedata, setstatedata] = useState();
+    const [etha, setEtha] = useState();
     const onNext = () => {
 
         if (!(date && gender && firstname && lastname && city && ethnicity && state)) {
@@ -32,46 +38,6 @@ export default function RegistrationCoachPersonal({ navigation }) {
         }
     }
 
-    const [statedata, setstatedata] = useState(
-        [
-            "Andhra Pradesh",
-            "Arunachal Pradesh",
-            "Assam",
-            "Bihar",
-            "Chhattisgarh",
-            "Goa",
-            "Gujarat",
-            "Haryana",
-            "Himachal Pradesh",
-            "Jammu and Kashmir",
-            "Jharkhand",
-            "Karnataka",
-            "Kerala",
-            "Madhya Pradesh",
-            "Maharashtra",
-            "Manipur",
-            "Meghalaya",
-            "Mizoram",
-            "Nagaland",
-            "Odisha",
-            "Punjab",
-            "Rajasthan",
-            "Sikkim",
-            "Tamil Nadu",
-            "Telangana",
-            "Tripura",
-            "Uttarakhand",
-            "Uttar Pradesh",
-            "West Bengal",
-            "Andaman and Nicobar Islands",
-            "Chandigarh",
-            "Dadra and Nagar Haveli",
-            "Daman and Diu",
-            "Delhi",
-            "Lakshadweep",
-            "Puducherry"
-        ]);
-    const [etha, setEtha] = useState(["White", "Black", "Hispanic", "Asian American", "Pacific Islander", "American Indian", "Unclassified"]);
 
     const showDatePicker = () => {
         setDatePickerVisibility(true);
@@ -88,7 +54,21 @@ export default function RegistrationCoachPersonal({ navigation }) {
         setDate(da);
         hideDatePicker();
     };
-
+    const getdata = () => {
+        dataapis.getStateData().then((response) => {
+            setstatedata(response.data.states);
+        }).catch((err) => {
+            ToastAndroid.show("Some error occured, not able to reach server.", ToastAndroid.SHORT);
+        });
+        dataapis.getethanicitydata().then((response) => {
+            setEtha(response.data.ethnicity);
+        }).catch((error) => {
+            ToastAndroid.show("Some error occured, not able to reach server.", ToastAndroid.SHORT);
+        });
+    }
+    useFocusEffect(React.useCallback(() => {
+        getdata();
+    }, []));
     return (
         <ImageBackground source={require('../assets/bg.png')} style={{ backgroundColor: "#004467", width: "100%", height: "100%" }}>
             <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.fullView} keyboardShouldPersistTaps="handled" contentInsetAdjustmentBehavior='automatic'
@@ -117,8 +97,9 @@ export default function RegistrationCoachPersonal({ navigation }) {
                                 <View style={{ width: "100%", borderRadius: 5, overflowX: 'hidden', overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, alignItems: 'center', paddingHorizontal: 10, }}>
                                     <Picker style={styles.pickerbox} selectedValue={state} onValueChange={(itemValue, itemIndex) => setState(itemValue)} >
                                         <Picker.Item label="State" style={{ fontSize: windowHeight * 0.02, marginLeft: 40, color: 'grey' }} />
-                                        {
-                                            statedata.map((i, index) => <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label={i} value={i} key={index} />)
+                                        {statedata ?
+                                            statedata.map((i, index) => <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label={i.statename} value={i.id} key={index} />)
+                                            : null
                                         }
                                     </Picker>
                                 </View>
@@ -129,7 +110,8 @@ export default function RegistrationCoachPersonal({ navigation }) {
                                         style={styles.pickerbox} selectedValue={ethnicity} onValueChange={(itemValue, itemIndex) => setethnicity(itemValue)}>
                                         <Picker.Item label="Ethnicity" value="null" style={{ fontSize: windowHeight * 0.02, marginLeft: 40, color: 'grey' }} />
                                         {
-                                            etha.map((i, index) => <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label={i} value={i} key={index} />)
+                                            etha ?
+                                                etha.map((i, index) => <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label={i.ethnicities} value={i.id} key={index} />) : null
                                         }
                                     </Picker>
                                 </View>
@@ -188,7 +170,8 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         padding: windowHeight * 0.008,
         paddingHorizontal: 10,
-        marginRight: 10
+        marginRight: 10,
+        width: '35%'
     },
     activeGender: {
         backgroundColor: "#00B8FE",
@@ -198,8 +181,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
         borderRadius: 20,
         marginRight: 10,
-        paddingHorizontal: 10,
-        padding: windowHeight * 0.008
+        padding: windowHeight * 0.008,
+        width: '35%'
     },
     pickerbox: {
         backgroundColor: 'white',
