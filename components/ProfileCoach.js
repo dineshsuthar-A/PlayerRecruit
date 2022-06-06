@@ -5,15 +5,14 @@ import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
 import { baseURL } from '../config';
-
 const windowHeight = Dimensions.get("window").height;
-export default function ProfileAthelete({ navigation }) {
+export default function ProfileCoach({ navigation }) {
     const [data, setdata] = useState();
     const [date, setDate] = useState();
     const getData = async () => {
         const token = "Bearer " + await SecureStore.getItemAsync("token");
         const months = [" January ", " Feb ", " Mar ", " Apr ", " May ", " Jun ", " Jul ", " Aug ", " Sept ", " Oct ", " Nov ", " Dec "];
-        axios.get("/api/student/info", {
+        axios.get("/api/coach/info", {
             headers: {
                 "Authorization": token
             }
@@ -21,13 +20,12 @@ export default function ProfileAthelete({ navigation }) {
             setdata(response.data.data);
             setDate((response.data.data.dob.split("T")[0].split("-")[2]) + months[parseInt(response.data.data.dob.split("T")[0].split("-")[1]) - 1] + response.data.data.dob.split("T")[0].split("-")[0])
         }).catch((error) => {
-            console.log(error);
+            console.log(error.response);
         })
     }
 
     useFocusEffect(React.useCallback(() => {
         getData();
-
     }, []));
     return (
         data ?
@@ -38,7 +36,7 @@ export default function ProfileAthelete({ navigation }) {
                     <ImageBackground source={{ uri: baseURL + "uploads/" + data.image }} style={{ flex: 0.65, width: '100%', height: undefined, aspectRatio: 5.5 / 4, display: 'flex', justifyContent: 'space-between' }} >
                         <TouchableOpacity><Text style={{ textAlign: 'right', margin: '2%' }}><MaterialCommunityIcons name="pencil" size={24} color="white" /></Text></TouchableOpacity>
                         <View style={{ margin: '2%' }}>
-                            <Text style={{ color: 'white', fontSize: windowHeight * 0.04, fontWeight: '400' }}>Athlete</Text>
+                            <Text style={{ color: 'white', fontSize: windowHeight * 0.04, fontWeight: '400' }}>Coach</Text>
                             <Text style={{ color: 'white', fontSize: windowHeight * 0.04, fontWeight: 'bold' }}>Card</Text>
                         </View>
                     </ImageBackground>
@@ -68,7 +66,7 @@ export default function ProfileAthelete({ navigation }) {
                 <View style={{ paddingHorizontal: '6%' }}>
 
 
-                    <View style={{ marginTop: '3%' }}>
+                    <View style={{ marginTop: '6%' }}>
                         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', borderBottomWidth: 1, borderColor: '#00B8FE', paddingBottom: '1%', marginBottom: '2%' }}>
                             <Text style={{ color: "#00B8FE", fontWeight: '600', fontSize: windowHeight * 0.02 }} >Personal</Text>
                             <TouchableOpacity>
@@ -76,14 +74,14 @@ export default function ProfileAthelete({ navigation }) {
                             </TouchableOpacity>
                         </View>
                         <View>
-                            <Text style={{ fontWeight: '600', fontSize: windowHeight * 0.03 }}>{data.firstname + " " + data.lastname}</Text>
+                            <Text style={{ fontWeight: '600', fontSize: windowHeight * 0.03 }}>{data.firstname} {data.lastname}</Text>
                             <View style={{ display: 'flex', flexDirection: 'row', width: '100%', marginTop: '5%' }}>
                                 <View style={{ flex: 0.5 }}>
                                     <Text style={styles.textHead}>{data.gender}</Text>
                                     <Text style={styles.textbottom}>Gender</Text>
                                 </View>
                                 <View style={{ flex: 0.5 }}>
-                                    <Text style={styles.textHead}>{date ? date : "-"}</Text>
+                                    <Text style={styles.textHead}>{date}</Text>
                                     <Text style={styles.textbottom}>Birthday</Text>
                                 </View>
                             </View>
@@ -133,37 +131,24 @@ export default function ProfileAthelete({ navigation }) {
                         </View>
                         <View style={{ display: 'flex', flexDirection: 'row', width: '100%', marginTop: '5%' }}>
                             <View style={{ flex: 0.5 }}>
-                                <Text style={styles.textHead}>{data.school_name}</Text>
-                                <Text style={styles.textbottom}>{data.school_type} Name</Text>
+                                <Text style={styles.textHead}>{data.college_name}</Text>
+                                <Text style={styles.textbottom}>College Name</Text>
                             </View>
                             <View style={{ flex: 0.5 }}>
-                                <Text style={styles.textHead}>{data.scholastic_year}</Text>
-                                <Text style={styles.textbottom}>Scholastic Year</Text>
-                            </View>
-                        </View>
-                    </View>
-
-
-                    <View >
-                        <Text style={{ width: '100%', borderWidth: 0.5, height: 0.5, borderColor: 'lightgrey', marginVertical: '6%' }}></Text>
-                        <View style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
-                            <View style={{ flex: 0.5 }}>
-                                <Text style={styles.textHead}>{data.gpa}</Text>
-                                <Text style={styles.textbottom}>GPA</Text>
-                            </View>
-                            <View style={{ flex: 0.5 }}>
-
-                                <Text style={styles.textHead}>{data.sat}</Text>
-                                <Text style={styles.textbottom}>SAT</Text>
+                                <Text style={styles.textHead}>{data.College_State}</Text>
+                                <Text style={styles.textbottom}>University State</Text>
                             </View>
                         </View>
                         <View style={{ display: 'flex', flexDirection: 'row', width: '100%', marginTop: '5%' }}>
-                            <View style={{ flex: 0.5 }}>
-                                <Text style={styles.textHead}>{data.act}</Text>
-                                <Text style={styles.textbottom}>ACT</Text>
+                            <View style={{ flex: 1 }}>
+                                <Text style={styles.textHead}>{data.university_email}</Text>
+                                <Text style={styles.textbottom}>University Email</Text>
                             </View>
                         </View>
                     </View>
+
+
+
 
 
 
@@ -174,44 +159,41 @@ export default function ProfileAthelete({ navigation }) {
                                 <Text><MaterialCommunityIcons name="pencil" size={20} color="#00B8FE" /></Text>
                             </TouchableOpacity>
                         </View>
-                        {
-                            data.sport ? data.sport.map((i, index) =>
 
-                                <View key={index} style={{ display: 'flex', flexDirection: 'row', width: '100%', marginBottom: '5%' }}>
-                                    <View style={{ flex: 0.5 }}>
-                                        <Text style={styles.textHead}>{i.sportsname}</Text>
-                                        <Text style={styles.textbottom}>Sport</Text>
-                                    </View>
-                                    <View style={{ flex: 0.5 }}>
-                                        <Text style={styles.textHead}>{i.position}</Text>
-                                        <Text style={styles.textbottom}>Position</Text>
-                                    </View>
-                                </View>
-                            ) : null
-                        }
-                        <View style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
+                        <View style={{ display: 'flex', flexDirection: 'row', width: '100%', marginBottom: '5%' }}>
                             <View style={{ flex: 0.5 }}>
-                                <Text style={styles.textHead}>{data.height + ' ' + data.heightunit} </Text>
-                                <Text style={styles.textbottom}>Height</Text>
+                                <Text style={styles.textHead}>{data.sportsname}</Text>
+                                <Text style={styles.textbottom}>Sport</Text>
                             </View>
                             <View style={{ flex: 0.5 }}>
-                                <Text style={styles.textHead}>{data.weight} {data.units}</Text>
-                                <Text style={styles.textbottom}>Weight</Text>
+                                <Text style={styles.textHead}>{data.team}</Text>
+                                <Text style={styles.textbottom}>Team Name</Text>
+                            </View>
+                        </View>
+                        <View style={{ display: 'flex', flexDirection: 'row', width: '100%', marginBottom: '5%' }}>
+                            <View style={{ flex: 0.5 }}>
+                                <Text style={styles.textHead}>{data.divisions}</Text>
+                                <Text style={styles.textbottom}>Division</Text>
+                            </View>
+                            <View style={{ flex: 0.5 }}>
+                                <Text style={styles.textHead}>{data.jobtitle}</Text>
+                                <Text style={styles.textbottom}>Job Title</Text>
+                            </View>
+                        </View>
+                        <View style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
+                            <View style={{ flex: 0.5 }}>
+                                <Text style={styles.textHead}>{data.coaching_gender}</Text>
+                                <Text style={styles.textbottom}>Coachs</Text>
                             </View>
                         </View>
                         <Text style={{ color: 'black', fontWeight: '600', fontSize: windowHeight * 0.02, marginTop: '6%', marginBottom: '4%' }}>Highlight Reel</Text>
                         <View style={{ paddingHorizontal: '5%' }}>
                             <Image source={require('../assets/image.png')} style={{ width: '100%' }} />
                             <TouchableOpacity>
-                                <Text style={{ fontWeight: 'bold', color: '#00B8FE', marginVertical: '3%', textAlign: 'center' }}><MaterialCommunityIcons name="pencil" size={18} color="#00B8FE" /> Set video link</Text>
+                                <Text style={{ fontWeight: 'bold', color: '#00B8FE', marginVertical: '3%', textAlign: 'center' }}><MaterialCommunityIcons name="pencil" size={16} color="#00B8FE" /> Set video link</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
-
-
-
-
-
                 </View>
             </ScrollView >
             :
@@ -221,7 +203,6 @@ export default function ProfileAthelete({ navigation }) {
 
 
 const styles = StyleSheet.create({
-
     textHead: { color: 'black', fontWeight: '600', fontSize: windowHeight * 0.02 },
     textbottom: { color: 'grey', fontSize: 12 }
 })

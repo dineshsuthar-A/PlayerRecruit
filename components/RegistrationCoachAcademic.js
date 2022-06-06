@@ -17,12 +17,12 @@ export default function RegistrationCoachAcademic({ route, navigation }) {
             ToastAndroid.show("Fill all columns", ToastAndroid.SHORT);
         } else {
             const a = route.params;
-            a.collegename = collegename;
-            a.collegeState = collegeState;
-            a.email = email;
-            navigation.navigate("RegistrationCoachAthletic", {
+            a.collegename = collegename.trim();
+            a.collegeState = collegeState.trim();
+            a.email = email.trim();
+            navigation.navigate("RegistrationCoachAthletic",
                 a
-            });
+            );
 
         }
     }
@@ -35,7 +35,7 @@ export default function RegistrationCoachAcademic({ route, navigation }) {
     }
     useFocusEffect(React.useCallback(() => {
         getdata();
-    }));
+    }, []));
     return (
         <ImageBackground source={require('../assets/bg.png')} style={{ backgroundColor: "#004467", width: "100%", height: "100%" }}>
             <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.fullView} showsVerticalScrollIndicator={false}>
@@ -45,7 +45,7 @@ export default function RegistrationCoachAcademic({ route, navigation }) {
                         <TextInput placeholder='College Name' placeholderTextColor="grey" onChangeText={(t) => setCollegename(t)} style={styles.textbox} />
                         <View style={{ width: "100%", borderRadius: 5, overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, alignItems: 'center', paddingHorizontal: 1, marginTop: windowHeight * 0.02 }}>
                             <Picker style={styles.pickerbox} selectedValue={collegeState} onValueChange={(itemValue, itemIndex) => setCollegeState(itemValue)} >
-                                <Picker.Item label="State" style={{ fontSize: windowHeight * 0.02, marginLeft: 40, color: 'grey' }} />
+                                <Picker.Item label="State" style={{ fontSize: windowHeight * 0.02, marginLeft: 40, color: 'grey' }} value={null} />
                                 {statedata ?
                                     statedata.map((i, index) => <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label={i.statename} value={i.id} key={index} />)
                                     : null

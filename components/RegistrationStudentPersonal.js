@@ -24,11 +24,11 @@ export default function RegistrationStudentPersonal({ navigation }) {
         } else {
 
             navigation.navigate("RegistrationStudentSchool", {
-                firstname,
-                lastname,
+                "firstname": firstname.trim(),
+                "lastname": lastname.trim(),
                 gender,
                 "date": orginaldate,
-                city,
+                "city": city.trim(),
                 ethnicity,
                 state
             });

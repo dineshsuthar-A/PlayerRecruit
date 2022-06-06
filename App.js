@@ -22,8 +22,10 @@ import RegistrationCoachAcademic from './components/RegistrationCoachAcademic';
 import RegistrationCoachAthletic from './components/RegistrationCoachAthletic';
 import RegistrationCoachFinal from './components/RegistrationCoachFinal';
 import Navigation from './components/Navigation';
+import NavigationCoach from './components/NavigationCoach';
+import { baseURL } from './config';
 
-axios.defaults.baseURL = "http://192.168.92.158:5000/";
+axios.defaults.baseURL = baseURL;
 
 const Stack = createStackNavigator();
 const config = {
@@ -43,7 +45,15 @@ export default function App() {
   const checkToken = async () => {
     const token = await SecureStore.getItemAsync("token");
     if (token) {
-      setRout("SelectAccount");
+      const type = await SecureStore.getItemAsync("type");
+      if (type == '0') {
+
+        setRout("RegistrationSelectAccount");
+      } else if (type == '1') {
+        setRout("Main");
+      } else if (type == '2') {
+        setRout("CoachMain");
+      }
       setFlag(1);
 
     } else {
@@ -59,13 +69,19 @@ export default function App() {
   return (
     flag ?
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="RegistrationCoachAthletic" >
+        <Stack.Navigator initialRouteName={rout}>
           <Stack.Screen options={{
             cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
             headerShown: false,
           }}
             name='Main'
             component={Navigation} />
+          <Stack.Screen options={{
+            cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
+            headerShown: false,
+          }}
+            name='CoachMain'
+            component={NavigationCoach} />
 
           <Stack.Screen
             options={{ headerShown: false, cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid, }}

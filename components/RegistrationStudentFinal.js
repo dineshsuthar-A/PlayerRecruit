@@ -26,27 +26,29 @@ export default function RegistrationStudentFinal({ route, navigation }) {
 
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
-            aspect: [4, 4],
             quality: 1,
         });
-        if (!result.cancelled) {
+        if (result?.type != "image") {
+            ToastAndroid.show("image file is only allowed.", ToastAndroid.SHORT);
+        } else
+            if (!result.cancelled) {
 
-            const uriParts = result?.uri.split(".");
-            const imgExt = uriParts && uriParts[uriParts?.length - 1];
-            const fileName = `profilepic.${imgExt}`;
-            const imgType = `image/${imgExt}`;
+                const uriParts = result?.uri.split(".");
+                const imgExt = uriParts && uriParts[uriParts?.length - 1];
+                const fileName = `profilepic.${imgExt}`;
+                const imgType = `image/${imgExt}`;
 
 
-            if (result?.uri) {
-                setImage({
-                    uri: result?.uri,
-                    type: imgType,
-                    name: fileName,
-                });
+                if (result?.uri) {
+                    setImage({
+                        uri: result?.uri,
+                        type: imgType,
+                        name: fileName,
+                    });
+                }
+
+
             }
-
-
-        }
     }
     const onFinish = async () => {
         if (image == null) {
@@ -83,7 +85,7 @@ export default function RegistrationStudentFinal({ route, navigation }) {
                     "wingspan": parseFloat(object.wingspan),
                     "wingspan_unit": object.wingspanunit,
                     "dominant_hand": object.hand,
-                    "personal_bio": bio,
+                    "personal_bio": bio.trim(),
                     "video": videoLink
                 },
                 {
@@ -91,24 +93,31 @@ export default function RegistrationStudentFinal({ route, navigation }) {
                         "Authorization": token
                     }
                 }
-            ).then((response) => {
-                console.log(response);
+            ).then(async (response) => {
+                axios.post("/api/student/uploadimage", fd
+                    , {
+                        headers: {
+
+                            "Content-Type": "multipart/form-data",
+                            "Authorization": token
+                        }
+                    }).then((response) => {
+                        console.log(response.data);
+                    }).catch((err) => {
+                        ToastAndroid.show("Picture unable to upload.", ToastAndroid.SHORT);
+                    });
+
+                await SecureStore.setItemAsync("type", "1");
+                ToastAndroid.show("Registered.", ToastAndroid.SHORT);
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: "Main" }]
+                });
 
             }).catch((err) => {
                 console.log(err.response.data);
             });
-            axios.post("/api/student/uploadimage", fd
-                , {
-                    headers: {
 
-                        "Content-Type": "multipart/form-data",
-                        "Authorization": token
-                    }
-                }).then((response) => {
-                    console.log(response.data);
-                }).catch((err) => {
-                    console.log(err);
-                });
 
 
         }

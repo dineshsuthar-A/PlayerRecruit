@@ -1,10 +1,11 @@
 
-import { StyleSheet, Text, View, ImageBackground, Modal, ScrollView, StatusBar, KeyboardAvoidingView, TouchableOpacity, Image, TextInput, Dimensions, ToastAndroid } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, Modal, ScrollView, StatusBar, TouchableOpacity, Image, TextInput, Dimensions, ToastAndroid } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 
 const windowHeight = Dimensions.get("window").height;
 import * as SecureStore from 'expo-secure-store';
+import axios from 'axios';
 export default function RegistrationCoachFinal({ route, navigation }) {
     const [bio, setBio] = useState();
     const [image, setImage] = useState(null);
@@ -14,8 +15,6 @@ export default function RegistrationCoachFinal({ route, navigation }) {
 
 
     const pickImage = async () => {
-        // No permissions request is necessary for launching the image library
-
         const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
         if (permissionResult.granted === false) {
@@ -26,14 +25,30 @@ export default function RegistrationCoachFinal({ route, navigation }) {
         const result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
-            aspect: [4, 4],
             quality: 1,
         });
+
         if (!result.cancelled) {
-            setImage(result.uri);
+            if (result?.type != "image") {
+                ToastAndroid.show("image file is only allowed.", ToastAndroid.SHORT);
+            } else {
+                const uriParts = result?.uri.split(".");
+                const imgExt = uriParts && uriParts[uriParts?.length - 1];
+                const fileName = `profilepic.${imgExt}`;
+                const imgType = `image/${imgExt}`;
+
+
+                if (result?.uri) {
+                    setImage({
+                        uri: result?.uri,
+                        type: imgType,
+                        name: fileName,
+                    });
+                }
+            }
         }
     }
-    const onFinish = () => {
+    const onFinish = async () => {
         if (image == null) {
             ToastAndroid.show("Select Profile Photo", ToastAndroid.SHORT);
         } else if (!bio) {
@@ -41,7 +56,56 @@ export default function RegistrationCoachFinal({ route, navigation }) {
         } else if (!videoLink) {
             ToastAndroid.show("Add Video Link", ToastAndroid.SHORT);
         } else {
-            navigation.navigate("Main");
+            const token = "Bearer " + await SecureStore.getItemAsync("token");
+            const data = route.params;
+            const fd = new FormData();
+            fd.append("image", image);
+            axios.post("/api/coach/register", {
+                "firstname": data.firstname,
+                "lastname": data.lastname,
+                "dob": data.date,
+                "gender": data.gender,
+                "state": data.state,
+                "city": data.city,
+                "ethnicity": data.ethnicity,
+                "college_name": data.collegename,
+                "college_state": data.collegeState,
+                "university_email": data.email,
+                "sport_coach": data.sportCoach,
+                "team_name": data.teamName,
+                "coaching_gender": data.CoachingGender,
+                "division": data.division,
+                "job_title": data.jobTitle,
+                "personal_bio": bio.trim(),
+                "video": videoLink.trim()
+            }, {
+                headers: {
+                    "Authorization": token
+                }
+            }).then(async (response) => {
+                axios.post("/api/coach/uploadimage", fd
+                    , {
+                        headers: {
+
+                            "Content-Type": "multipart/form-data",
+                            "Authorization": token
+                        }
+                    }).then((response) => {
+                        console.log(response.data);
+
+                    }).catch((err) => {
+                        ToastAndroid.show("Picture unable to upload.", ToastAndroid.SHORT);
+                    });
+                await SecureStore.setItemAsync("type", "2");
+                ToastAndroid.show("Registered.", ToastAndroid.SHORT);
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: "CoachMain" }]
+                });
+            }).catch((err) => {
+                ToastAndroid.show(err.response.data.error, ToastAndroid.SHORT);
+            });
+
         }
     }
 
@@ -52,7 +116,7 @@ export default function RegistrationCoachFinal({ route, navigation }) {
                 <View style={{ width: '100%', height: '100%', paddingTop: windowHeight * 0.01 }}>
                     <View style={{ paddingHorizontal: '11%' }}>
                         <View style={styles.dpArea}>
-                            <Image style={{ height: windowHeight * 0.2, width: windowHeight * 0.2, borderRadius: (windowHeight * 0.2) / 2 }} source={image ? { uri: image } : require("../assets/logo.png")} />
+                            <Image style={{ height: windowHeight * 0.2, width: windowHeight * 0.2, borderRadius: (windowHeight * 0.2) / 2 }} source={image ? { uri: image.uri } : require("../assets/logo.png")} />
                             <TouchableOpacity onPress={() => pickImage()} style={styles.choosePhoto}>
                                 <Image style={{ width: windowHeight * 0.02, height: windowHeight * 0.02 }} source={require("../assets/editIcon.png")} />
                                 <Text style={styles.chooseText}>  Choose photo</Text>

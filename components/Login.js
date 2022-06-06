@@ -17,15 +17,36 @@ export default function Login({ navigation }) {
 
             setSt(true);
             axios.post("/api/login", {
-                username, password
+                "username": username.trim(), password
             }).then(async (response) => {
                 setSt(false);
                 await SecureStore.setItemAsync("token", response.data.access_token);
+                await SecureStore.setItemAsync("type", response.data.type.toString());
+                const type = response.data.type;
                 ToastAndroid.show("Logged In", ToastAndroid.SHORT);
-                navigation.navigate("RegistrationSelectAccount")
+                if (type == 0) {
+                    navigation.reset({
+                        index: 0,
+                        routes: [{ name: "RegistrationSelectAccount" }]
+                    });
+                } else if (type == 1) {
+                    navigation.reset({
+                        index: 0,
+                        routes: [{ name: "Main" }]
+                    });
+                } else if (type == 2) {
+                    navigation.reset({
+                        index: 0,
+                        routes: [{ name: "CoachMain" }]
+                    });
+                }
             }).catch((err) => {
                 setSt(false);
-                ToastAndroid.show(err.response.data.error, ToastAndroid.SHORT);
+                try {
+                    ToastAndroid.show(err.response.data.error, ToastAndroid.SHORT);
+                } catch (error) {
+                    console.log(error);
+                }
             })
         }
     }

@@ -16,11 +16,19 @@ export default function RegistrationStudentSchool({ route, navigation }) {
     const onNext = () => {
         if (!(school && schoolname && syear && gpa && sat && act)) {
             ToastAndroid.show("Fill all columns", ToastAndroid.SHORT);
+        } else if (isNaN(sat)) {
+            ToastAndroid.show("SAT should be numeric.", ToastAndroid.SHORT);
+        } else if (isNaN(act)) {
+            ToastAndroid.show("ACT should be numeric.", ToastAndroid.SHORT);
+        } else if (isNaN(syear)) {
+            ToastAndroid.show("Scholastic year should be numeric.", ToastAndroid.SHORT);
+        } else if (syear.length < 4) {
+            ToastAndroid.show("Enter year in four digit format.", ToastAndroid.SHORT);
         } else {
             const a = route.params;
             console.log(a);
             a.school = school;
-            a.schoolname = schoolname;
+            a.schoolname = schoolname.trim();
             a.scholasticyear = syear;
             a.gpa = gpa;
             a.sat = sat;
@@ -51,7 +59,7 @@ export default function RegistrationStudentSchool({ route, navigation }) {
                             <TouchableOpacity onPress={() => setSchool("College")} style={school != "College" ? styles.gender : styles.activeGender}><Image source={require("../assets/schoolblack.png")} /><Text> College</Text></TouchableOpacity>
                         </View>
                         <TextInput onChangeText={(t) => setSchoolname(t)} placeholder='School/College name' placeholderTextColor='grey' style={styles.textBox} />
-                        <TextInput onChangeText={(t) => setsyear(t)} placeholder='Scholastic year' placeholderTextColor='grey' style={styles.textBox} />
+                        <TextInput onChangeText={(t) => setsyear(t)} keyboardType="number-pad" maxLength={4} placeholder='Scholastic year' placeholderTextColor='grey' style={styles.textBox} />
                         <View style={{ width: "100%", borderRadius: 5, overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, alignItems: 'center', marginTop: windowHeight * 0.02, paddingLeft: windowHeight * 0.02 }}>
                             <Picker style={styles.pickerbox} selectedValue={gpa} onValueChange={(itemValue, itemIndex) => setgpa(itemValue)} >
                                 <Picker.Item label="GPA" style={{ fontSize: windowHeight * 0.019, marginLeft: 40, color: 'grey' }} value={null} />
@@ -62,8 +70,8 @@ export default function RegistrationStudentSchool({ route, navigation }) {
                                 }
                             </Picker>
                         </View>
-                        <TextInput onChangeText={(t) => setsat(t)} placeholderTextColor='grey' placeholder='SAT' style={styles.textBox} />
-                        <TextInput onChangeText={(t) => setact(t)} placeholderTextColor='grey' placeholder='ACT' style={styles.textBox} />
+                        <TextInput onChangeText={(t) => setsat(t)} keyboardType="numeric" placeholderTextColor='grey' placeholder='SAT' style={styles.textBox} />
+                        <TextInput onChangeText={(t) => setact(t)} keyboardType="numeric" placeholderTextColor='grey' placeholder='ACT' style={styles.textBox} />
                     </View>
                     <View style={{ flex: 0.2, width: '100%', paddingHorizontal: '11%', alignItems: 'center', marginTop: '3%' }}>
                         <View style={{ display: 'flex', flexDirection: 'row' }}>

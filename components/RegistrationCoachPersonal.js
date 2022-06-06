@@ -20,17 +20,16 @@ export default function RegistrationCoachPersonal({ navigation }) {
     const [statedata, setstatedata] = useState();
     const [etha, setEtha] = useState();
     const onNext = () => {
-
         if (!(date && gender && firstname && lastname && city && ethnicity && state)) {
             ToastAndroid.show("Fill All Details", ToastAndroid.SHORT);
         } else {
 
             navigation.navigate("RegistrationCoachAcademic", {
-                firstname,
-                lastname,
+                "firstname": firstname.trim(),
+                "lastname": lastname.trim(),
                 gender,
                 "date": orginaldate,
-                city,
+                "city": city.trim(),
                 ethnicity,
                 state
             });
@@ -46,10 +45,10 @@ export default function RegistrationCoachPersonal({ navigation }) {
         setDatePickerVisibility(false);
     };
     const handleConfirm = (d) => {
-        setoriginaldate(d.toString());
         var day = d.getDate();
         var month = d.getMonth() + 1;
         var year = d.getFullYear();
+        setoriginaldate(year + "-" + month + "-" + day);
         var da = (day < 10 ? ("0" + day) : day) + "/" + (month < 10 ? ("0" + month) : month) + "/" + year;
         setDate(da);
         hideDatePicker();
@@ -86,6 +85,7 @@ export default function RegistrationCoachPersonal({ navigation }) {
                                     mode="date"
                                     onConfirm={handleConfirm}
                                     onCancel={hideDatePicker}
+                                    maximumDate={new Date()}
                                 />
                             </View>
                             <View style={{ display: "flex", flexDirection: "row", marginTop: '5%', marginBottom: "5%" }}>

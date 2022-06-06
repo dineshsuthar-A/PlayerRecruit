@@ -17,14 +17,16 @@ export default function RegistrationCoachAthletic({ route, navigation }) {
     const [divisionData, setDivisionData] = useState();
 
     const onNext = () => {
+
+
         if (!(sportCoach && teamName && division && jobTitle)) {
             ToastAndroid.show("Fill all columns", ToastAndroid.SHORT);
         } else {
             const a = route.params;
-            a.sportCoach = sportCoach;
-            a.teamName = teamName;
+            a.sportCoach = sportCoach.trim();
+            a.teamName = teamName.trim();
             a.division = division;
-            a.jobTitle = jobTitle;
+            a.jobTitle = jobTitle.trim();
             a.CoachingGender = gender;
             navigation.navigate("RegistrationCoachFinal", a);
         }
@@ -33,12 +35,14 @@ export default function RegistrationCoachAthletic({ route, navigation }) {
         dataapis.getsportsdata().then((response) => {
             setSportsData(response.data.sports);
         }).catch((error) => {
+            console.log(error);
             ToastAndroid.show("Some error occured.", ToastAndroid.SHORT);
         });
 
         dataapis.getdivisiondata().then((response) => {
             setDivisionData(response.data.divisions);
         }).catch((error) => {
+            console.log(error);
             ToastAndroid.show("Some error occured.", ToastAndroid.SHORT);
         });
 
@@ -153,7 +157,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
     },
-    pickerOuterhand: { marginTop: windowHeight * 0.01, marginBottom: windowHeight * 0.025, width: "100%", borderRadius: 5, overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, paddingLeft: 10, marginTop: windowHeight * 0.01 },
+    pickerOuterhand: { marginTop: windowHeight * 0.01, marginBottom: windowHeight * 0.025, width: "100%", borderRadius: 5, overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, paddingLeft: 1, marginTop: windowHeight * 0.01 },
 
     pickerbox: {
         backgroundColor: 'white',

@@ -3,8 +3,15 @@ import React from 'react'
 import { AntDesign } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
+import * as SecureStore from 'expo-secure-store';
 import { TextInput } from 'react-native-gesture-handler';
 export default function Message() {
+
+  const logout = async () => {
+    SecureStore.deleteItemAsync("token");
+    SecureStore.deleteItemAsync("type");
+
+  }
   return (
     <View style={{ paddingHorizontal: '4%', paddingTop: '6%', backgroundColor: 'white', width: '100%', height: '100%' }}>
       <View style={{ display: 'flex', flexDirection: 'row' }}>
@@ -29,7 +36,7 @@ export default function Message() {
 
       <View style={{ marginTop: 20, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
         <Text style={{ color: '#4B5155', fontSize: 18 }}>Active Chats</Text>
-        <TouchableOpacity style={{ marginTop: 8, marginRight: 6 }}><Entypo name="plus" size={20} color="#4B5155" /></TouchableOpacity>
+        <TouchableOpacity onPress={() => logout()} style={{ marginTop: 8, marginRight: 6 }}><Entypo name="plus" size={20} color="#4B5155" /></TouchableOpacity>
       </View>
 
       <View style={{ marginTop: 20, width: '100%', height: 45, backgroundColor: '#F9FAFC', justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', paddingHorizontal: '3%', borderRadius: 8, borderColor: '#DBE5ED', borderWidth: 1 }}>

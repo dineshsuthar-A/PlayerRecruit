@@ -1,13 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator();
-import Profile from './TabScreens/Profile';
-import Discover from './TabScreens/Discover';
+import Profile from './TabScreens/CoachProfile';
+import CoachDiscover from './TabScreens/CoachDiscover';
 import Matches from './TabScreens/Matches';
 import Message from './TabScreens/Message';
 import Ionicons from '@expo/vector-icons/Ionicons';
-export default function Navigation() {
+
+export default function NavigationCoach() {
     return (
         <Tab.Navigator screenOptions={({ route }) => ({
             tabBarIcon: ({ focused, color, size }) => {
@@ -41,9 +42,9 @@ export default function Navigation() {
 
         })}>
             <Tab.Screen options={{ headerShown: false, title: "Profile" }} name="Profile" component={Profile} />
-            <Tab.Screen options={{ headerShown: false, }} name="Discovery" component={Discover} />
-            <Tab.Screen options={{ headerStyle: { backgroundColor: '#004467' }, headerTitle: 'Coaches liked you!', headerTintColor: 'white', headerTitleStyle: { fontSize: 18, marginLeft: 20 } }} name="Matches" component={Matches} />
-            <Tab.Screen options={{ headerStyle: { backgroundColor: '#004467' }, headerTitle: 'Messenger', headerTintColor: 'white', headerTitleStyle: { fontSize: 18, marginLeft: 20 }, tabBarStyle: { display: 'none' } }} name="Chat" component={Message} />
+            <Tab.Screen options={{ headerShown: false, title: "Discovery" }} name="Discovery" component={CoachDiscover} />
+            <Tab.Screen options={{ headerStyle: { backgroundColor: '#004467' }, headerTitle: 'Coaches liked you!', headerTintColor: 'white', headerTitleStyle: { fontSize: 18, marginLeft: 20 }, title: "Matches" }} name="Matches" component={Matches} />
+            <Tab.Screen options={{ headerStyle: { backgroundColor: '#004467' }, headerTitle: 'Messenger', headerTintColor: 'white', headerTitleStyle: { fontSize: 18, marginLeft: 20 }, tabBarStyle: { display: 'none' }, title: "Chat" }} name="Chat" component={Message} />
         </Tab.Navigator >
     )
 }

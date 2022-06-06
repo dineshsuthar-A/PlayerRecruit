@@ -1,10 +1,13 @@
-import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, ScrollView, KeyboardAvoidingView } from 'react-native'
+import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, ScrollView, KeyboardAvoidingView, ToastAndroid } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { TextInput } from 'react-native-gesture-handler'
 import { AntDesign } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
+import axios from 'axios';
+import * as SecureStore from 'expo-secure-store';
 
-export default function Filter() {
+
+export default function Filter({ navigation }) {
     const [division1, setdivision1] = useState();
     const [division2, setdivision2] = useState();
     const [division3, setdivision3] = useState();
@@ -12,8 +15,9 @@ export default function Filter() {
     const [sports, setsports] = useState([]);
     const [readstate, setreadstate] = useState();
     const [readsport, setreadsport] = useState();
+    const [data, setdata] = useState();
     const sportAdd = () => {
-        setsports([...sports, readsport]);
+        setsports([...sports, readsport.trim()]);
         setreadsport("");
     }
 
@@ -21,15 +25,64 @@ export default function Filter() {
         sports.splice(ind, 1);
         setsports([...sports]);
     }
+
     const stateAdd = () => {
-        setstates([...states, readstate]);
+        setstates([...states, readstate.trim()]);
         setreadstate("");
     }
+
     const deletestate = (ind) => {
         states.splice(ind, 1);
         setstates([...states]);
     }
 
+    const onSubmit = async () => {
+        const divisions = [division1, division2, division3];
+        const token = await SecureStore.getItemAsync("token");
+        axios.post("api/student/filter", {
+            states,
+            sports,
+            divisions
+        }, {
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        }).then((response) => {
+            navigation.pop();
+        }).catch((err) => {
+            console.log(err.response);
+            ToastAndroid.show("error occured.", ToastAndroid.SHORT);
+        });
+    }
+
+    const getData = async () => {
+        const token = "Bearer " + await SecureStore.getItemAsync("token");
+        axios.get("api/student/filter", {
+            headers: {
+                "Authorization": token
+            }
+        }).then((response) => {
+            const division = response.data.data.division?.split(",");
+            division?.forEach(element => {
+                if (parseInt(element) == 1) {
+                    setdivision1(1);
+                } else if (parseInt(element) == 2) {
+                    setdivision2(2);
+                } else if (parseInt(element) == 3) {
+                    setdivision3(3);
+                }
+            });
+            setsports(response.data?.data ? response.data.data.sports : []);
+            setstates(response.data?.data ? response.data.data.states : []);
+        }).catch((err) => {
+            console.log(err);
+            ToastAndroid.show("error occured.", ToastAndroid.SHORT);
+        });
+    }
+
+    useFocusEffect(React.useCallback(() => {
+        getData();
+    }, []))
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.fullView} keyboardShouldPersistTaps="handled"
             showsVerticalScrollIndicator={false}
@@ -62,14 +115,13 @@ export default function Filter() {
                                         paddingVertical: 4,
                                         paddingLeft: 10,
                                         marginRight: 10,
-                                        paddingRight: 3, marginTop: '2%'
+                                        paddingRight: 3,
+                                        marginTop: '2%'
                                     }}>
                                         <Text style={{ fontSize: 12, marginRight: 6 }}>{i}</Text>
                                         <TouchableOpacity onPress={() => deletestate(index)}><AntDesign name="closecircle" size={18} color="grey" /></TouchableOpacity>
                                     </View>
                                 ) : null}
-
-
 
                     </View>
                     <Text style={styles.text}>Which sports would you like to see?</Text>
@@ -102,7 +154,7 @@ export default function Filter() {
                 </View>
 
                 <View style={{ flex: 0.2, justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%', paddingHorizontal: '8%' }}>
-                    <TouchableOpacity style={{ backgroundColor: '#00B8FE', width: '100%', height: 50, borderRadius: 25, justifyContent: 'center', alignItems: 'center' }}><Text style={{ color: 'white', fontWeight: '500' }}>Save</Text></TouchableOpacity>
+                    <TouchableOpacity onPress={() => onSubmit()} style={{ backgroundColor: '#00B8FE', width: '100%', height: 50, borderRadius: 25, justifyContent: 'center', alignItems: 'center' }}><Text style={{ color: 'white', fontWeight: '500' }}>Save</Text></TouchableOpacity>
                 </View>
             </ImageBackground>
         </ScrollView>
@@ -134,6 +186,4 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         marginRight: 10
     },
-
-
-})
+});
