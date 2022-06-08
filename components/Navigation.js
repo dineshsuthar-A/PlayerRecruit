@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator();
 import Profile from './TabScreens/Profile';
 import Discover from './TabScreens/Discover';
-import Matches from './TabScreens/Matches';
+import Matches from './TabScreens/CoachMatches';
 import Message from './TabScreens/Message';
 import Ionicons from '@expo/vector-icons/Ionicons';
 export default function Navigation() {

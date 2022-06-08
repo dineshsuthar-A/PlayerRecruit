@@ -19,7 +19,6 @@ export default function Swiping() {
                 "Authorization": token
             }
         }).then((Response) => {
-            console.log(Response.data.data);
             setdata(Response.data?.data);
         }).catch((error) => {
             console.log(error);
