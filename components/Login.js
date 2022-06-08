@@ -68,7 +68,7 @@ export default function Login({ navigation }) {
                         <View style={styles.main}>
                             <Image source={require('../assets/logo.png')} style={styles.logo} />
                             <Text style={{ color: "white", fontFamily: "Roboto", marginTop: "11%", fontWeight: "900", fontSize: 20 }}>Login with your account info</Text>
-                            <TextInput onChangeText={(t) => setUsername(t)} placeholder='Username' style={styles.textBox} />
+                            <TextInput autoCapitalize='none' onChangeText={(t) => setUsername(t)} placeholder='Username' style={styles.textBox} />
                             <TextInput onSubmitEditing={() => login()} onChangeText={(t) => setPassword(t)} placeholder='Password' secureTextEntry={true} style={styles.textBox} />
                             <TouchableOpacity  ><Text style={{ color: "#00B8FE", marginTop: "5%" }}>Forgot account info?</Text></TouchableOpacity>
                         </View>

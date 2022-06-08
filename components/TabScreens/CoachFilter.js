@@ -1,44 +1,54 @@
-import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, ScrollView, Dimensions, LogBox } from 'react-native'
+import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, ScrollView, Dimensions, ToastAndroid } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { TextInput } from 'react-native-gesture-handler'
 import { AntDesign } from '@expo/vector-icons';
 const windowHeight = Dimensions.get("window").height;
 const screenWidth = Dimensions.get("window").width;
+import { Picker } from '@react-native-picker/picker';
 import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
+import RangeSlider from 'rn-range-slider'
 import { useFocusEffect } from '@react-navigation/native';
-LogBox.ignoreLogs(['Remote debugger']);
-export default function CoachFilter() {
+export default function CoachFilter({ navigation }) {
+    const yearrs = ['1960', '1961', '1962', '1963', '1964', '1965', '1966', '1967', '1968', '1969', '1970', '1971', '1972', '1973', '1974', '1975', '1976', '1977', '1978', '1979', '1980', '1981', '1982', '1983', '1984', '1985', '1986', '1987', '1988', '1989', '1990', '1991', '1992', '1993', '1994', '1995', '1996', '1997', '1998', '1999', '2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030', '2031', '2032', '2033', '2034', '2035', '2036', '2037', '2038', '2039', '2040', '2041', '2042', '2043', '2044', '2045', '2046', '2047', '2048', '2049', '2050'];
+    var date = new Date();
     const [states, setstates] = useState([]);
     const [sports, setsports] = useState([]);
     const [readstate, setreadstate] = useState();
     const [readsport, setreadsport] = useState();
     const [positions, setpositions] = useState([]);
     const [readposition, setreadposition] = useState();
-    const [minheight, setminheight] = useState();
-    const [maxheight, setmaxheight] = useState();
-    const [minweight, setminweight] = useState();
-    const [maxweight, setmaxweight] = useState();
-    const [minage, setminage] = useState();
-    const [maxage, setmaxage] = useState();
-    const [mingpa, setmingpa] = useState();
-    const [maxgpa, setmaxgpa] = useState();
-    const [minsat, setminsat] = useState();
-    const [maxsat, setmaxsat] = useState();
-    const [minact, setminact] = useState();
-    const [maxact, setmaxact] = useState();
-    const [heightBool, setheightBool] = useState();
+    const [minheight, setminheight] = useState(0);
+    const [maxheight, setmaxheight] = useState(300);
+    const [minweight, setminweight] = useState(0);
+    const [maxweight, setmaxweight] = useState(300);
+    const [minage, setminage] = useState(0);
+    const [maxage, setmaxage] = useState(100);
+    const [mingpa, setmingpa] = useState(0);
+    const [maxgpa, setmaxgpa] = useState(4);
+    const [minsat, setminsat] = useState(0);
+    const [maxsat, setmaxsat] = useState(300);
+    const [minact, setminact] = useState(0);
+    const [maxact, setmaxact] = useState(300);
+    const [year, setyear] = useState(date.getFullYear().toString());
+    const [yeardata, setyeardata] = useState([]);
     const sportAdd = () => {
-        setsports([...sports, readsport]);
+        setsports([...sports, readsport.trim()]);
         setreadsport("");
     }
-
+    const addyear = (y) => {
+        setyeardata([...yeardata, y])
+    }
+    const removeYear = (ind) => {
+        yeardata.splice(ind, 1);
+        setsports([...yeardata]);
+    }
     const deletesport = (ind) => {
         sports.splice(ind, 1);
         setsports([...sports]);
     }
     const stateAdd = () => {
-        setstates([...states, readstate]);
+        setstates([...states, readstate.trim()]);
         setreadstate("");
     }
     const deletestate = (ind) => {
@@ -46,7 +56,7 @@ export default function CoachFilter() {
         setstates([...states]);
     }
     const positionAdd = () => {
-        setpositions([...positions, readposition]);
+        setpositions([...positions, readposition.trim()]);
         setreadposition("");
     }
     const deleteposition = (ind) => {
@@ -55,7 +65,6 @@ export default function CoachFilter() {
     }
 
     const onSubmit = async () => {
-        console.log(1);
         const token = "Bearer " + await SecureStore.getItemAsync("token");
         axios.post("/api/coach/filter", {
             "states": states,
@@ -67,20 +76,56 @@ export default function CoachFilter() {
             maxweight,
             minage,
             maxage,
-            mingpa,
-            maxgpa,
+            "mingpa": parseFloat(mingpa),
+            "maxgpa": parseFloat(maxgpa),
             minsat,
             maxsat,
             minact,
-            maxact
+            maxact,
+            "years": yeardata
         }, {
             headers: {
                 "Authorization": token
             }
+        }).then((response) => {
+            navigation.navigate("Swiping");
+        }).catch((err) => {
+            console.log(err.response.data);
         });
     }
+
+    const getData = async () => {
+        const token = "Bearer " + await SecureStore.getItemAsync("token");
+        axios.get("/api/coach/filter", {
+            headers: {
+                "Authorization": token
+            }
+        }).then((response) => {
+            console.log(response.data.data);
+            if (response.data.data != 1) {
+                const data = response.data.data;
+                setstates(response.data.data.states);
+                setsports(response.data.data.sports);
+                setpositions(response.data.data.positions);
+                setyeardata(response.data.data.years);
+                setminact(response.data.data.min_act);
+                setmaxact(parseInt(data.max_act));
+                setminage(parseInt(data.min_age));
+                setmaxage(parseInt(data.max_age));
+                setmingpa(parseFloat(data.min_gpa));
+                setmaxgpa(parseFloat(data.max_gpa));
+                setminsat(parseInt(data.min_sat));
+                setmaxsat(parseInt(data.max_sat));
+                setminweight(parseInt(data.min_weight));
+                setmaxweight(parseInt(data.max_weight));
+                setminheight(parseInt(data.min_height));
+                setmaxheight(parseInt(data.max_height));
+            }
+        }).catch((err) => {
+        })
+    }
     useFocusEffect(React.useCallback(() => {
-        setheightBool(true);
+        getData();
     }, []))
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.fullView} keyboardShouldPersistTaps="handled"
@@ -178,6 +223,8 @@ export default function CoachFilter() {
                         min={0}
                         max={300}
                         step={1}
+                        low={parseInt(minheight)}
+                        high={parseInt(maxheight)}
                         onValueChanged={(low, high) => {
                             setminheight(low);
                             setmaxheight(high);
@@ -186,9 +233,9 @@ export default function CoachFilter() {
                             return (
                                 <View style={{
                                     backgroundColor: "white",
-                                    height: 14,
-                                    width: 14,
-                                    borderRadius: 7,
+                                    height: 20,
+                                    width: 20,
+                                    borderRadius: 10,
                                     shadowColor: "black",
                                     shadowOffset: { width: 0, height: 2 },
                                     shadowOpacity: 0.1,
@@ -226,6 +273,8 @@ export default function CoachFilter() {
                         min={0}
                         max={300}
                         step={1}
+                        low={parseInt(minweight)}
+                        high={parseInt(maxweight)}
                         onValueChanged={(low, high) => {
                             setminweight(low);
                             setmaxweight(high);
@@ -234,9 +283,9 @@ export default function CoachFilter() {
                             return (
                                 <View style={{
                                     backgroundColor: "white",
-                                    height: 14,
-                                    width: 14,
-                                    borderRadius: 7,
+                                    height: 20,
+                                    width: 20,
+                                    borderRadius: 10,
                                     shadowColor: "black",
                                     shadowOffset: { width: 0, height: 2 },
                                     shadowOpacity: 0.1,
@@ -274,6 +323,8 @@ export default function CoachFilter() {
                         min={0}
                         max={100}
                         step={1}
+                        low={minage}
+                        high={maxage}
                         onValueChanged={(low, high) => {
                             setminage(low);
                             setmaxage(high);
@@ -282,9 +333,9 @@ export default function CoachFilter() {
                             return (
                                 <View style={{
                                     backgroundColor: "white",
-                                    height: 14,
-                                    width: 14,
-                                    borderRadius: 7,
+                                    height: 20,
+                                    width: 20,
+                                    borderRadius: 10,
                                     shadowColor: "black",
                                     shadowOffset: { width: 0, height: 2 },
                                     shadowOpacity: 0.1,
@@ -317,12 +368,44 @@ export default function CoachFilter() {
                         <Text style={{ color: 'white' }}>{maxage} </Text>
                     </View>
                     <Text style={styles.text}>Which scholastic years would you like to see?</Text>
+                    <View style={styles.pickerOuter}>
+                        <Picker
+                            style={styles.pickerbox} selectedValue={year} onValueChange={(itemValue, itemIndex) => addyear(itemValue)}>
+                            {
+                                yearrs ?
+                                    yearrs.map((i, index) => <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label={i} value={i} key={index} />) : null
+                            }
+                        </Picker>
+                    </View>
+                    <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
 
+                        {
+                            yeardata ?
+                                yeardata.map((i, index) =>
+                                    <View key={index} style={{
+                                        backgroundColor: "#CBD5DB",
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        borderRadius: 20,
+                                        paddingVertical: 4,
+                                        paddingLeft: 10,
+                                        marginRight: 10,
+                                        paddingRight: 3, marginTop: '2%'
+                                    }}>
+                                        <Text style={{ fontSize: 12, marginRight: 6 }}>{i}</Text>
+                                        <TouchableOpacity onPress={() => removeYear(index)}><AntDesign name="closecircle" size={18} color="grey" /></TouchableOpacity>
+                                    </View>
+                                ) : null}
+                    </View>
                     <Text style={styles.text}>Which GPAs would you like to see?</Text>
                     <RangeSlider
                         style={{ flex: 1, marginTop: windowHeight * 0.01, width: '100%' }}
                         min={0}
                         max={4}
+                        low={mingpa}
+                        high={maxgpa}
                         step={0.1}
                         onValueChanged={(low, high) => {
                             setmingpa(low.toFixed(1));
@@ -332,9 +415,9 @@ export default function CoachFilter() {
                             return (
                                 <View style={{
                                     backgroundColor: "white",
-                                    height: 14,
-                                    width: 14,
-                                    borderRadius: 7,
+                                    height: 20,
+                                    width: 20,
+                                    borderRadius: 10,
                                     shadowColor: "black",
                                     shadowOffset: { width: 0, height: 2 },
                                     shadowOpacity: 0.1,
@@ -371,6 +454,8 @@ export default function CoachFilter() {
                         style={{ flex: 1, marginTop: windowHeight * 0.01, width: '100%' }}
                         min={0}
                         max={300}
+                        low={minsat}
+                        high={maxsat}
                         step={1}
                         onValueChanged={(low, high) => {
                             setminsat(low);
@@ -380,9 +465,9 @@ export default function CoachFilter() {
                             return (
                                 <View style={{
                                     backgroundColor: "white",
-                                    height: 14,
-                                    width: 14,
-                                    borderRadius: 7,
+                                    height: 20,
+                                    width: 20,
+                                    borderRadius: 10,
                                     shadowColor: "black",
                                     shadowOffset: { width: 0, height: 2 },
                                     shadowOpacity: 0.1,
@@ -419,6 +504,8 @@ export default function CoachFilter() {
                         style={{ flex: 1, marginTop: windowHeight * 0.01, width: '100%' }}
                         min={0}
                         max={300}
+                        low={minact}
+                        high={maxact}
                         step={1}
                         onValueChanged={(low, high) => {
                             setminact(low);
@@ -428,9 +515,9 @@ export default function CoachFilter() {
                             return (
                                 <View style={{
                                     backgroundColor: "white",
-                                    height: 14,
-                                    width: 14,
-                                    borderRadius: 7,
+                                    height: 20,
+                                    width: 20,
+                                    borderRadius: 10,
                                     shadowColor: "black",
                                     shadowOffset: { width: 0, height: 2 },
                                     shadowOpacity: 0.1,
@@ -465,7 +552,7 @@ export default function CoachFilter() {
                 </View>
 
                 <View style={{ alignItems: 'center', width: '100%', height: '100%', paddingHorizontal: '8%', marginBottom: '10%' }}>
-                    <TouchableOpacity onPress={() => onSubmit()} style={{ backgroundColor: '#00B8FE', width: '100%', height: windowHeight * 0.07, borderRadius: windowHeight * 0.05, justifyContent: 'center', alignItems: 'center' }}><Text style={{ color: 'white', fontWeight: '500', fontSize: windowHeight * 0.02 }} >Save</Text></TouchableOpacity>
+                    <TouchableOpacity onPress={() => onSubmit()} style={{ backgroundColor: '#00B8FE', width: '100%', height: windowHeight * 0.07, borderRadius: windowHeight * 0.05, justifyContent: 'center', alignItems: 'center', marginTop: '8%' }}><Text style={{ color: 'white', fontWeight: '500', fontSize: windowHeight * 0.02 }} >Save</Text></TouchableOpacity>
                 </View>
             </ImageBackground>
         </ScrollView>
@@ -475,5 +562,19 @@ export default function CoachFilter() {
 const styles = StyleSheet.create({
     text: { color: 'white', fontSize: windowHeight * 0.02, fontWeight: '600', marginTop: '6%' },
     textinputstyle: { width: '100%', backgroundColor: 'white', height: windowHeight * 0.07, borderRadius: 5, paddingLeft: windowHeight * 0.016, marginTop: '2%' },
-    options: { fontSize: windowHeight * 0.016, marginRight: 6 }
+    options: { fontSize: windowHeight * 0.016, marginRight: 6 },
+
+    pickerbox: {
+        backgroundColor: 'white',
+        width: '100%',
+        borderRadius: 20,
+    },
+    pickerOuter: {
+        width: "100%",
+        borderRadius: 5,
+        backgroundColor: "white",
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        marginTop: '5%'
+    },
 })

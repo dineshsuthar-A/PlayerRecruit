@@ -18,7 +18,7 @@ export default function RegistrationCoachAcademic({ route, navigation }) {
         } else {
             const a = route.params;
             a.collegename = collegename.trim();
-            a.collegeState = collegeState.trim();
+            a.collegeState = collegeState;
             a.email = email.trim();
             navigation.navigate("RegistrationCoachAthletic",
                 a

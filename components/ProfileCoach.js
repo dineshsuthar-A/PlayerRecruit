@@ -20,7 +20,7 @@ export default function ProfileCoach({ navigation }) {
             setdata(response.data.data);
             setDate((response.data.data.dob.split("T")[0].split("-")[2]) + months[parseInt(response.data.data.dob.split("T")[0].split("-")[1]) - 1] + response.data.data.dob.split("T")[0].split("-")[0])
         }).catch((error) => {
-            console.log(error.response);
+            console.log(error.response.data);
         })
     }
 

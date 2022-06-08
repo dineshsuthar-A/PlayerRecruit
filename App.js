@@ -1,12 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, LogBox } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import 'react-native-gesture-handler';
 import { createStackNavigator, TransitionSpecs, cardStyleInterpolator, CardStyleInterpolators } from '@react-navigation/stack';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
-
+LogBox.ignoreLogs(['ViewPropTypes']);
 import Login from './components/Login';
 import Registration from './components/Registration';
 import Verification from './components/Verification';

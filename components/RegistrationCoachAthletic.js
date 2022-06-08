@@ -23,7 +23,7 @@ export default function RegistrationCoachAthletic({ route, navigation }) {
             ToastAndroid.show("Fill all columns", ToastAndroid.SHORT);
         } else {
             const a = route.params;
-            a.sportCoach = sportCoach.trim();
+            a.sportCoach = sportCoach;
             a.teamName = teamName.trim();
             a.division = division;
             a.jobTitle = jobTitle.trim();

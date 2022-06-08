@@ -25,6 +25,7 @@ export default function Verification({ navigation }) {
                 "otp": parseInt(code)
             }).then(async (response) => {
                 await SecureStore.setItemAsync("token", response.data.access_token);
+                SecureStore.setItemAsync("type", '0')
                 setst(false);
                 ToastAndroid.show("Successfully verified", ToastAndroid.SHORT);
                 navigation.reset({

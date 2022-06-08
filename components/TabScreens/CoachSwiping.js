@@ -14,6 +14,16 @@ export default function Swiping() {
     const [data, setdata] = useState([]);
     const getdata = async () => {
         const token = "Bearer " + await SecureStore.getItemAsync("token");
+        axios.get("/api/students/cards", {
+            headers: {
+                "Authorization": token
+            }
+        }).then((Response) => {
+            console.log(Response.data.data);
+            setdata(Response.data?.data);
+        }).catch((error) => {
+            console.log(error);
+        });
 
     }
     useFocusEffect(React.useCallback(() => {
@@ -24,9 +34,9 @@ export default function Swiping() {
             <StatusBar barStyle="light-content" backgroundColor="#004467" />
 
             <View style={{ flex: 0.85, padding: 20 }}>
-                <Swiper
+                {data ? <Swiper
                     ref={SwipeRef}
-                    cards={["do", "s", "s", "g"]}
+                    cards={data}
                     onSwiped={(cardIndex) => { console.log(cardIndex) }}
                     onSwipedAll={() => { setDisp(true) }}
                     cardIndex={0}
@@ -84,11 +94,12 @@ export default function Swiping() {
                     backgroundColor="transparent"
                     renderCard={(cardData) => {
                         return (
-                            <CardAthelete />
+                            <CardAthelete image={cardData?.image} fname={cardData?.firstname} lname={cardData?.lastname} scholasticyear={cardData?.scholastic_year} school={cardData?.school_name} type={cardData?.school_type} state={cardData?.statename} height={cardData?.height + " " + cardData?.heightunit} weight={cardData?.weight + " " + cardData?.units} gpa={cardData?.gpa} phone={cardData?.phone} sport={cardData?.sport} sat={cardData?.sat} act={cardData?.act} gender={cardData?.gender} ethnicity={cardData?.ethnicities} bio={cardData?.personal_bio} />
+
                         )
                     }}>
 
-                </Swiper>
+                </Swiper> : null}
             </View>
             <View style={{ flex: 0.2, width: '100%', paddingHorizontal: 40, position: 'absolute', bottom: 0, justifyContent: 'space-around', flexDirection: 'row', alignItems: 'center', paddingBottom: 20 }}>
                 <TouchableOpacity onPress={() => disp ? null : SwipeRef.current.swipeLeft()}><View style={{ width: 50, height: 50, backgroundColor: 'white', borderRadius: 25, justifyContent: 'center', alignItems: 'center' }}><MaterialCommunityIcons name="close-circle-outline" size={30} color="red" /></View></TouchableOpacity>
