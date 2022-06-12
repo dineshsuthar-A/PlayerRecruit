@@ -35,11 +35,11 @@ export default function CardAthelete(props) {
                             <View style={{ flex: 1, width: '100%', height: '100%', display: 'flex' }}>
                                 <View style={{ flex: 0.25 }}>
                                     <View style={{ display: 'flex', flexDirection: 'row' }}>
-                                        <View style={{ paddingHorizontal: '4%', paddingTop: '6%', flex: 0.7 }}>
+                                        <TouchableOpacity onPress={() => props.id ? props.nav.navigate("profile", { "id": props.id }) : null} style={{ paddingHorizontal: '4%', paddingTop: '6%', flex: 0.7 }}>
                                             <Text style={{ fontSize: windowHeight * 0.024 }}>{props.fname} </Text>
                                             <Text style={{ fontSize: windowHeight * 0.03, fontWeight: '600' }}>{props.lname}</Text>
 
-                                        </View>
+                                        </TouchableOpacity>
                                         <TouchableOpacity onPress={() => setflip(true)} style={{ flex: 0.3, alignItems: 'center', justifyContent: 'center' }}>
                                             <Text style={{ color: "#00B8FE", fontWeight: '600', fontSize: windowHeight * 0.02 }} >BACK</Text>
                                         </TouchableOpacity>
@@ -49,13 +49,13 @@ export default function CardAthelete(props) {
                                     <Text style={{ flex: 0.65, fontSize: windowHeight * 0.024, paddingHorizontal: '4%' }}>{props.sport[0].position}</Text>
                                     <View style={{ flex: 0.35, backgroundColor: 'white', borderRadius: 10, opacity: 0.8, justifyContent: 'center', paddingHorizontal: '4%' }}>
                                         <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingBottom: '4%' }}>
-                                            <View style={{ borderRightWidth: 1, borderColor: "lightgrey", flex: 1, alignItems: 'center' }}>
+                                            <View style={{ flex: 1, alignItems: 'center' }}>
                                                 <View>
                                                     <Text style={{ color: 'grey', fontSize: windowHeight * 0.016, marginBottom: '3%' }}>Year</Text>
                                                     <Text style={{ fontSize: windowHeight * 0.02 }}>{props.scholasticyear}</Text>
                                                 </View>
                                             </View>
-                                            <View style={{ borderRightWidth: 1, borderColor: "lightgrey", flex: 1, alignItems: 'center' }}>
+                                            <View style={{ borderRightWidth: 1, borderLeftWidth: 1, borderColor: "lightgrey", flex: 1, alignItems: 'center' }}>
                                                 <View>
                                                     <Text style={{ color: 'grey', fontSize: windowHeight * 0.016, marginBottom: '3%' }}>{props.type}</Text>
                                                     <Text numberOfLines={2} style={{ fontSize: windowHeight * 0.02 }}>{props.school}</Text>
@@ -69,13 +69,13 @@ export default function CardAthelete(props) {
                                             </View>
                                         </View>
                                         <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderTopWidth: 1, borderColor: 'lightgrey', paddingTop: '4%' }}>
-                                            <View style={{ borderRightWidth: 1, borderColor: "lightgrey", flex: 1, alignItems: 'center' }}>
+                                            <View style={{ flex: 1, alignItems: 'center' }}>
                                                 <View>
                                                     <Text style={{ color: 'grey', fontSize: windowHeight * 0.016, marginBottom: '3%' }}>Height</Text>
                                                     <Text style={{ fontSize: windowHeight * 0.02 }}>{props.height}</Text>
                                                 </View>
                                             </View>
-                                            <View style={{ borderRightWidth: 1, borderColor: "lightgrey", flex: 1, alignItems: 'center' }}>
+                                            <View style={{ borderRightWidth: 1, borderLeftWidth: 1, borderColor: "lightgrey", flex: 1, alignItems: 'center' }}>
                                                 <View>
                                                     <Text style={{ color: 'grey', fontSize: windowHeight * 0.016, marginBottom: '3%' }}>Weight</Text>
                                                     <Text style={{ fontSize: windowHeight * 0.02 }}>{props.weight}</Text>

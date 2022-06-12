@@ -43,7 +43,7 @@ export default function NavigationCoach() {
         })}>
             <Tab.Screen options={{ headerShown: false, title: "Profile" }} name="Profile" component={Profile} />
             <Tab.Screen options={{ headerShown: false, title: "Discovery" }} name="Discovery" component={CoachDiscover} />
-            <Tab.Screen options={{ headerStyle: { backgroundColor: '#004467' }, headerTitle: 'Athletes', headerTintColor: 'white', headerTitleStyle: { fontSize: 18, marginLeft: 20 }, title: "Matches" }} name="Matches" component={Matches} />
+            <Tab.Screen options={{ headerShown: false }} name="Matches" component={Matches} />
             <Tab.Screen options={{ headerStyle: { backgroundColor: '#004467' }, headerTitle: 'Messenger', headerTintColor: 'white', headerTitleStyle: { fontSize: 18, marginLeft: 20 }, tabBarStyle: { display: 'none' }, title: "Chat" }} name="Chat" component={Message} />
         </Tab.Navigator >
     )

@@ -17,7 +17,7 @@ export default function RegistrationStudentPersonal({ navigation }) {
     const [orginaldate, setoriginaldate] = useState();
     const [statedata, setstatedata] = useState();
     const [etha, setEtha] = useState();
-
+    const [age, setage] = useState();
     const onNext = () => {
         if (!(date && gender && firstname && lastname && city && ethnicity && state)) {
             ToastAndroid.show("Fill All Details", ToastAndroid.SHORT);
@@ -30,7 +30,8 @@ export default function RegistrationStudentPersonal({ navigation }) {
                 "date": orginaldate,
                 "city": city.trim(),
                 ethnicity,
-                state
+                state,
+                age
             });
         }
     }
@@ -43,9 +44,11 @@ export default function RegistrationStudentPersonal({ navigation }) {
         setDatePickerVisibility(false);
     };
     const handleConfirm = (d) => {
+        var c = new Date();
         var day = d.getDate();
         var month = d.getMonth() + 1;
         var year = d.getFullYear();
+        setage(parseInt(c.getFullYear()) - parseInt(year));
         setoriginaldate(year + "-" + month + "-" + day);
         var da = (day < 10 ? ("0" + day) : day) + "/" + (month < 10 ? ("0" + month) : month) + "/" + year;
         setDate(da);

@@ -4,7 +4,8 @@ import { createStackNavigator } from '@react-navigation/stack'
 import Swiping from './CoachSwiping';
 import CoachFilter from "./CoachFilter";
 import { AntDesign } from '@expo/vector-icons';
-
+import AthleteShowProfile from "../AthleteShowProfile";
+import previewCard from "./PreviewCard";
 const stack = createStackNavigator();
 export default function CoachDiscover() {
     const [route, setroute] = useState("Swiping")
@@ -24,6 +25,12 @@ export default function CoachDiscover() {
 
             })} component={Swiping} />
             <stack.Screen name="filter" options={{ headerStyle: { backgroundColor: '#004467' }, headerTintColor: 'white', title: 'Filter Settings' }} component={CoachFilter} />
+            <stack.Screen name="profile" options={{ headerShown: false }} component={AthleteShowProfile} />
+            <stack.Screen name="previewcard" options={{
+                headerStyle: { backgroundColor: '#004467', },
+                title: 'Athlete Card',
+                headerTintColor: "white",
+            }} component={previewCard} />
         </stack.Navigator >
     )
 }

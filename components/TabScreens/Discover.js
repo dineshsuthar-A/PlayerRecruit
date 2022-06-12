@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import Swiping from './Swiping';
 import Filter from './Filter';
+import ShowProfile from '../CoachShowProfile';
+import CoachPreviewCard from './CoachPreviewCard';
 import { AntDesign } from '@expo/vector-icons';
 
 const stack = createStackNavigator();
@@ -12,6 +14,7 @@ export default function Discover() {
     return (
         <stack.Navigator initialRouteName={route}>
             <stack.Screen name="Swiping" options={({ navigation }) => ({
+
                 headerStyle: { backgroundColor: '#004467', },
                 title: '',
                 headerTintColor: "white",
@@ -23,8 +26,16 @@ export default function Discover() {
                     </View>
                 ),
 
+
             })} component={Swiping} />
-            <stack.Screen name="filter" options={{ headerStyle: { backgroundColor: '#004467' }, headerTintColor: 'white', title: 'Filter Settings' }} component={Filter} />
+            <stack.Screen name="filter" options={{ headerStyle: { backgroundColor: '#004467' }, headerTintColor: 'white', title: 'Filter Settings', }} component={Filter} />
+            <stack.Screen name="profile" options={{ headerShown: false }} component={ShowProfile} />
+            <stack.Screen name="previewcard" options={{
+                headerStyle: { backgroundColor: '#004467', },
+                title: 'Coach Card',
+                headerTintColor: "white",
+            }} component={CoachPreviewCard} />
+
         </stack.Navigator >
     )
 }

@@ -1,21 +1,22 @@
 import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
-import CoachLikes from './CoachLikes';
+import AthleteLikes from './AthleteLikes'
 import { createStackNavigator } from '@react-navigation/stack'
 import { AntDesign } from '@expo/vector-icons';
-import AthleteShowProfile from "../AthleteShowProfile";
-import previewCard from "./PreviewCard";
+import ShowProfile from '../CoachShowProfile';
+import CoachPreviewCard from './CoachPreviewCard';
+
 const stack = createStackNavigator();
-export default function CoachMatches() {
+export default function Matches() {
   return (
     <stack.Navigator >
-      <stack.Screen name="Likes" options={{ headerShown: false }} component={CoachLikes} />
-      <stack.Screen name="profile" options={{ headerShown: false }} component={AthleteShowProfile} />
+      <stack.Screen name="Likes" options={{ headerShown: false }} component={AthleteLikes} />
+      <stack.Screen name="profile" options={{ headerShown: false }} component={ShowProfile} />
       <stack.Screen name="previewcard" options={{
         headerStyle: { backgroundColor: '#004467', },
-        title: 'Athlete Card',
+        title: 'Coach Card',
         headerTintColor: "white",
-      }} component={previewCard} />
+      }} component={CoachPreviewCard} />
     </stack.Navigator >
   )
 }

@@ -6,13 +6,16 @@ import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
 import { baseURL } from '../config';
 const windowHeight = Dimensions.get("window").height;
-export default function ProfileCoach({ navigation }) {
+export default function ProfileCoach({ route, navigation }) {
     const [data, setdata] = useState();
     const [date, setDate] = useState();
     const getData = async () => {
         const token = "Bearer " + await SecureStore.getItemAsync("token");
         const months = [" January ", " Feb ", " Mar ", " Apr ", " May ", " Jun ", " Jul ", " Aug ", " Sept ", " Oct ", " Nov ", " Dec "];
-        axios.get("/api/coach/info", {
+        axios.get("api/coach/profile", {
+            params: {
+                "id": route.params.id
+            },
             headers: {
                 "Authorization": token
             }
@@ -20,8 +23,9 @@ export default function ProfileCoach({ navigation }) {
             setdata(response.data.data);
             setDate((response.data.data.dob.split("T")[0].split("-")[2]) + months[parseInt(response.data.data.dob.split("T")[0].split("-")[1]) - 1] + response.data.data.dob.split("T")[0].split("-")[0])
         }).catch((error) => {
-            console.log(error.response.data);
+            console.log(error.response);
         })
+
     }
 
     useFocusEffect(React.useCallback(() => {
@@ -33,27 +37,14 @@ export default function ProfileCoach({ navigation }) {
                 <StatusBar barStyle="light-content" backgroundColor="#004467" />
 
                 <View style={{ width: '100%', display: 'flex', flexDirection: 'row' }}>
-                    <ImageBackground source={{ uri: baseURL + "uploads/" + data.image }} style={{ flex: 0.65, width: '100%', height: undefined, aspectRatio: 5.5 / 4, display: 'flex', justifyContent: 'space-between' }} >
-                        <TouchableOpacity><Text style={{ textAlign: 'right', margin: '2%' }}><MaterialCommunityIcons name="pencil" size={24} color="white" /></Text></TouchableOpacity>
+                    <ImageBackground source={{ uri: baseURL + "uploads/" + data.image }} style={{ flex: 1, width: '100%', height: undefined, aspectRatio: 5.5 / 4, display: 'flex', justifyContent: 'space-between' }} >
+
                         <View style={{ margin: '2%' }}>
                             <Text style={{ color: 'white', fontSize: windowHeight * 0.04, fontWeight: '400' }}>Coach</Text>
                             <Text style={{ color: 'white', fontSize: windowHeight * 0.04, fontWeight: 'bold' }}>Card</Text>
                         </View>
                     </ImageBackground>
-                    <View style={{ flex: 0.35, justifyContent: 'space-around', alignItems: 'center', paddingVertical: '4%', backgroundColor: '#004467' }}>
-                        <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderBottomWidth: 0.5, paddingBottom: "3%", width: '70%', borderColor: 'grey' }}>
-                            <Text style={styles.textbottom}>Views</Text>
-                            <Text style={{ color: 'white', fontWeight: '400', fontSize: windowHeight * 0.026 }}>{data.views}</Text>
-                        </View>
-                        <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderBottomWidth: 0.5, paddingBottom: "3%", width: '70%', borderColor: 'grey' }}>
-                            <Text style={styles.textbottom}>Remaining</Text>
-                            <Text style={{ color: 'white', fontWeight: '400', fontSize: windowHeight * 0.026 }}>10</Text>
-                        </View>
-                        <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={styles.textbottom}>Plan</Text>
-                            <Text style={{ color: 'white', fontWeight: '400', fontSize: windowHeight * 0.026 }}>Platinum</Text>
-                        </View>
-                    </View>
+
                 </View>
                 <View style={{ display: 'flex', paddingHorizontal: '11%', marginTop: '3%' }}>
                     <TouchableOpacity onPress={() => navigation.navigate("previewcard", data)} style={{ width: '100%', backgroundColor: '#00B8FE', borderRadius: 40, borderWidth: 1, }}>
@@ -69,9 +60,7 @@ export default function ProfileCoach({ navigation }) {
                     <View style={{ marginTop: '6%' }}>
                         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', borderBottomWidth: 1, borderColor: '#00B8FE', paddingBottom: '1%', marginBottom: '2%' }}>
                             <Text style={{ color: "#00B8FE", fontWeight: '600', fontSize: windowHeight * 0.02 }} >Personal</Text>
-                            <TouchableOpacity>
-                                <Text><MaterialCommunityIcons name="pencil" size={20} color="#00B8FE" /></Text>
-                            </TouchableOpacity>
+
                         </View>
                         <View>
                             <Text style={{ fontWeight: '600', fontSize: windowHeight * 0.03 }}>{data.firstname} {data.lastname}</Text>
@@ -119,8 +108,6 @@ export default function ProfileCoach({ navigation }) {
                         </View>
                     </View>
 
-
-
                     <View>
                         <Text style={{ width: '100%', borderWidth: 0.5, height: 0.5, borderColor: 'lightgrey', marginVertical: '6%' }}></Text>
                         <View style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
@@ -155,9 +142,7 @@ export default function ProfileCoach({ navigation }) {
                     <View style={{ marginTop: '6%' }}>
                         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', borderBottomWidth: 1, borderColor: '#00B8FE', paddingBottom: '1%', marginBottom: '6%' }}>
                             <Text style={{ color: "#00B8FE", fontWeight: '600', fontSize: windowHeight * 0.02 }} >Athletics</Text>
-                            <TouchableOpacity>
-                                <Text><MaterialCommunityIcons name="pencil" size={20} color="#00B8FE" /></Text>
-                            </TouchableOpacity>
+
                         </View>
 
                         <View style={{ display: 'flex', flexDirection: 'row', width: '100%', marginBottom: '5%' }}>
@@ -187,11 +172,9 @@ export default function ProfileCoach({ navigation }) {
                             </View>
                         </View>
                         <Text style={{ color: 'black', fontWeight: '600', fontSize: windowHeight * 0.02, marginTop: '6%', marginBottom: '4%' }}>Highlight Reel</Text>
-                        <View style={{ paddingHorizontal: '5%' }}>
+                        <View style={{ paddingHorizontal: '5%', marginBottom: 10 }}>
                             <Image source={require('../assets/image.png')} style={{ width: '100%' }} />
-                            <TouchableOpacity>
-                                <Text style={{ fontWeight: 'bold', color: '#00B8FE', marginVertical: '3%', textAlign: 'center' }}><MaterialCommunityIcons name="pencil" size={16} color="#00B8FE" /> Set video link</Text>
-                            </TouchableOpacity>
+
                         </View>
                     </View>
                 </View>

@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator();
 import Profile from './TabScreens/Profile';
 import Discover from './TabScreens/Discover';
-import Matches from './TabScreens/CoachMatches';
+import Matches from './TabScreens/Matches';
 import Message from './TabScreens/Message';
 import Ionicons from '@expo/vector-icons/Ionicons';
 export default function Navigation() {
@@ -42,7 +42,7 @@ export default function Navigation() {
         })}>
             <Tab.Screen options={{ headerShown: false, title: "Profile" }} name="Profile" component={Profile} />
             <Tab.Screen options={{ headerShown: false, }} name="Discovery" component={Discover} />
-            <Tab.Screen options={{ headerStyle: { backgroundColor: '#004467' }, headerTitle: 'Coaches liked you!', headerTintColor: 'white', headerTitleStyle: { fontSize: 18, marginLeft: 20 } }} name="Matches" component={Matches} />
+            <Tab.Screen options={{ headerShown: false }} name="Matches" component={Matches} />
             <Tab.Screen options={{ headerStyle: { backgroundColor: '#004467' }, headerTitle: 'Messenger', headerTintColor: 'white', headerTitleStyle: { fontSize: 18, marginLeft: 20 }, tabBarStyle: { display: 'none' } }} name="Chat" component={Message} />
         </Tab.Navigator >
     )

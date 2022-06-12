@@ -34,11 +34,7 @@ export default function RegistrationStudentAthletic({ route, navigation }) {
             a.hand = hand;
             a.sports = sports;
             a.wingspan = wingSpan;
-            a.wingspanunit = wspanunit;
-            a.weightunit = weightunit;
-            a.heightunit = heighunit;
             a.height = height;
-            console.log(a);
             navigation.navigate("RegistrationStudentFinal", a);
         }
     }
@@ -65,16 +61,6 @@ export default function RegistrationStudentAthletic({ route, navigation }) {
     const getdata = () => {
         dataapis.getpositiondata().then((response) => {
             setPositionData(response.data.position);
-        }).catch((err) => {
-            ToastAndroid.show("Some error occured.", ToastAndroid.SHORT);
-        });
-        dataapis.getweightunitdata().then((response) => {
-            setweighunitData(response.data.units);
-        }).catch((err) => {
-            ToastAndroid.show("Some error occured.", ToastAndroid.SHORT);
-        });
-        dataapis.getheightdata().then((response) => {
-            setlengthunitData(response.data.units);
         }).catch((err) => {
             ToastAndroid.show("Some error occured.", ToastAndroid.SHORT);
         });
@@ -132,38 +118,23 @@ export default function RegistrationStudentAthletic({ route, navigation }) {
 
                         <Text style={styles.TextLine}>What’s your height?</Text>
                         <View style={styles.inputBoxes}>
-                            <TextInput style={styles.textBox} onChangeText={(t) => setHeight(t)} />
-                            <View style={styles.pickerOuter}>
-                                <Picker style={styles.pickerbox} selectedValue={heighunit} onValueChange={(itemValue, itemIndex) => setheighunit(itemValue)}>
-                                    {lengthunitData ?
-                                        lengthunitData.map((i, index) => <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label={i.unit} value={i.id} key={index} />)
-                                        : null
-                                    }
-                                </Picker>
+                            <TextInput keyboardType='numeric' style={styles.textBox} onChangeText={(t) => setHeight(t)} />
+                            <View style={styles.unit}>
+                                <Text >CM</Text>
                             </View>
                         </View>
                         <Text style={styles.TextLine}>What’s your weight?</Text>
                         <View style={styles.inputBoxes}>
-                            <TextInput style={styles.textBox} onChangeText={(t) => setweight(t)} />
-                            <View style={styles.pickerOuter}>
-                                <Picker style={styles.pickerbox} selectedValue={weightunit} onValueChange={(itemValue, itemIndex) => setweightunit(itemValue)}>
-                                    {weighunitData ?
-                                        weighunitData.map((i, index) => <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label={i.units} value={i.id} key={index} />)
-                                        : null
-                                    }
-                                </Picker>
+                            <TextInput keyboardType='numeric' style={styles.textBox} onChangeText={(t) => setweight(t)} />
+                            <View style={styles.unit}>
+                                <Text>KG</Text>
                             </View>
                         </View>
                         <Text style={styles.TextLine}>What’s your wingspan?</Text>
                         <View style={styles.inputBoxes}>
-                            <TextInput style={styles.textBox} onChangeText={(t) => setwingSpan(t)} />
-                            <View style={styles.pickerOuter}>
-                                <Picker style={styles.pickerbox} selectedValue={wspanunit} onValueChange={(itemValue, itemIndex) => setwspanunit(itemValue)}>
-                                    {lengthunitData ?
-                                        lengthunitData.map((i, index) => <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label={i.unit} value={i.id} key={index} />)
-                                        : null
-                                    }
-                                </Picker>
+                            <TextInput keyboardType='number-pad' style={styles.textBox} onChangeText={(t) => setwingSpan(t)} />
+                            <View style={styles.unit}>
+                                <Text>CM</Text>
                             </View>
                         </View>
                         <Text style={styles.TextLine}>Which hand is dominant?</Text>
@@ -242,6 +213,7 @@ const styles = StyleSheet.create({
         fontSize: windowHeight * 0.023,
         fontWeight: "bold"
     },
+    unit: { width: "26%", borderRadius: 5, overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, marginTop: windowHeight * 0.01, justifyContent: 'center', alignItems: 'center' },
     activedot: {
         height: 15, width: 15, borderWidth: 1, borderColor: "#CCD4D8", borderRadius: 10, marginRight: 4, backgroundColor: "#CCD4D8"
     },
@@ -258,7 +230,7 @@ const styles = StyleSheet.create({
     textBox: {
         backgroundColor: "white",
         color: "black",
-        width: "62%",
+        width: "70%",
         height: windowHeight * 0.07,
         borderRadius: 5,
         paddingLeft: 20,

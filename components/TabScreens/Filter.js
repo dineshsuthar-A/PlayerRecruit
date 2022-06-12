@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, ScrollView, KeyboardAvoidingView, ToastAndroid } from 'react-native'
+import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, ScrollView, BackHandler, ToastAndroid } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { TextInput } from 'react-native-gesture-handler'
 import { AntDesign } from '@expo/vector-icons';
@@ -48,7 +48,10 @@ export default function Filter({ navigation }) {
                 "Authorization": "Bearer " + token
             }
         }).then((response) => {
-            navigation.pop();
+            navigation.reset({
+                index: 0,
+                routes: [{ name: "Swiping" }]
+            });
         }).catch((err) => {
             console.log(err.response);
             ToastAndroid.show("error occured.", ToastAndroid.SHORT);
@@ -82,6 +85,17 @@ export default function Filter({ navigation }) {
 
     useFocusEffect(React.useCallback(() => {
         getData();
+        const backAction = () => {
+            navigation.push("Swiping");
+            return true;
+        };
+
+        const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+        );
+
+        return () => backHandler.remove();
     }, []))
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.fullView} keyboardShouldPersistTaps="handled"

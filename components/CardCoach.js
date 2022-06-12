@@ -35,11 +35,10 @@ export default function CardCoach(props) {
                         <View style={{ flex: 1, width: '100%', height: '100%', display: 'flex' }}>
                             <View style={{ flex: 0.25 }}>
                                 <View style={{ display: 'flex', flexDirection: 'row' }}>
-                                    <View style={{ paddingHorizontal: '4%', paddingTop: '6%', flex: 0.7 }}>
+                                    <TouchableOpacity onPress={() => props.id ? props.nav.navigate("profile", { "id": props.id }) : null} style={{ paddingHorizontal: '4%', paddingTop: '6%', flex: 0.7 }}>
                                         <Text style={{ fontSize: windowHeight * 0.024 }}>{props.firstname} </Text>
                                         <Text style={{ fontSize: windowHeight * 0.03, fontWeight: '600' }}>{props.lastname}</Text>
-
-                                    </View>
+                                    </TouchableOpacity>
                                     <TouchableOpacity onPress={() => setflip(true)} style={{ flex: 0.3, alignItems: 'center', justifyContent: 'center' }}>
                                         <Text style={{ color: "#00B8FE", fontWeight: '600', fontSize: windowHeight * 0.02 }} >BACK</Text>
                                     </TouchableOpacity>
@@ -90,10 +89,11 @@ export default function CardCoach(props) {
                         <View style={{ flex: 1, width: '100%', height: '100%', display: 'flex', backgroundColor: 'white', opacity: 0.8 }}>
                             <View style={{ flex: 0.2 }}>
                                 <View style={{ display: 'flex', flexDirection: 'row' }}>
-                                    <View style={{ paddingHorizontal: '4%', paddingTop: '6%', flex: 0.7 }}>
+                                    <TouchableOpacity onPress={() => props.id ? props.nav.navigate("profile", { "id": props.id }) : null} style={{ paddingHorizontal: '4%', paddingTop: '6%', flex: 0.7 }}>
                                         <Text style={{ fontSize: windowHeight * 0.024 }}>{props.firstname} </Text>
                                         <Text style={{ fontSize: windowHeight * 0.03, fontWeight: '600' }}>{props.lastname}</Text>
-                                    </View>
+
+                                    </TouchableOpacity>
                                     <TouchableOpacity onPress={() => setflip(false)} style={{ flex: 0.3, alignItems: 'center', justifyContent: 'center' }}>
                                         <Text style={{ color: "#00B8FE", fontWeight: '600', fontSize: windowHeight * 0.02 }} >FRONT</Text>
                                     </TouchableOpacity>

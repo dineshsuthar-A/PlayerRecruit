@@ -45,7 +45,7 @@ export default function ProfileAthelete({ navigation }) {
                     <View style={{ flex: 0.35, justifyContent: 'space-around', alignItems: 'center', paddingVertical: '4%', backgroundColor: '#004467' }}>
                         <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderBottomWidth: 0.5, paddingBottom: "3%", width: '70%', borderColor: 'grey' }}>
                             <Text style={styles.textbottom}>Views</Text>
-                            <Text style={{ color: 'white', fontWeight: '400', fontSize: windowHeight * 0.026 }}>554</Text>
+                            <Text style={{ color: 'white', fontWeight: '400', fontSize: windowHeight * 0.026 }}>{data.views}</Text>
                         </View>
                         <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderBottomWidth: 0.5, paddingBottom: "3%", width: '70%', borderColor: 'grey' }}>
                             <Text style={styles.textbottom}>Remaining</Text>
@@ -191,11 +191,11 @@ export default function ProfileAthelete({ navigation }) {
                         }
                         <View style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
                             <View style={{ flex: 0.5 }}>
-                                <Text style={styles.textHead}>{data.height + ' ' + data.heightunit} </Text>
+                                <Text style={styles.textHead}>{data.height} CM </Text>
                                 <Text style={styles.textbottom}>Height</Text>
                             </View>
                             <View style={{ flex: 0.5 }}>
-                                <Text style={styles.textHead}>{data.weight} {data.units}</Text>
+                                <Text style={styles.textHead}>{data.weight} KG</Text>
                                 <Text style={styles.textbottom}>Weight</Text>
                             </View>
                         </View>
