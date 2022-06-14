@@ -206,8 +206,8 @@ const styles = StyleSheet.create({
         width: "100%",
     },
     pickerOuter: { width: "34%", borderRadius: 5, overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, marginTop: windowHeight * 0.01 },
-    pickerOuterhand: { width: "100%", borderRadius: 5, overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, paddingLeft: 10, marginTop: windowHeight * 0.01 },
-    pickerOutersport: { width: "62%", borderRadius: 5, overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, paddingLeft: 10, marginTop: windowHeight * 0.01 },
+    pickerOuterhand: { width: "100%", borderRadius: 5, overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, marginTop: windowHeight * 0.01 },
+    pickerOutersport: { width: "62%", borderRadius: 5, overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, marginTop: windowHeight * 0.01 },
     TextLine: {
         color: "white",
         fontSize: windowHeight * 0.023,
@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
         height: windowHeight * 0.07,
         borderRadius: 5,
         paddingLeft: 20,
-        padding: 10,
+        padding: 20,
         marginTop: windowHeight * 0.01,
         fontSize: windowHeight * 0.02
     },

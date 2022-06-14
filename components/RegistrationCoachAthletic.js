@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         marginRight: 10
     },
-    textbox: { backgroundColor: 'white', width: '100%', height: windowHeight * 0.07, borderRadius: 5, paddingLeft: 10, marginTop: windowHeight * 0.01, marginBottom: windowHeight * 0.025, },
+    textbox: { backgroundColor: 'white', width: '100%', height: windowHeight * 0.07, borderRadius: 5, paddingLeft: 20, marginTop: windowHeight * 0.01, marginBottom: windowHeight * 0.025, },
     activedot: {
         height: 15, width: 15, borderWidth: 1, borderColor: "#CCD4D8", borderRadius: 10, marginRight: 4, backgroundColor: "#CCD4D8"
     },

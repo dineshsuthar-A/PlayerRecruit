@@ -46,7 +46,7 @@ export default function RegistrationCoachAcademic({ route, navigation }) {
                 <View style={{ display: 'flex', width: '100%', height: '100%', }}>
                     <View style={{ flex: 0.85, alignItems: 'center', paddingHorizontal: '11%', marginTop: windowHeight * 0.04 }}>
                         <TextInput selectionColor={"#004467"} placeholder='College Name' placeholderTextColor="grey" onChangeText={(t) => setCollegename(t)} style={styles.textbox} />
-                        <View style={{ width: "100%", borderRadius: 5, overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, alignItems: 'center', paddingHorizontal: 1, marginTop: windowHeight * 0.02 }}>
+                        <View style={{ width: "100%", borderRadius: 5, overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, alignItems: 'center', marginTop: windowHeight * 0.02 }}>
                             <Picker style={styles.pickerbox} selectedValue={collegeState} onValueChange={(itemValue, itemIndex) => setCollegeState(itemValue)} >
                                 <Picker.Item label="State" style={{ fontSize: windowHeight * 0.02, marginLeft: 10, color: 'grey' }} value={null} />
                                 {statedata ?
@@ -80,8 +80,8 @@ export default function RegistrationCoachAcademic({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
-    textbox: { backgroundColor: 'white', width: '100%', height: windowHeight * 0.07, borderRadius: 5, paddingLeft: 10, fontSize: windowHeight * 0.02, marginTop: windowHeight * 0.02 },
-    textBoxMail: { backgroundColor: 'white', width: '90%', height: windowHeight * 0.07, borderBottomLeftRadius: 5, paddingLeft: 10, borderTopLeftRadius: 5, fontSize: windowHeight * 0.02, marginBottom: windowHeight * 0.02 },
+    textbox: { backgroundColor: 'white', width: '100%', height: windowHeight * 0.07, borderRadius: 5, paddingLeft: 20, fontSize: windowHeight * 0.02, marginTop: windowHeight * 0.02 },
+    textBoxMail: { backgroundColor: 'white', width: '90%', height: windowHeight * 0.07, borderBottomLeftRadius: 5, paddingLeft: 20, borderTopLeftRadius: 5, fontSize: windowHeight * 0.02, marginBottom: windowHeight * 0.02 },
 
     activedot: {
         height: 15,

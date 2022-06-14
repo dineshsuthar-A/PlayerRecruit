@@ -174,9 +174,9 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         backgroundColor: "white",
         alignItems: 'center',
-        paddingLeft: 14,
+
         marginTop: '5%',
-        paddingRight: 2
+        paddingRight: 10
 
     },
 })
