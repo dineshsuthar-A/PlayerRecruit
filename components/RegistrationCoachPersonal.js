@@ -94,7 +94,7 @@ export default function RegistrationCoachPersonal({ navigation }) {
                             </View>
 
                             <View style={styles.main}>
-                                <View style={{ width: "100%", borderRadius: 5, overflowX: 'hidden', overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, alignItems: 'center', paddingHorizontal: 10, }}>
+                                <View style={{ width: "100%", borderRadius: 5, overflowX: 'hidden', overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, alignItems: 'center', paddingRight: 10, paddingLeft: 2 }}>
                                     <Picker style={styles.pickerbox} selectedValue={state} onValueChange={(itemValue, itemIndex) => setState(itemValue)} >
                                         <Picker.Item label="State" style={{ fontSize: windowHeight * 0.02, marginLeft: 20, color: 'grey' }} />
                                         {statedata ?
@@ -194,8 +194,9 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         backgroundColor: "white",
         alignItems: 'center',
-        paddingHorizontal: 0,
-        marginTop: '5%'
+        paddingLeft: 2,
+        marginTop: '5%',
+        paddingRight: 10
     },
     main: {
         display: "flex",

@@ -97,7 +97,7 @@ export default function RegistrationStudentAthletic({ route, navigation }) {
                             </View>
                             <View style={styles.pickerOuter}>
                                 <Picker style={styles.pickerbox} selectedValue={rank} onValueChange={(itemValue, itemIndex) => addSport(itemValue, itemIndex)}>
-                                    <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto", color: 'grey' }} label="Pos" value={null} />
+                                    <Picker.Item style={{ fontSize: windowHeight * 0.015, fontFamily: "Roboto", color: 'grey' }} label="Pos" value={null} />
                                     {positiondata ?
                                         positiondata.map((i, index) => <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label={i.position} value={i.id} key={index} />)
                                         : null
@@ -205,9 +205,9 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         width: "100%",
     },
-    pickerOuter: { width: "34%", borderRadius: 5, overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, marginTop: windowHeight * 0.01 },
-    pickerOuterhand: { width: "100%", borderRadius: 5, overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, marginTop: windowHeight * 0.01 },
-    pickerOutersport: { width: "62%", borderRadius: 5, overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, marginTop: windowHeight * 0.01 },
+    pickerOuter: { width: "34%", borderRadius: 5, overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, marginTop: windowHeight * 0.01, paddingLeft: 2 },
+    pickerOuterhand: { width: "100%", borderRadius: 5, overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, marginTop: windowHeight * 0.01, paddingLeft: 2 },
+    pickerOutersport: { width: "62%", borderRadius: 5, overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, marginTop: windowHeight * 0.01, paddingLeft: 2 },
     TextLine: {
         color: "white",
         fontSize: windowHeight * 0.023,
@@ -234,7 +234,6 @@ const styles = StyleSheet.create({
         height: windowHeight * 0.07,
         borderRadius: 5,
         paddingLeft: 20,
-        padding: 20,
         marginTop: windowHeight * 0.01,
         fontSize: windowHeight * 0.02
     },

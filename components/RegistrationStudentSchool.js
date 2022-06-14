@@ -70,7 +70,7 @@ export default function RegistrationStudentSchool({ route, navigation }) {
                                 }
                             </Picker>
                         </View>
-                        <View style={{ width: "100%", borderRadius: 5, overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, alignItems: 'center', marginTop: windowHeight * 0.02, paddingLeft: windowHeight * 0.02 }}>
+                        <View style={{ width: "100%", borderRadius: 5, overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, alignItems: 'center', marginTop: windowHeight * 0.02, paddingLeft: 2 }}>
                             <Picker style={styles.pickerbox} selectedValue={gpa} onValueChange={(itemValue, itemIndex) => setgpa(itemValue)} >
                                 <Picker.Item label="GPA" style={{ fontSize: windowHeight * 0.019, marginLeft: 20, color: 'grey' }} value={null} />
 
@@ -174,9 +174,8 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         backgroundColor: "white",
         alignItems: 'center',
-
         marginTop: '5%',
-        paddingRight: 10
+        paddingLeft: 2
 
     },
 })

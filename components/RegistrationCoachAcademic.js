@@ -46,7 +46,7 @@ export default function RegistrationCoachAcademic({ route, navigation }) {
                 <View style={{ display: 'flex', width: '100%', height: '100%', }}>
                     <View style={{ flex: 0.85, alignItems: 'center', paddingHorizontal: '11%', marginTop: windowHeight * 0.04 }}>
                         <TextInput selectionColor={"#004467"} placeholder='College Name' placeholderTextColor="grey" onChangeText={(t) => setCollegename(t)} style={styles.textbox} />
-                        <View style={{ width: "100%", borderRadius: 5, overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, alignItems: 'center', marginTop: windowHeight * 0.02 }}>
+                        <View style={{ width: "100%", borderRadius: 5, overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, alignItems: 'center', marginTop: windowHeight * 0.02, paddingLeft: 2 }}>
                             <Picker style={styles.pickerbox} selectedValue={collegeState} onValueChange={(itemValue, itemIndex) => setCollegeState(itemValue)} >
                                 <Picker.Item label="State" style={{ fontSize: windowHeight * 0.02, marginLeft: 10, color: 'grey' }} value={null} />
                                 {statedata ?
