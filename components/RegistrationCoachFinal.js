@@ -85,7 +85,7 @@ export default function RegistrationCoachFinal({ route, navigation }) {
                     "Authorization": token
                 }
             }).then(async (response) => {
-                axios.post("/api/coach/uploadimage", fd
+                await axios.post("/api/coach/uploadimage", fd
                     , {
                         headers: {
 

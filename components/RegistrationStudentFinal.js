@@ -89,7 +89,7 @@ export default function RegistrationStudentFinal({ route, navigation }) {
                 }
             ).then(async (response) => {
 
-                axios.post("/api/student/uploadimage", fd
+                await axios.post("/api/student/uploadimage", fd
                     , {
                         headers: {
 
@@ -112,6 +112,7 @@ export default function RegistrationStudentFinal({ route, navigation }) {
             }).catch((err) => {
                 setSt(false);
                 console.log(err.response.data);
+                ToastAndroid.show(err?.response?.data?.error ? err?.response?.data?.error : "Try again! some error occured.", ToastAndroid.SHORT);
             });
         }
     }
