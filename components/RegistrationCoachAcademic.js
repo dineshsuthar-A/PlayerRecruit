@@ -5,6 +5,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import dataapis from "../apicalls/dataapis";
 import { Picker } from '@react-native-picker/picker';
 const windowHeight = Dimensions.get("window").height;
+var validator = require('validator');
 
 export default function RegistrationCoachAcademic({ route, navigation }) {
     const [collegename, setCollegename] = useState();
@@ -15,6 +16,8 @@ export default function RegistrationCoachAcademic({ route, navigation }) {
     const onNext = () => {
         if (!(collegeState && collegeState && email)) {
             ToastAndroid.show("Fill all columns", ToastAndroid.SHORT);
+        } else if (!(validator.isEmail(email))) {
+            ToastAndroid.show("Invalid email", ToastAndroid.SHORT);
         } else {
             const a = route.params;
             a.collegename = collegename.trim();
@@ -42,10 +45,10 @@ export default function RegistrationCoachAcademic({ route, navigation }) {
                 <StatusBar barStyle="light-content" backgroundColor="#004467" />
                 <View style={{ display: 'flex', width: '100%', height: '100%', }}>
                     <View style={{ flex: 0.85, alignItems: 'center', paddingHorizontal: '11%', marginTop: windowHeight * 0.04 }}>
-                        <TextInput placeholder='College Name' placeholderTextColor="grey" onChangeText={(t) => setCollegename(t)} style={styles.textbox} />
+                        <TextInput selectionColor={"#004467"} placeholder='College Name' placeholderTextColor="grey" onChangeText={(t) => setCollegename(t)} style={styles.textbox} />
                         <View style={{ width: "100%", borderRadius: 5, overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, alignItems: 'center', paddingHorizontal: 1, marginTop: windowHeight * 0.02 }}>
                             <Picker style={styles.pickerbox} selectedValue={collegeState} onValueChange={(itemValue, itemIndex) => setCollegeState(itemValue)} >
-                                <Picker.Item label="State" style={{ fontSize: windowHeight * 0.02, marginLeft: 40, color: 'grey' }} value={null} />
+                                <Picker.Item label="State" style={{ fontSize: windowHeight * 0.02, marginLeft: 10, color: 'grey' }} value={null} />
                                 {statedata ?
                                     statedata.map((i, index) => <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label={i.statename} value={i.id} key={index} />)
                                     : null
@@ -53,7 +56,7 @@ export default function RegistrationCoachAcademic({ route, navigation }) {
                             </Picker>
                         </View>
                         <View style={{ display: "flex", flexDirection: 'row', justifyContent: "center", alignContent: "center", marginTop: windowHeight * 0.02, width: '100%' }}>
-                            <TextInput onChangeText={(t) => setEmail(t)} placeholder='University Email' placeholderTextColor="grey" style={styles.textBoxMail} />
+                            <TextInput selectionColor={"#004467"} onChangeText={(t) => setEmail(t)} placeholder='University Email' placeholderTextColor="grey" style={styles.textBoxMail} />
                             <View style={{ backgroundColor: "white", justifyContent: "center", width: '10%', height: windowHeight * 0.07, borderBottomRightRadius: 5, borderTopRightRadius: 5 }}><Image source={require("../assets/checkIcon.png")} style={{ width: 20, height: 20 }} /></View>
                         </View>
                     </View>

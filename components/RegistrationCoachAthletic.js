@@ -71,7 +71,7 @@ export default function RegistrationCoachAthletic({ route, navigation }) {
                                 </Picker>
                             </View>
                             <Text style={styles.text}>What’s your team name?</Text>
-                            <TextInput style={styles.textbox} onChangeText={(t) => setTeamName(t)} />
+                            <TextInput selectionColor={"#004467"} style={styles.textbox} onChangeText={(t) => setTeamName(t)} />
 
                             <Text style={styles.text}>Do you coach men’s or women’s?</Text>
                             <View style={{ display: "flex", flexDirection: "row", marginTop: "2%", marginBottom: "7%" }}>
@@ -91,7 +91,7 @@ export default function RegistrationCoachAthletic({ route, navigation }) {
                                 </Picker>
                             </View>
                             <Text style={styles.text}>What’s your job title?</Text>
-                            <TextInput style={styles.textbox} onChangeText={(t) => setJobTitle(t)} />
+                            <TextInput selectionColor={"#004467"} style={styles.textbox} onChangeText={(t) => setJobTitle(t)} />
 
                         </View>
                         <View style={{ paddingHorizontal: '11%', alignItems: 'center', flex: 0.25 }}>

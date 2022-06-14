@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ImageBackground, ScrollView, Image, TouchableOpacity, Dimensions } from 'react-native'
+import { StyleSheet, Text, View, ImageBackground, ScrollView, Image, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native'
 import React, { useState } from 'react';
 import { Entypo } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
@@ -12,15 +12,19 @@ const windowHeight = Dimensions.get('window').height
 
 export default function CoachLikedYou(props) {
     const [data, setdata] = useState();
+    const [st, setST] = useState(false);
     const getdata = async () => {
+        setST(true);
         const token = "Bearer " + await SecureStore.getItemAsync("token");
         axios.get("/api/coach/likebyathletes", {
             headers: {
                 "Authorization": token
             }
         }).then((response) => {
+            setST(false);
             setdata(response.data.data);
         }).catch((err) => {
+            setST(false);
             console.log(err.response.data);
         });
     }
@@ -29,17 +33,19 @@ export default function CoachLikedYou(props) {
     }, []))
     return (
         <ImageBackground source={require('../../assets/bg.png')} style={{ width: '100%', height: '100%' }}>
-            <ScrollView style={{ paddingHorizontal: '4%', paddingVertical: '4%', height: '90%' }} contentContainerStyle={{ flexGrow: 1 }} >
+            <ActivityIndicator size="large" animating={st} color="#004467" style={{ position: "absolute", top: '50%', left: '45%', zIndex: 10 }} />
+
+            <ScrollView style={{ paddingHorizontal: '4%', height: '90%' }} contentContainerStyle={{ flexGrow: 1 }} >
                 {(data && data.length > 0) ?
 
                     data.map((i, index) =>
-                        <View key={index} style={{ display: 'flex', flexDirection: 'row', backgroundColor: '#E6EDF1', paddingVertical: windowHeight * 0.02, paddingHorizontal: '6%', borderRadius: 60, marginBottom: windowHeight * 0.02 }}>
-                            <TouchableOpacity onPress={() => props.navigation.navigate("profile", { "id": i.registration_id })} style={{ flex: 0.85, flexDirection: 'row' }}>
+                        <View key={index} style={{ display: 'flex', flexDirection: 'row', backgroundColor: '#E6EDF1', paddingHorizontal: windowHeight * 0.01, borderRadius: 60, marginTop: windowHeight * 0.01 }}>
+                            <TouchableOpacity onPress={() => props.navigation.navigate("profile", { "id": i.registration_id })} style={{ flex: 0.8, flexDirection: 'row', paddingVertical: '4%', }}>
                                 <View style={{ flex: 0.2, marginRight: '4%' }}>
                                     <Image source={{ uri: baseURL + "uploads/" + i.image }} style={{ width: windowHeight * 0.07, height: windowHeight * 0.07, borderRadius: windowHeight * 0.07 / 2, borderWidth: 1, borderColor: 'black' }} />
                                 </View>
-                                <View style={{ flex: 0.65, flexDirection: 'column', marginLeft: '3%' }}>
-                                    <Text style={{ fontWeight: '600', fontSize: windowHeight * 0.025 }}>{i.firstname} {i.lastname}</Text>
+                                <View style={{ flex: 0.65, flexDirection: 'column', marginLeft: '3%', justifyContent: 'center' }}>
+                                    <Text style={{ fontWeight: '600', fontSize: windowHeight * 0.02 }}>{i.firstname} {i.lastname}</Text>
                                     <View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>
                                         <Text style={{ fontSize: windowHeight * 0.015, fontWeight: '600' }}>{i.gpa}</Text>
                                         <Entypo name="dot-single" size={windowHeight * 0.03} color="black" />
@@ -49,7 +55,7 @@ export default function CoachLikedYou(props) {
                                     </View>
                                 </View>
                             </TouchableOpacity>
-                            <View style={{ flex: 0.15, justifyContent: 'center', alignItems: 'center' }}>
+                            <View style={{ flex: 0.2, justifyContent: 'center', alignItems: 'center' }}>
                                 <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                                     <Feather name="plus-circle" size={windowHeight * 0.02} color="#00B8FE" />
                                     <Text style={{ fontWeight: '700', color: '#00B8FE' }}>  Add</Text>

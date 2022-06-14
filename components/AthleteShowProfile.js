@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, StatusBar, ImageBackground, ScrollView, TouchableOpacity, Image, Dimensions } from 'react-native'
+import { StyleSheet, Text, View, StatusBar, ImageBackground, ScrollView, TouchableOpacity, Image, Dimensions, ActivityIndicator } from 'react-native'
 import React, { useState } from 'react'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
@@ -197,7 +197,8 @@ export default function ShowProfile({ route, navigation }) {
                 </View>
             </ScrollView >
             :
-            null
+            <ActivityIndicator size="large" animating={true} color="#004467" style={{ position: "absolute", top: '50%', left: '45%', zIndex: 10 }} />
+
     )
 }
 

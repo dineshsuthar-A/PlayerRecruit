@@ -67,7 +67,7 @@ export default function Registration({ navigation }) {
             <StatusBar barStyle="light-content" backgroundColor="#004467" />
             <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.fullView}
                 showsVerticalScrollIndicator={false}>
-                <ActivityIndicator size="large" animating={st} color="#00ff00" style={{ position: "absolute", top: '50%', left: '45%', zIndex: 10 }} />
+                <ActivityIndicator size="large" animating={st} color="#004467" style={{ position: "absolute", top: '50%', left: '45%', zIndex: 10 }} />
                 <View style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center' }}>
                     <View style={styles.header}>
                         <Text style={styles.headTitle}>User Registration</Text>
@@ -78,10 +78,10 @@ export default function Registration({ navigation }) {
                             <Text style={{ color: "white", fontFamily: "Roboto", fontWeight: "900", fontSize: 20, marginBottom: '3%' }}>Register User</Text>
                         </View>
                         <View style={{ flex: 0.5, alignItems: 'center', paddingHorizontal: '11%', width: '100%', }}>
-                            <TextInput value={name} onChangeText={(e) => setName(e)} autoCapitalize="none" placeholder='Username' style={styles.textBox} />
-                            <TextInput onChangeText={(t) => setRpass(t)} placeholder='Email' style={styles.textBox} />
-                            <TextInput onChangeText={(t) => setPhone(t)} placeholder='Phone Number' maxLength={10} keyboardType="number-pad" style={styles.textBox} />
-                            <TextInput onChangeText={(t) => setPass(t)} placeholder='Password' secureTextEntry={true} style={styles.textBox} />
+                            <TextInput selectionColor={"#004467"} value={name} onChangeText={(e) => setName(e)} autoCapitalize="none" placeholder='Username' style={styles.textBox} />
+                            <TextInput selectionColor={"#004467"} onChangeText={(t) => setRpass(t)} placeholder='Email' style={styles.textBox} />
+                            <TextInput selectionColor={"#004467"} onChangeText={(t) => setPhone(t)} placeholder='Phone Number' maxLength={10} keyboardType="number-pad" style={styles.textBox} />
+                            <TextInput selectionColor={"#004467"} onChangeText={(t) => setPass(t)} placeholder='Password' secureTextEntry={true} style={styles.textBox} />
                         </View>
                     </View>
                     <View style={{ flex: 0.4, width: '100%', paddingHorizontal: '11%', alignItems: 'center' }}>

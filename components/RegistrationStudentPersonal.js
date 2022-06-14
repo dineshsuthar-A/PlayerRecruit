@@ -78,8 +78,8 @@ export default function RegistrationStudentPersonal({ navigation }) {
                 <View style={{ width: '100%', height: '100%', display: 'flex' }}>
                     <View style={{ flex: 0.75, width: '100%', paddingHorizontal: '11%' }}>
                         <View style={styles.main}>
-                            <TextInput onChangeText={(t) => setFirstname(t)} placeholderTextColor="grey" placeholder='First name' style={styles.textBox} />
-                            <TextInput onChangeText={(t) => setLastname(t)} placeholderTextColor="grey" placeholder='Last name' style={styles.textBox} />
+                            <TextInput selectionColor={"#004467"} onChangeText={(t) => setFirstname(t)} placeholderTextColor="grey" placeholder='First name' style={styles.textBox} />
+                            <TextInput selectionColor={"#004467"} onChangeText={(t) => setLastname(t)} placeholderTextColor="grey" placeholder='Last name' style={styles.textBox} />
                             <TouchableOpacity onPress={() => showDatePicker()} style={{ backgroundColor: "white", width: "100%", display: "flex", flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20, alignItems: "center", borderRadius: 5, height: windowHeight * 0.07, marginTop: '5%' }}><Text style={date ? { color: "black", marginRight: 10 } : { color: 'grey', marginRight: 10 }}  >{date ? date : "Birthday"}</Text><Image source={require('../assets/event_black.png')} /></TouchableOpacity>
                             <DateTimePickerModal
                                 isVisible={isDatePickerVisible}
@@ -97,19 +97,19 @@ export default function RegistrationStudentPersonal({ navigation }) {
                         <View style={styles.main}>
                             <View style={{ width: "100%", borderRadius: 5, overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, alignItems: 'center', paddingHorizontal: 10, }}>
                                 <Picker style={styles.pickerbox} selectedValue={state} onValueChange={(itemValue, itemIndex) => setState(itemValue)} >
-                                    <Picker.Item label="State" style={{ fontSize: windowHeight * 0.02, marginLeft: 40, color: 'grey' }} />
+                                    <Picker.Item label="State" style={{ fontSize: windowHeight * 0.02, marginLeft: 20, color: 'grey' }} />
                                     {statedata ?
                                         statedata.map((i, index) => <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label={i.statename} value={i.id} key={index} />)
                                         : null
                                     }
                                 </Picker>
                             </View>
-                            <TextInput placeholder='City' onChangeText={(t) => setCity(t)} placeholderTextColor="grey" style={styles.textBox} />
+                            <TextInput selectionColor={"#004467"} placeholder='City' onChangeText={(t) => setCity(t)} placeholderTextColor="grey" style={styles.textBox} />
 
                             <View style={styles.pickerOuter}>
                                 <Picker
                                     style={styles.pickerbox} selectedValue={ethnicity} onValueChange={(itemValue, itemIndex) => setethnicity(itemValue)}>
-                                    <Picker.Item label="Ethnicity" value="null" style={{ fontSize: windowHeight * 0.02, marginLeft: 40, color: 'grey' }} />
+                                    <Picker.Item label="Ethnicity" value="null" style={{ fontSize: windowHeight * 0.02, marginLeft: 20, color: 'grey' }} />
                                     {
                                         etha ?
                                             etha.map((i, index) => <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label={i.ethnicities} value={i.id} key={index} />) : null

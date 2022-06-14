@@ -3,6 +3,7 @@ import React from 'react'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import CoachLikedByMe from './CoachLikedByMe';
 import CoachLikedYou from './CoachLikedYou';
+import CoachNeutral from './CoachNeutral';
 const Tab = createMaterialTopTabNavigator();
 const windowHeight = Dimensions.get("window").height;
 const CoachLikes = () => {
@@ -18,6 +19,7 @@ const CoachLikes = () => {
             }}>
                 <Tab.Screen name="Liked By Me" component={CoachLikedByMe} />
                 <Tab.Screen name="Liked By Atheletes" component={CoachLikedYou} />
+                <Tab.Screen name="Neutral" component={CoachNeutral} />
             </Tab.Navigator>
         </View>
     )

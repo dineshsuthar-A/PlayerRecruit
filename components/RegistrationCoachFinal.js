@@ -1,5 +1,5 @@
 
-import { StyleSheet, Text, View, ImageBackground, Modal, ScrollView, StatusBar, TouchableOpacity, Image, TextInput, Dimensions, ToastAndroid } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, Modal, ScrollView, StatusBar, TouchableOpacity, Image, TextInput, Dimensions, ToastAndroid, ActivityIndicator } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 
@@ -12,6 +12,7 @@ export default function RegistrationCoachFinal({ route, navigation }) {
     const [videoLink, setvideoLink] = useState();
     const [modal, setModalVisible] = useState(false);
     const windowWidth = Dimensions.get('window').width;
+    const [st, setSt] = useState(false);
 
 
     const pickImage = async () => {
@@ -56,6 +57,7 @@ export default function RegistrationCoachFinal({ route, navigation }) {
         } else if (!videoLink) {
             ToastAndroid.show("Add Video Link", ToastAndroid.SHORT);
         } else {
+            setSt(true);
             const token = "Bearer " + await SecureStore.getItemAsync("token");
             const data = route.params;
             const fd = new FormData();
@@ -96,6 +98,7 @@ export default function RegistrationCoachFinal({ route, navigation }) {
                     }).catch((err) => {
                         ToastAndroid.show("Picture unable to upload.", ToastAndroid.SHORT);
                     });
+                setSt(false);
                 await SecureStore.setItemAsync("type", "2");
                 ToastAndroid.show("Registered.", ToastAndroid.SHORT);
                 navigation.reset({
@@ -103,6 +106,7 @@ export default function RegistrationCoachFinal({ route, navigation }) {
                     routes: [{ name: "CoachMain" }]
                 });
             }).catch((err) => {
+                setSt(false);
                 ToastAndroid.show(err.response.data.error, ToastAndroid.SHORT);
             });
 
@@ -111,6 +115,8 @@ export default function RegistrationCoachFinal({ route, navigation }) {
 
     return (
         <ImageBackground source={require('../assets/bg.png')} style={{ backgroundColor: "#004467", width: "100%", height: "100%" }}>
+            <ActivityIndicator size="large" animating={st} color="#004467" style={{ position: "absolute", top: '50%', left: '45%', zIndex: 10 }} />
+
             <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.fullView} showsVerticalScrollIndicator={false}>
                 <StatusBar barStyle="light-content" backgroundColor="#004467" />
                 <View style={{ width: '100%', height: '100%', paddingTop: windowHeight * 0.01 }}>
@@ -124,7 +130,7 @@ export default function RegistrationCoachFinal({ route, navigation }) {
                         </View>
                         <View style={styles.bioAndReel}>
                             <Text style={styles.bioText}>Bio</Text>
-                            <TextInput onChangeText={(t) => setBio(t)} style={styles.bioTextBox} placeholder='Tell athletes a little about yourself…' multiline={true} />
+                            <TextInput selectionColor={"#004467"} onChangeText={(t) => setBio(t)} style={styles.bioTextBox} placeholder='Tell athletes a little about yourself…' multiline={true} />
                             <Text style={styles.bioTextHigh}>Highlight Reel</Text>
                             <Image style={styles.highImage} source={require("../assets/image.png")} />
                             <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.choosePhoto}>
@@ -156,7 +162,7 @@ export default function RegistrationCoachFinal({ route, navigation }) {
                         <View style={styles.modalView}>
 
                             <View style={{ alignItems: 'center' }}>
-                                <TextInput onChangeText={(t) => setvideoLink(t)} placeholder='Video Link' style={{ marginBottom: 20, borderWidth: 1, borderColor: 'grey', width: windowWidth - 100, paddingLeft: 10, height: 50, borderRadius: 5 }} />
+                                <TextInput autoCapitalize='none' value={videoLink} selectionColor={"#004467"} onChangeText={(t) => setvideoLink(t)} placeholder='Video Link' style={{ marginBottom: 20, borderWidth: 1, borderColor: 'grey', width: windowWidth - 100, paddingLeft: 10, height: 50, borderRadius: 5 }} />
                                 <TouchableOpacity onPress={() => setModalVisible(false)} style={{ backgroundColor: '#2196F3', alignItems: 'center', height: 30, justifyContent: 'center', width: 150, borderRadius: 50, marginBottom: 10 }} ><Text style={{ color: 'white', fontWeight: "bold", fontSize: 14 }}>Submit</Text></TouchableOpacity>
                             </View>
                         </View>

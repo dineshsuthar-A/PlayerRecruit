@@ -88,7 +88,7 @@ export default function RegistrationStudentAthletic({ route, navigation }) {
                                     setSportsIndex(itemIndex);
                                     setsppick(itemValue);
                                 }}>
-                                    <Picker.Item style={{ color: "grey", fontWeight: 14.5, fontFamily: "Roboto" }} label="Select sports" value={null} />
+                                    <Picker.Item style={{ color: "grey", fontWeight: windowHeight * 0.02, fontFamily: "Roboto" }} label="Select sports" value={null} />
                                     {sportsData ?
                                         sportsData.map((i, index) => <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label={i.sportsname} value={i.id} key={index} />)
                                         : null
@@ -97,7 +97,7 @@ export default function RegistrationStudentAthletic({ route, navigation }) {
                             </View>
                             <View style={styles.pickerOuter}>
                                 <Picker style={styles.pickerbox} selectedValue={rank} onValueChange={(itemValue, itemIndex) => addSport(itemValue, itemIndex)}>
-                                    <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label="Pos" value={null} />
+                                    <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto", color: 'grey' }} label="Pos" value={null} />
                                     {positiondata ?
                                         positiondata.map((i, index) => <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label={i.position} value={i.id} key={index} />)
                                         : null
@@ -118,21 +118,21 @@ export default function RegistrationStudentAthletic({ route, navigation }) {
 
                         <Text style={styles.TextLine}>What’s your height?</Text>
                         <View style={styles.inputBoxes}>
-                            <TextInput keyboardType='numeric' style={styles.textBox} onChangeText={(t) => setHeight(t)} />
+                            <TextInput selectionColor={"#004467"} keyboardType='numeric' style={styles.textBox} onChangeText={(t) => setHeight(t)} />
                             <View style={styles.unit}>
                                 <Text >CM</Text>
                             </View>
                         </View>
                         <Text style={styles.TextLine}>What’s your weight?</Text>
                         <View style={styles.inputBoxes}>
-                            <TextInput keyboardType='numeric' style={styles.textBox} onChangeText={(t) => setweight(t)} />
+                            <TextInput selectionColor={"#004467"} keyboardType='numeric' style={styles.textBox} onChangeText={(t) => setweight(t)} />
                             <View style={styles.unit}>
                                 <Text>KG</Text>
                             </View>
                         </View>
                         <Text style={styles.TextLine}>What’s your wingspan?</Text>
                         <View style={styles.inputBoxes}>
-                            <TextInput keyboardType='number-pad' style={styles.textBox} onChangeText={(t) => setwingSpan(t)} />
+                            <TextInput selectionColor={"#004467"} keyboardType='number-pad' style={styles.textBox} onChangeText={(t) => setwingSpan(t)} />
                             <View style={styles.unit}>
                                 <Text>CM</Text>
                             </View>

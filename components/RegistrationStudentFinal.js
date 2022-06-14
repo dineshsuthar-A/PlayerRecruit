@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ImageBackground, ToastAndroid, Dimensions, Modal, ScrollView, StatusBar, TouchableOpacity, Image, TextInput } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, ToastAndroid, Dimensions, Modal, ScrollView, StatusBar, TouchableOpacity, Image, TextInput, ActivityIndicator } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { Platform } from 'expo-modules-core';
@@ -14,6 +14,7 @@ export default function RegistrationStudentFinal({ route, navigation }) {
     const [modal, setModalVisible] = useState(false);
     const windowWidth = Dimensions.get('window').width;
     const windowHeight = Dimensions.get('window').height;
+    const [st, setSt] = useState(false);
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -21,9 +22,7 @@ export default function RegistrationStudentFinal({ route, navigation }) {
         if (Platform.OS !== 'web') {
             const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
         }
-
         let result = await ImagePicker.launchImageLibraryAsync({
-
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
             quality: 1,
@@ -37,8 +36,6 @@ export default function RegistrationStudentFinal({ route, navigation }) {
                 const imgExt = uriParts && uriParts[uriParts?.length - 1];
                 const fileName = `profilepic.${imgExt}`;
                 const imgType = `image/${imgExt}`;
-
-
                 if (result?.uri) {
                     setImage({
                         uri: result?.uri,
@@ -46,8 +43,6 @@ export default function RegistrationStudentFinal({ route, navigation }) {
                         name: fileName,
                     });
                 }
-
-
             }
     }
     const onFinish = async () => {
@@ -58,6 +53,7 @@ export default function RegistrationStudentFinal({ route, navigation }) {
         } else if (!videoLink) {
             ToastAndroid.show("Add Video Link", ToastAndroid.SHORT);
         } else {
+            setSt(true);
             const object = route.params;
             const fd = new FormData();
             fd.append("image", image);
@@ -92,6 +88,7 @@ export default function RegistrationStudentFinal({ route, navigation }) {
                     }
                 }
             ).then(async (response) => {
+
                 axios.post("/api/student/uploadimage", fd
                     , {
                         headers: {
@@ -104,7 +101,7 @@ export default function RegistrationStudentFinal({ route, navigation }) {
                     }).catch((err) => {
                         ToastAndroid.show("Picture unable to upload.", ToastAndroid.SHORT);
                     });
-
+                setSt(false);
                 await SecureStore.setItemAsync("type", "1");
                 ToastAndroid.show("Registered.", ToastAndroid.SHORT);
                 navigation.reset({
@@ -113,18 +110,16 @@ export default function RegistrationStudentFinal({ route, navigation }) {
                 });
 
             }).catch((err) => {
+                setSt(false);
                 console.log(err.response.data);
             });
-
-
-
         }
-
-
     }
 
     return (
         <ImageBackground source={require('../assets/bg.png')} style={{ backgroundColor: "#004467", width: "100%", height: "100%" }}>
+
+            <ActivityIndicator size="large" animating={st} color="#004467" style={{ position: "absolute", top: '50%', left: '45%', zIndex: 10 }} />
             <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={styles.fullView} showsVerticalScrollIndicator={false} >
                 <StatusBar barStyle="light-content" backgroundColor="#004467" />
                 <View style={{ width: '100%', height: '100%' }}>
@@ -138,7 +133,7 @@ export default function RegistrationStudentFinal({ route, navigation }) {
                         </View>
                         <View style={styles.bioAndReel}>
                             <Text style={styles.bioText}>Bio</Text>
-                            <TextInput onChangeText={(t) => setBio(t)} style={styles.bioTextBox} placeholder='Tell athletes a little about yourself…' multiline={true} />
+                            <TextInput selectionColor={"#004467"} onChangeText={(t) => setBio(t)} style={styles.bioTextBox} placeholder='Tell athletes a little about yourself…' multiline={true} />
                             <Text style={styles.bioTextHigh}>Highlight Reel</Text>
                             <Image style={styles.highImage} source={require("../assets/image.png")} />
                             <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.choosePhoto}>
@@ -170,7 +165,7 @@ export default function RegistrationStudentFinal({ route, navigation }) {
                         <View style={styles.modalView}>
 
                             <View style={{ alignItems: 'center' }}>
-                                <TextInput onChangeText={(t) => setvideoLink(t)} placeholder='Video Link' style={{ marginBottom: 20, borderWidth: 1, borderColor: 'grey', width: windowWidth - 100, paddingLeft: 10, height: 50, borderRadius: 5 }} />
+                                <TextInput value={videoLink} autoCapitalize="none" selectionColor={"#004467"} onChangeText={(t) => setvideoLink(t)} placeholder='Video Link' style={{ marginBottom: 20, borderWidth: 1, borderColor: 'grey', width: windowWidth - 100, paddingLeft: 10, height: 50, borderRadius: 5 }} />
                                 <TouchableOpacity onPress={() => setModalVisible(false)} style={{ backgroundColor: '#2196F3', alignItems: 'center', height: 30, justifyContent: 'center', width: 150, borderRadius: 50, marginBottom: 10 }} ><Text style={{ color: 'white', fontWeight: "bold", fontSize: 14 }}>Submit</Text></TouchableOpacity>
                             </View>
                         </View>

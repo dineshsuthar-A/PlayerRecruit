@@ -102,7 +102,7 @@ export default function Verification({ navigation }) {
 
 
             <StatusBar barStyle="light-content" backgroundColor="#004467" />
-            <ActivityIndicator size="large" animating={st} color="#00ff00" style={{ position: "absolute", top: '50%', left: '45%', zIndex: 10 }} />
+            <ActivityIndicator size="large" animating={st} color="#004467" style={{ position: "absolute", top: '50%', left: '45%', zIndex: 10 }} />
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}  >
                 <View style={{ flex: 1 }}>
 
@@ -114,11 +114,11 @@ export default function Verification({ navigation }) {
                         <Image source={require('../assets/logo.png')} style={styles.logo} />
                         <Text style={{ color: "white", fontFamily: "Roboto", marginTop: "12%", fontWeight: "900", fontSize: 20, marginBottom: "5%" }}>Verification Code</Text>
                         <View style={{ display: "flex", flexDirection: 'row', justifyContent: "space-around", width: "100%" }}>
-                            <TextInput value={code1} ref={ref_input1} style={styles.textBox} autoFocus={true} onKeyPress={({ nativeEvent }) => change(nativeEvent, 0)} maxLength={1} keyboardType="number-pad" key='1' />
-                            <TextInput value={code2} style={styles.textBox} onKeyPress={({ nativeEvent }) => change(nativeEvent, 1)} ref={ref_input2} maxLength={1} keyboardType="number-pad" key='2' />
-                            <TextInput value={code3} onKeyPress={({ nativeEvent }) => change(nativeEvent, 2)} style={styles.textBox} maxLength={1}
+                            <TextInput selectionColor={"#004467"} value={code1} ref={ref_input1} style={styles.textBox} autoFocus={true} onKeyPress={({ nativeEvent }) => change(nativeEvent, 0)} maxLength={1} keyboardType="number-pad" key='1' />
+                            <TextInput selectionColor={"#004467"} value={code2} style={styles.textBox} onKeyPress={({ nativeEvent }) => change(nativeEvent, 1)} ref={ref_input2} maxLength={1} keyboardType="number-pad" key='2' />
+                            <TextInput selectionColor={"#004467"} value={code3} onKeyPress={({ nativeEvent }) => change(nativeEvent, 2)} style={styles.textBox} maxLength={1}
                                 ref={ref_input3} keyboardType="number-pad" key='3' />
-                            <TextInput value={code4} onKeyPress={({ nativeEvent }) => change(nativeEvent, 3)} style={styles.textBox} ref={ref_input4} onSubmitEditing={() => verify()} maxLength={1} keyboardType="number-pad" key='4' />
+                            <TextInput selectionColor={"#004467"} value={code4} onKeyPress={({ nativeEvent }) => change(nativeEvent, 3)} style={styles.textBox} ref={ref_input4} onSubmitEditing={() => verify()} maxLength={1} keyboardType="number-pad" key='4' />
                         </View>
                         <TouchableOpacity onPress={() => Resend()} ><Text style={{ color: "#00B8FE", marginVertical: "11%" }}>Resend Verification</Text></TouchableOpacity>
                     </View>

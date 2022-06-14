@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ImageBackground, StatusBar, TouchableOpacity, Image, Dimensions } from 'react-native'
+import { StyleSheet, Text, View, ImageBackground, StatusBar, TouchableOpacity, Image, Dimensions, ActivityIndicator } from 'react-native'
 import React, { useState, useRef, useEffect } from 'react'
 import CardAthelete from '../CardAthelete';
 import Swiper from 'react-native-deck-swiper-renewed';
@@ -15,14 +15,17 @@ export default function Swiping({ navigation }) {
     const [data, setdata] = useState([]);
     const [action, setaction] = useState();
     const getdata = async () => {
+        await setDisp(true);
         const token = "Bearer " + await SecureStore.getItemAsync("token");
         axios.get("/api/students/cards", {
             headers: {
                 "Authorization": token
             }
         }).then((Response) => {
+            setDisp(false);
             setdata(Response.data?.data);
         }).catch((error) => {
+            setDisp(false);
             console.log(error);
         });
 
@@ -35,6 +38,19 @@ export default function Swiping({ navigation }) {
             headers: {
                 "Authorization": token
             }
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+    const swipeTop = async (id) => {
+        const token = "Bearer " + await SecureStore.getItemAsync("token");
+        axios.post("/api/swipe/neutral", {
+            "id": id
+        }, {
+            headers: {
+                "Authorization": token
+            }
+        }).then((response) => {
         }).catch((err) => {
             console.log(err);
         });
@@ -79,14 +95,14 @@ export default function Swiping({ navigation }) {
                     <Swiper
                         ref={SwipeRef}
                         cards={data}
-                        onSwiped={(cardIndex) => console.log(cardIndex)}
-                        onSwipedAll={() => { setDisp(true) }}
+                        onSwiped={(cardIndex) => { }}
+                        onSwipedAll={async (cardIndex) => { setdata(null); await getdata() }}
                         cardIndex={0}
                         onSwipedLeft={(cardData) => swipedleft(data[cardData].id)}
                         onSwipedRight={(cardData) => swipedRight(data[cardData].id)}
+                        onSwipedTop={(cardData) => { swipeTop(data[cardData]?.id) }}
                         stackSize={1}
                         marginTop={-50}
-                        infinite={true}
                         overlayLabels={{
                             left: {
                                 element: <View>
@@ -138,25 +154,20 @@ export default function Swiping({ navigation }) {
                         animateCardOpacity
                         backgroundColor="transparent"
                         renderCard={(cardData) => {
-                            cardData &&
-                                getActionStatus(cardData?.id);
                             return (
-                                <CardAthelete id={cardData?.id} nav={navigation} image={cardData?.image} fname={cardData?.firstname} lname={cardData?.lastname} scholasticyear={cardData?.scholastic_year} school={cardData?.school_name} type={cardData?.school_type} state={cardData?.statename} height={cardData?.height + " CM"} weight={cardData?.weight + " KG"} gpa={cardData?.gpa} phone={cardData?.phone} sport={cardData?.sport} sat={cardData?.sat} act={cardData?.act} gender={cardData?.gender} ethnicity={cardData?.ethnicities} bio={cardData?.personal_bio} />
+                                cardData ?
+                                    <CardAthelete id={cardData?.id} nav={navigation} image={cardData?.image} fname={cardData?.firstname} lname={cardData?.lastname} scholasticyear={cardData?.scholastic_year} school={cardData?.school_name} type={cardData?.school_type} state={cardData?.statename} height={cardData?.height + " CM"} weight={cardData?.weight + " KG"} gpa={cardData?.gpa} phone={cardData?.phone} sport={cardData?.sport} sat={cardData?.sat} act={cardData?.act} gender={cardData?.gender} ethnicity={cardData?.ethnicities} bio={cardData?.personal_bio} />
+                                    : null
                             )
                         }}>
 
-                    </Swiper> : null}
+                    </Swiper> : <Text style={{ display: disp ? 'none' : 'flex', color: 'white', textAlign: 'center', textAlignVertical: 'center', height: '100%' }}>No more data present</Text>}
             </View>
             <View style={{ flex: 0.2, width: '100%', paddingHorizontal: 40, position: 'absolute', bottom: 0, justifyContent: 'space-around', flexDirection: 'row', alignItems: 'center', paddingBottom: 20 }}>
-                <TouchableOpacity onPress={() => disp ? null : SwipeRef.current.swipeLeft()}><View style={disp ? styles.button : (action == 0) ? styles.wrong : styles.button}><MaterialCommunityIcons name="close-circle-outline" size={30} color={disp ? "red" : (action == 0) ? "white" : "red"} /></View></TouchableOpacity>
-                <TouchableOpacity onPress={() => disp ? null : SwipeRef.current.swipeTop()}><Image source={require('../../assets/football.png')} style={{ height: 50, width: 50 }} /></TouchableOpacity>
-                <TouchableOpacity onPress={() => disp ? null : SwipeRef.current.swipeRight()}><View style={disp ? styles.button : (action == 1) ? styles.like : styles.button}><Image source={require("../../assets/path.png")} style={{ width: 35, height: 30 }} /></View></TouchableOpacity>
+                <TouchableOpacity onPress={() => disp ? null : SwipeRef?.current?.swipeLeft()}><View style={disp ? styles.button : (action == 0) ? styles.wrong : styles.button}><MaterialCommunityIcons name="close-circle-outline" size={30} color={disp ? "red" : (action == 0) ? "white" : "red"} /></View></TouchableOpacity>
+                <TouchableOpacity onPress={() => disp ? null : SwipeRef?.current?.swipeTop()}><Image source={require('../../assets/football.png')} style={{ height: 50, width: 50 }} /></TouchableOpacity>
+                <TouchableOpacity onPress={() => disp ? null : SwipeRef?.current?.swipeRight()}><View style={disp ? styles.button : (action == 1) ? styles.like : styles.button}><Image source={require("../../assets/path.png")} style={{ width: 35, height: 30 }} /></View></TouchableOpacity>
             </View>
-            <View style={{ display: disp ? 'flex' : 'none', width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center' }}>
-                <Text style={{ color: 'white', fontWeight: '700', fontSize: 18 }}>No More cards Available</Text>
-            </View>
-
-
         </ImageBackground >
     )
 }
@@ -164,9 +175,9 @@ export default function Swiping({ navigation }) {
 const styles = StyleSheet.create({
     button: { width: windowHeight * 0.07, height: windowHeight * 0.07, backgroundColor: 'white', borderRadius: windowHeight * 0.07 / 2, justifyContent: 'center', alignItems: 'center' },
     like: {
-        width: windowHeight * 0.1, height: windowHeight * 0.1, backgroundColor: 'lightblue', borderRadius: windowHeight * 0.1 / 2, justifyContent: 'center', alignItems: 'center'
+        width: windowHeight * 0.07, height: windowHeight * 0.07, backgroundColor: 'lightblue', borderRadius: windowHeight * 0.07 / 2, justifyContent: 'center', alignItems: 'center'
     },
     wrong: {
-        width: windowHeight * 0.1, height: windowHeight * 0.1, backgroundColor: 'red', borderRadius: windowHeight * 0.1 / 2, justifyContent: 'center', alignItems: 'center', animationDuration: '2s'
+        width: windowHeight * 0.07, height: windowHeight * 0.07, backgroundColor: 'red', borderRadius: windowHeight * 0.07 / 2, justifyContent: 'center', alignItems: 'center', animationDuration: '2s'
     }
 })

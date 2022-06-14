@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, ScrollView, Dimensions, ToastAndroid } from 'react-native'
+import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, ScrollView, Dimensions, ToastAndroid, ActivityIndicator } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { TextInput } from 'react-native-gesture-handler'
 import { AntDesign } from '@expo/vector-icons';
@@ -26,10 +26,11 @@ export default function CoachFilter({ navigation }) {
     const [maxage, setmaxage] = useState();
     const [mingpa, setmingpa] = useState();
     const [maxgpa, setmaxgpa] = useState();
-    const [minsat, setminsat] = useState();
+    const [mins, setmins] = useState();
     const [maxsat, setmaxsat] = useState();
     const [minact, setminact] = useState();
     const [maxact, setmaxact] = useState();
+    const [st, setSt] = useState(false);
     const [year, setyear] = useState(date.getFullYear().toString());
     const [yeardata, setyeardata] = useState([]);
     const sportAdd = () => {
@@ -65,6 +66,7 @@ export default function CoachFilter({ navigation }) {
     }
 
     const onSubmit = async () => {
+        setSt(true);
         const token = "Bearer " + await SecureStore.getItemAsync("token");
         axios.post("/api/coach/filter", {
             "states": states,
@@ -78,7 +80,7 @@ export default function CoachFilter({ navigation }) {
             maxage,
             "mingpa": parseFloat(mingpa),
             "maxgpa": parseFloat(maxgpa),
-            minsat,
+            "minsat": mins,
             maxsat,
             minact,
             maxact,
@@ -88,11 +90,14 @@ export default function CoachFilter({ navigation }) {
                 "Authorization": token
             }
         }).then((response) => {
+            setSt(false);
             navigation.reset({
                 index: 0,
                 routes: [{ name: "Swiping" }]
             });
         }).catch((err) => {
+            setSt(false);
+            ToastAndroid.show("Try again!", ToastAndroid.SHORT);
             console.log(err.response.data);
         });
     }
@@ -106,23 +111,25 @@ export default function CoachFilter({ navigation }) {
         }).then((response) => {
             console.log(response.data.data);
             if (response.data.data != 1) {
+                console.log(1);
+
                 const data = response.data.data;
-                setstates(response.data.data.states);
-                setsports(response.data.data.sports);
-                setpositions(response.data.data.positions);
-                setyeardata(response.data.data.years);
-                setminact(response.data.data.min_act);
-                setmaxact(parseInt(data.max_act));
-                setminage(parseInt(data.min_age));
-                setmaxage(parseInt(data.max_age));
-                setmingpa(parseFloat(data.min_gpa));
-                setmaxgpa(parseFloat(data.max_gpa));
-                setminsat(parseInt(data.min_sat));
-                setmaxsat(parseInt(data.max_sat));
-                setminweight(parseInt(data.min_weight));
-                setmaxweight(parseInt(data.max_weight));
-                setminheight(parseInt(data.min_height));
-                setmaxheight(parseInt(data.max_height));
+                setstates(response?.data?.data?.states ? response?.data?.data?.states : []);
+                setsports(response?.data?.data?.sports ? response?.data?.data?.sports : []);
+                setpositions(response?.data?.data?.positions ? response?.data?.data?.positions : []);
+                setyeardata(response?.data?.data?.years ? response?.data?.data?.years : []);
+                setminact(response?.data?.data?.min_act ? response?.data?.data?.min_act : 0);
+                setmaxact(parseInt(data?.max_act) ? parseInt(data?.max_act) : 300);
+                setminage(parseInt(data?.min_age) ? parseInt(data.min_age) : 0);
+                setmaxage(parseInt(data?.max_age) ? parseInt(data?.max_age) : 100);
+                setmingpa(parseFloat(data?.min_gpa) ? parseFloat(data?.min_gpa) : 0);
+                setmaxgpa(parseFloat(data?.max_gpa) ? parseFloat(data.max_gpa) : 4);
+                setmins(parseInt(data?.min_sat) ? parseInt(data.min_sat) : 0);
+                setmaxsat(parseInt(data?.max_sat) ? parseInt(data.max_sat) : 300);
+                setminweight(parseInt(data?.min_weight) ? parseInt(data.min_weight) : 0);
+                setmaxweight(parseInt(data?.max_weight) ? parseInt(data?.max_weight) : 300);
+                setminheight(parseInt(data?.min_height) ? parseInt(data?.min_height) : 0);
+                setmaxheight(parseInt(data?.max_height) ? parseInt(data?.max_height) : 300);
             } else {
                 setminheight(0);
                 setmaxheight(300);
@@ -132,13 +139,25 @@ export default function CoachFilter({ navigation }) {
                 setmaxage(100);
                 setmingpa(0);
                 setmaxgpa(4);
-                setminsat(0);
+                setmins(0);
                 setmaxsat(300);
                 setminact(0);
                 setmaxact(300);
             }
         }).catch((err) => {
             console.log(err);
+            setminheight(0);
+            setmaxheight(300);
+            setminweight(0);
+            setmaxweight(300);
+            setminage(0);
+            setmaxage(100);
+            setmingpa(0);
+            setmaxgpa(4);
+            setmins(0.0);
+            setmaxsat(300);
+            setminact(0);
+            setmaxact(300);
         })
         return;
     }
@@ -146,11 +165,12 @@ export default function CoachFilter({ navigation }) {
         getData();
     }, []);
     return (
-        (maxheight && maxgpa && maxact && maxsat && maxweight && maxage) ?
+        (maxheight && maxsat) ?
             < ScrollView contentContainerStyle={{ flexGrow: 1 }
             } style={styles.fullView} keyboardShouldPersistTaps="handled"
                 showsVerticalScrollIndicator={false}
                 contentInsetAdjustmentBehavior='automatic' >
+                <ActivityIndicator size="large" animating={false} color="#004467" style={{ position: "absolute", top: '50%', left: '45%', zIndex: 10 }} />
 
                 <ImageBackground source={require('../../assets/bg.png')} style={{ width: '100%', height: '100%' }}>
                     <View style={{ paddingHorizontal: '8%', paddingVertical: '3%' }}>
@@ -243,8 +263,8 @@ export default function CoachFilter({ navigation }) {
                             min={0}
                             max={300}
                             step={1}
-                            low={parseInt(minheight)}
-                            high={parseInt(maxheight)}
+                            low={minheight ? parseInt(minheight) : 0}
+                            high={maxheight ? parseInt(maxheight) : 300}
                             onValueChanged={(low, high) => {
                                 setminheight(low);
                                 setmaxheight(high);
@@ -293,8 +313,8 @@ export default function CoachFilter({ navigation }) {
                             min={0}
                             max={300}
                             step={1}
-                            low={parseInt(minweight)}
-                            high={parseInt(maxweight)}
+                            low={parseInt(minweight ? minweight : 0)}
+                            high={parseInt(maxweight ? maxweight : 300)}
                             onValueChanged={(low, high) => {
                                 setminweight(low);
                                 setmaxweight(high);
@@ -343,8 +363,8 @@ export default function CoachFilter({ navigation }) {
                             min={0}
                             max={100}
                             step={1}
-                            low={minage}
-                            high={maxage}
+                            low={minage ? minage : 0}
+                            high={maxage ? maxage : 100}
                             onValueChanged={(low, high) => {
                                 setminage(low);
                                 setmaxage(high);
@@ -424,8 +444,8 @@ export default function CoachFilter({ navigation }) {
                             style={{ flex: 1, marginTop: windowHeight * 0.01, width: '100%' }}
                             min={0}
                             max={4}
-                            low={mingpa}
-                            high={maxgpa}
+                            low={parseFloat(mingpa)}
+                            high={parseFloat(maxgpa)}
                             step={0.1}
                             onValueChanged={(low, high) => {
                                 setmingpa(low.toFixed(1));
@@ -474,11 +494,11 @@ export default function CoachFilter({ navigation }) {
                             style={{ flex: 1, marginTop: windowHeight * 0.01, width: '100%' }}
                             min={0}
                             max={300}
-                            low={minsat}
-                            high={maxsat}
+                            low={mins ? mins : 0}
+                            high={maxsat ? maxsat : 300}
                             step={1}
                             onValueChanged={(low, high) => {
-                                setminsat(low);
+                                setmins(low);
                                 setmaxsat(high);
                             }}
                             renderThumb={() => {
@@ -516,7 +536,7 @@ export default function CoachFilter({ navigation }) {
                                 )
                             }} />
                         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <Text style={{ color: 'white' }}>{minsat}</Text>
+                            <Text style={{ color: 'white' }}>{mins}</Text>
                             <Text style={{ color: 'white' }}>{maxsat}</Text>
                         </View>
                         <Text style={styles.text}>Which ACTs would you like to see?</Text>
@@ -524,8 +544,8 @@ export default function CoachFilter({ navigation }) {
                             style={{ flex: 1, marginTop: windowHeight * 0.01, width: '100%' }}
                             min={0}
                             max={300}
-                            low={minact}
-                            high={maxact}
+                            low={minact ? minact : 0}
+                            high={maxact ? maxact : 300}
                             step={1}
                             onValueChanged={(low, high) => {
                                 setminact(low);
@@ -575,7 +595,9 @@ export default function CoachFilter({ navigation }) {
                         <TouchableOpacity onPress={() => onSubmit()} style={{ backgroundColor: '#00B8FE', width: '100%', height: windowHeight * 0.07, borderRadius: windowHeight * 0.05, justifyContent: 'center', alignItems: 'center', marginTop: '8%' }}><Text style={{ color: 'white', fontWeight: '500', fontSize: windowHeight * 0.02 }} >Save</Text></TouchableOpacity>
                     </View>
                 </ImageBackground>
-            </ScrollView > : null
+            </ScrollView > :
+            <ActivityIndicator size="large" animating={true} color="#004467" style={{ position: "absolute", top: '50%', left: '45%', zIndex: 10 }} />
+
     )
 }
 

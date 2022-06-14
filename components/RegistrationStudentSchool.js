@@ -58,12 +58,12 @@ export default function RegistrationStudentSchool({ route, navigation }) {
                             <TouchableOpacity onPress={() => setSchool("Highschool")} style={school != "Highschool" ? styles.gender : styles.activeGender}><Image source={require("../assets/schoolblack.png")} /><Text > Highschool</Text></TouchableOpacity>
                             <TouchableOpacity onPress={() => setSchool("College")} style={school != "College" ? styles.gender : styles.activeGender}><Image source={require("../assets/schoolblack.png")} /><Text> College</Text></TouchableOpacity>
                         </View>
-                        <TextInput onChangeText={(t) => setSchoolname(t)} placeholder='School/College name' placeholderTextColor='grey' style={styles.textBox} />
+                        <TextInput selectionColor={"#004467"} onChangeText={(t) => setSchoolname(t)} placeholder='School/College name' placeholderTextColor='grey' style={styles.textBox} />
                         <View style={styles.pickerOuter}>
                             <Picker
                                 style={styles.pickerbox} selectedValue={syear} onValueChange={(itemValue, itemIndex) => setsyear(itemValue)}>
 
-                                <Picker.Item label="Scholastic year" style={{ fontSize: windowHeight * 0.019, marginLeft: 40, color: 'grey' }} value={null} />
+                                <Picker.Item label="Scholastic year" style={{ fontSize: windowHeight * 0.019, marginLeft: 20, color: 'grey' }} value={null} />
                                 {
                                     yearrs ?
                                         yearrs.map((i, index) => <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label={i} value={i} key={index} />) : null
@@ -72,7 +72,7 @@ export default function RegistrationStudentSchool({ route, navigation }) {
                         </View>
                         <View style={{ width: "100%", borderRadius: 5, overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, alignItems: 'center', marginTop: windowHeight * 0.02, paddingLeft: windowHeight * 0.02 }}>
                             <Picker style={styles.pickerbox} selectedValue={gpa} onValueChange={(itemValue, itemIndex) => setgpa(itemValue)} >
-                                <Picker.Item label="GPA" style={{ fontSize: windowHeight * 0.019, marginLeft: 40, color: 'grey' }} value={null} />
+                                <Picker.Item label="GPA" style={{ fontSize: windowHeight * 0.019, marginLeft: 20, color: 'grey' }} value={null} />
 
                                 {GPADATA ?
                                     GPADATA.map((i, index) => <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} key={index} value={i.id} label={i.gpa.toString()} />)
@@ -80,8 +80,8 @@ export default function RegistrationStudentSchool({ route, navigation }) {
                                 }
                             </Picker>
                         </View>
-                        <TextInput onChangeText={(t) => setsat(t)} keyboardType="numeric" placeholderTextColor='grey' placeholder='SAT' style={styles.textBox} />
-                        <TextInput onChangeText={(t) => setact(t)} keyboardType="numeric" placeholderTextColor='grey' placeholder='ACT' style={styles.textBox} />
+                        <TextInput selectionColor={"#004467"} onChangeText={(t) => setsat(t)} keyboardType="numeric" placeholderTextColor='grey' placeholder='SAT' style={styles.textBox} />
+                        <TextInput selectionColor={"#004467"} onChangeText={(t) => setact(t)} keyboardType="numeric" placeholderTextColor='grey' placeholder='ACT' style={styles.textBox} />
                     </View>
                     <View style={{ flex: 0.2, width: '100%', paddingHorizontal: '11%', alignItems: 'center', marginTop: '3%' }}>
                         <View style={{ display: 'flex', flexDirection: 'row' }}>

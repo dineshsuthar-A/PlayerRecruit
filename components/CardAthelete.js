@@ -107,7 +107,7 @@ export default function CardAthelete(props) {
 
 
                             <View style={{ flex: 1, width: '100%', height: '100%', display: 'flex', backgroundColor: 'white', opacity: 0.8 }}>
-                                <View style={{ flex: 0.2 }}>
+                                <View style={{ flex: 0.18 }}>
                                     <View style={{ display: 'flex', flexDirection: 'row' }}>
                                         <View style={{ paddingHorizontal: '4%', paddingTop: '6%', flex: 0.7 }}>
                                             <Text style={{ fontSize: windowHeight * 0.024 }}>{props.fname} </Text>
@@ -119,7 +119,7 @@ export default function CardAthelete(props) {
 
                                     </View>
                                 </View>
-                                <ScrollView style={{ flex: 0.8, width: '100%', height: '100%', padding: '4%' }}>
+                                <ScrollView style={{ flex: 0.82, width: '100%', height: '100%', padding: '4%' }}>
                                     <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', borderBottomWidth: 1, borderColor: '#00B8FE' }}>
                                         <Text style={{ color: "#00B8FE", fontWeight: '600', fontSize: windowHeight * 0.02 }} >Details</Text>
 
@@ -127,51 +127,51 @@ export default function CardAthelete(props) {
                                     <View>
                                         <Text style={{ fontWeight: '600', fontSize: windowHeight * 0.028 }}>{props.phone}</Text>
                                         <View style={{ display: 'flex', flexDirection: 'row', width: '100%', marginTop: '5%' }}>
-                                            <View style={{ flex: 0.6 }}>
+                                            <View style={{ flex: 0.5 }}>
                                                 <Text style={{ color: 'black', fontWeight: '600', fontSize: windowHeight * 0.02 }}>{props.sport[0].sportsname}</Text>
                                                 <Text style={{ color: 'grey', fontSize: windowHeight * 0.016, marginTop: '2%' }}>Sport</Text>
                                             </View>
-                                            <View style={{ flex: 0.4 }}>
+                                            <View style={{ flex: 0.5 }}>
                                                 <Text style={{ color: 'black', fontWeight: '600', fontSize: windowHeight * 0.02 }}>{props.sport[0].position}</Text>
                                                 <Text style={{ color: 'grey', fontSize: windowHeight * 0.016, marginTop: '2%' }}>Position</Text>
                                             </View>
                                         </View>
                                         <View style={{ display: 'flex', flexDirection: 'row', width: '100%', marginTop: '5%' }}>
-                                            <View style={{ flex: 0.6 }}>
+                                            <View style={{ flex: 0.5 }}>
                                                 <Text style={{ color: 'black', fontWeight: '600', fontSize: windowHeight * 0.02 }}>{props.scholasticyear}</Text>
                                                 <Text style={{ color: 'grey', fontSize: windowHeight * 0.016, marginTop: '2%' }}>Year</Text>
                                             </View>
-                                            <View style={{ flex: 0.4 }}>
+                                            <View style={{ flex: 0.5 }}>
                                                 <Text style={{ color: 'black', fontWeight: '600', fontSize: windowHeight * 0.02 }}>{props.school}</Text>
                                                 <Text style={{ color: 'grey', fontSize: windowHeight * 0.016, marginTop: '2%' }}>{props.type}</Text>
                                             </View>
                                         </View>
                                         <View style={{ display: 'flex', flexDirection: 'row', width: '100%', marginTop: '5%' }}>
-                                            <View style={{ flex: 0.6 }}>
+                                            <View style={{ flex: 0.5 }}>
                                                 <Text style={{ color: 'black', fontWeight: '600', fontSize: windowHeight * 0.02 }}>{props.state}</Text>
                                                 <Text style={{ color: 'grey', fontSize: windowHeight * 0.016, marginTop: '2%' }}>State</Text>
                                             </View>
-                                            <View style={{ flex: 0.4 }}>
+                                            <View style={{ flex: 0.5 }}>
                                                 <Text style={{ color: 'black', fontWeight: '600', fontSize: windowHeight * 0.02 }}>{props.gpa}</Text>
                                                 <Text style={{ color: 'grey', fontSize: windowHeight * 0.016, marginTop: '2%' }}>GPA</Text>
                                             </View>
                                         </View>
                                         <View style={{ display: 'flex', flexDirection: 'row', width: '100%', marginTop: '5%' }}>
-                                            <View style={{ flex: 0.6 }}>
+                                            <View style={{ flex: 0.5 }}>
                                                 <Text style={{ color: 'black', fontWeight: '600', fontSize: windowHeight * 0.02 }}>{props.sat}</Text>
                                                 <Text style={{ color: 'grey', fontSize: windowHeight * 0.016, marginTop: '2%' }}>SAT</Text>
                                             </View>
-                                            <View style={{ flex: 0.4 }}>
+                                            <View style={{ flex: 0.5 }}>
                                                 <Text style={{ color: 'black', fontWeight: '600', fontSize: windowHeight * 0.02 }}>{props.act}</Text>
                                                 <Text style={{ color: 'grey', fontSize: windowHeight * 0.016, marginTop: '2%' }}>ACT</Text>
                                             </View>
                                         </View>
                                         <View style={{ display: 'flex', flexDirection: 'row', width: '100%', marginTop: '5%' }}>
-                                            <View style={{ flex: 0.6 }}>
+                                            <View style={{ flex: 0.5 }}>
                                                 <Text style={{ color: 'black', fontWeight: '600', fontSize: windowHeight * 0.02 }}>{props.gender}</Text>
                                                 <Text style={{ color: 'grey', fontSize: windowHeight * 0.016, marginTop: '2%' }}>Gender</Text>
                                             </View>
-                                            <View style={{ flex: 0.4 }}>
+                                            <View style={{ flex: 0.5 }}>
                                                 <Text style={{ color: 'black', fontWeight: '600', fontSize: windowHeight * 0.02 }}>{props.ethnicity}</Text>
                                                 <Text style={{ color: 'grey', fontSize: windowHeight * 0.016, marginTop: '2%' }}>Ethnicity</Text>
                                             </View>
@@ -180,7 +180,7 @@ export default function CardAthelete(props) {
                                         <View style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
                                             <View style={{ flex: 1 }}>
                                                 <Text style={{ color: 'grey', fontWeight: '400', fontSize: windowHeight * 0.016 }}>Bio</Text>
-                                                <Text numberOfLines={4} style={{ color: 'black', fontSize: windowHeight * 0.016, marginTop: '2%', textAlign: 'justify' }}>{props.bio}</Text>
+                                                <Text numberOfLines={2} style={{ color: 'black', fontSize: windowHeight * 0.016, marginTop: '2%', textAlign: 'justify' }}>{props.bio}</Text>
                                             </View>
                                         </View>
                                     </View>

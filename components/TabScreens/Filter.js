@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, ScrollView, BackHandler, ToastAndroid } from 'react-native'
+import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, ScrollView, BackHandler, ToastAndroid, ActivityIndicator } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { TextInput } from 'react-native-gesture-handler'
 import { AntDesign } from '@expo/vector-icons';
@@ -15,6 +15,7 @@ export default function Filter({ navigation }) {
     const [sports, setsports] = useState([]);
     const [readstate, setreadstate] = useState();
     const [readsport, setreadsport] = useState();
+    const [st, setSt] = useState(false);
     const [data, setdata] = useState();
     const sportAdd = () => {
         setsports([...sports, readsport.trim()]);
@@ -59,12 +60,14 @@ export default function Filter({ navigation }) {
     }
 
     const getData = async () => {
+        setSt(true);
         const token = "Bearer " + await SecureStore.getItemAsync("token");
         axios.get("api/student/filter", {
             headers: {
                 "Authorization": token
             }
         }).then((response) => {
+            setSt(false);
             const division = response.data.data.division?.split(",");
             division?.forEach(element => {
                 if (parseInt(element) == 1) {
@@ -78,6 +81,7 @@ export default function Filter({ navigation }) {
             setsports(response.data?.data ? response.data.data.sports : []);
             setstates(response.data?.data ? response.data.data.states : []);
         }).catch((err) => {
+            setSt(false);
             console.log(err);
             ToastAndroid.show("error occured.", ToastAndroid.SHORT);
         });
@@ -86,7 +90,10 @@ export default function Filter({ navigation }) {
     useFocusEffect(React.useCallback(() => {
         getData();
         const backAction = () => {
-            navigation.push("Swiping");
+            navigation.reset({
+                index: 0,
+                routes: [{ name: "Swiping" }]
+            });
             return true;
         };
 
@@ -102,6 +109,7 @@ export default function Filter({ navigation }) {
             showsVerticalScrollIndicator={false}
             contentInsetAdjustmentBehavior='automatic'>
 
+            <ActivityIndicator size="large" animating={st} color="#004467" style={{ display: st ? "flex" : "none", justifyContent: 'center', alignItems: 'center', position: "absolute", width: '100%', height: '100%', zIndex: 10, backgroundColor: 'white' }} />
             <ImageBackground source={require('../../assets/bg.png')} style={{ width: '100%', height: '100%' }}>
                 <View style={{ paddingHorizontal: '8%', paddingVertical: '3%', flex: 0.8 }}>
                     <Text style={styles.text}>Which divisions/leagues would you
