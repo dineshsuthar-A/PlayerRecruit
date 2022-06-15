@@ -11,19 +11,11 @@ import Login from './components/Login';
 import Registration from './components/Registration';
 import Verification from './components/Verification';
 import RegistrationSelectAccount from './components/RegistrationSelectAccount';
-import RegistrationStudentInfo from './components/RegistrationStudentInfo';
-import RegistrationStudentPersonal from './components/RegistrationStudentPersonal';
-import RegistrationStudentSchool from './components/RegistrationStudentSchool';
-import RegistrationStudentAthletic from './components/RegistrationStudentAthletic';
-import RegistrationStudentFinal from './components/RegistrationStudentFinal';
-import RegistrationCoachInfo from './components/RegistrationCoachInfo';
-import RegistrationCoachPersonal from './components/RegistrationCoachPersonal';
-import RegistrationCoachAcademic from './components/RegistrationCoachAcademic';
-import RegistrationCoachAthletic from './components/RegistrationCoachAthletic';
-import RegistrationCoachFinal from './components/RegistrationCoachFinal';
+import Registration_coach from './components/Registration_coach';
 import Navigation from './components/Navigation';
 import NavigationCoach from './components/NavigationCoach';
 import { baseURL } from './config';
+import Registration_student from './components/Registration_student';
 
 axios.defaults.baseURL = baseURL;
 
@@ -108,181 +100,19 @@ export default function App() {
             component={Login} />
 
           <Stack.Screen options={{
-            headerMode: 'float',
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-            headerStyle: { backgroundColor: '#004467', },
-            title: 'Registration Student Info',
-            headerTintColor: "white",
-            headerTitleStyle: {
-              fontSize: 18,
-              fontWeight: 'bold',
-              color: "white",
-              fontFamily: "Roboto"
-            }
+            headerShown: false
           }}
             name='RegistrationStudentInfo'
-            component={RegistrationStudentInfo} />
+            component={Registration_student} />
 
-          <Stack.Screen options={{
-            headerMode: 'float',
-            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-            headerStyle: {
-              backgroundColor: '#004467',
-            },
-            title: 'Student Registration',
-            headerTintColor: "white",
-            headerTitleStyle: {
-              fontSize: 18,
-              fontWeight: 'bold',
-              color: "white",
-              fontFamily: "Roboto"
-            }
-          }}
-            name='RegistrationStudentPersonal'
-            component={RegistrationStudentPersonal} />
 
           <Stack.Screen options={{
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-            headerMode: "float",
-            headerStyle: { backgroundColor: '#004467' },
-            title: 'Academic Information',
-            headerTintColor: "white",
-            headerTitleStyle: {
-              fontSize: 18,
-              fontWeight: 'bold',
-              color: "white",
-              fontFamily: "Roboto"
-            }
-          }}
-            name='RegistrationStudentSchool'
-            component={RegistrationStudentSchool} />
-          <Stack.Screen options={{
-
-            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-            headerMode: "float",
-            headerStyle: { backgroundColor: '#004467' },
-            title: 'Athletic Information',
-            headerTintColor: "white",
-            headerTitleStyle: {
-              fontSize: 18,
-              fontWeight: 'bold',
-              color: "white",
-              fontFamily: "Roboto"
-            }
-          }}
-            name='RegistrationStudentAthletic'
-            component={RegistrationStudentAthletic} />
-
-          <Stack.Screen options={{
-
-            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-            headerMode: "float",
-            headerStyle: {
-              backgroundColor: '#004467',
-
-            },
-            title: 'Athletic Bio',
-            headerTintColor: "white",
-            headerTitleStyle: {
-              fontSize: 18,
-              fontWeight: 'bold',
-              color: "white",
-              fontFamily: "Roboto"
-            }
-          }}
-            name='RegistrationStudentFinal'
-            component={RegistrationStudentFinal} />
-
-          <Stack.Screen options={{
-            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-            headerMode: "float",
-            headerStyle: {
-              backgroundColor: '#004467',
-
-            },
-            title: 'Registration Coach Info',
-            headerTintColor: "white",
-            headerTitleStyle: {
-              fontSize: 18,
-              fontWeight: 'bold',
-              color: "white",
-              fontFamily: "Roboto"
-            }
+            headerShown: false
           }}
             name='RegistrationCoachInfo'
-            component={RegistrationCoachInfo} />
-          <Stack.Screen options={{
-            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-            headerMode: "float",
-            headerStyle: {
-              backgroundColor: '#004467',
-
-            },
-            title: 'Coach Registration',
-            headerTintColor: "white",
-            headerTitleStyle: {
-              fontSize: 18,
-              fontWeight: 'bold',
-              color: "white",
-              fontFamily: "Roboto"
-            }
-          }}
-            name='RegistrationCoachPersonal'
-            component={RegistrationCoachPersonal} />
-
-          <Stack.Screen options={{
-            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-            headerMode: "float",
-            headerStyle: {
-              backgroundColor: '#004467',
-            },
-            title: 'Academic Information',
-            headerTintColor: "white",
-            headerTitleStyle: {
-              fontSize: 18,
-              fontWeight: 'bold',
-              color: "white",
-              fontFamily: "Roboto"
-            }
-          }}
-            name='RegistrationCoachAcademic'
-            component={RegistrationCoachAcademic} />
-          <Stack.Screen options={{
-            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-            headerMode: "float",
-            headerStyle: {
-              backgroundColor: '#004467',
-
-            },
-            title: 'Athletic Information',
-            headerTintColor: "white",
-            headerTitleStyle: {
-              fontSize: 18,
-              fontWeight: 'bold',
-              color: "white",
-              fontFamily: "Roboto"
-            }
-          }}
-            name='RegistrationCoachAthletic'
-            component={RegistrationCoachAthletic} />
-          <Stack.Screen options={{
-            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-            headerMode: "float",
-            headerStyle: {
-              backgroundColor: '#004467',
-            },
-            title: 'Athletic Bio',
-            headerTintColor: "white",
-            headerTitleStyle: {
-              fontSize: 18,
-              fontWeight: 'bold',
-              color: "white",
-              fontFamily: "Roboto"
-            }
-          }}
-            name='RegistrationCoachFinal'
-            component={RegistrationCoachFinal} />
-
+            component={Registration_coach} />
 
         </Stack.Navigator>
       </NavigationContainer >

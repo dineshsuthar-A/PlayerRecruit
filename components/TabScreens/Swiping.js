@@ -1,21 +1,22 @@
-import { StyleSheet, Text, View, ImageBackground, StatusBar, TouchableOpacity, Image, Dimensions, ActivityIndicator } from 'react-native'
+import { StyleSheet, Text, View, ImageBackground, StatusBar, TouchableOpacity, Image, Dimensions, ActivityIndicator, ToastAndroid } from 'react-native'
 import React, { useState, useRef, useEffect } from 'react'
-import CardAthelete from '../CardAthelete';
 import Swiper from 'react-native-deck-swiper-renewed';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import * as SecureStore from 'expo-secure-store';
-import { useFocusEffect } from '@react-navigation/native';
+import Dialog from "react-native-dialog";
 import axios from 'axios';
 import CardCoach from '../CardCoach';
+
+
 const windowHeight = Dimensions.get("window").height;
-export default function Swiping({ navigation }) {
+
+export default function Swiping({ route, navigation }) {
     const SwipeRef = useRef();
     const [disp, setDisp] = useState(false);
-    const [refreshPage, setRefreshPage] = useState("");
     const [data, setdata] = useState([]);
-    const [index, setindex] = useState(0);
-    const [action, setaction] = useState();
+    const [dialog, setdialog] = useState(false);
     const getdata = async () => {
         await setDisp(true);
         const token = "Bearer " + await SecureStore.getItemAsync("token");
@@ -25,7 +26,7 @@ export default function Swiping({ navigation }) {
             }
         }).then((response) => {
             setDisp(false);
-            setdata(response.data.data).forceUpdate();
+            setdata(response.data.data);
         }).catch((err) => {
             setDisp(false);
             console.log(err);
@@ -84,21 +85,25 @@ export default function Swiping({ navigation }) {
             console.log(err);
         });
     }
-    const getActionStatus = async (id) => {
+    const Reset = async () => {
+        setDisp(true);
+        setdialog(false);
         const token = "Bearer " + await SecureStore.getItemAsync("token");
-        axios.get("/api/swipe/action", {
-            params: {
-                id
-            },
+        axios.post("/api/swipe/reset", null, {
             headers: {
                 "Authorization": token
             }
-        }).then((response) => {
-            setaction(response.data.action);
+        }
+        ).then((response) => {
 
+            console.log(response);
+            setdata(null);
+            getdata();
         }).catch((err) => {
+            setDisp(false);
+            ToastAndroid.show(err?.response?.data?.error ? err?.response?.data?.error : "Try again", ToastAndroid.SHORT);
             console.log(err.response.data);
-        })
+        });
     }
     useEffect(() => {
         getdata();
@@ -112,7 +117,6 @@ export default function Swiping({ navigation }) {
 
             <ActivityIndicator size="large" animating={disp} color="#004467" style={{ position: "absolute", top: '50%', left: '45%', zIndex: 10 }} />
             <StatusBar barStyle="light-content" backgroundColor="#004467" />
-
             <View style={{ flex: 0.85, padding: 20 }}>
                 {(data && data.length > 0) ?
                     <Swiper
@@ -185,12 +189,31 @@ export default function Swiping({ navigation }) {
                             )
                         }}>
 
-                    </Swiper> : <Text style={{ display: disp ? 'none' : 'flex', color: 'white', textAlign: 'center', textAlignVertical: 'center', height: '100%' }}>No more data present</Text>}
+                    </Swiper> :
+                    <View style={{ display: disp ? 'none' : 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%' }}>
+                        <Text style={{ color: 'white', fontWeight: '600', fontSize: windowHeight * 0.024 }}>No more cards present</Text>
+                        <TouchableOpacity onPress={() => setdialog(true)} style={{ height: windowHeight * 0.06, borderRadius: 5, marginTop: windowHeight * 0.05, justifyContent: 'center', borderWidth: 1, alignItems: 'center', paddingHorizontal: '5%', flexDirection: 'row', borderColor: 'white', width: '50%' }}>
+                            <Text style={{ color: 'white', fontWeight: '600', fontSize: windowHeight * 0.022 }}>RESET </Text>
+                            <Ionicons name="md-reload-circle-sharp" size={windowHeight * 0.022} color="white" />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => console.log(navigation.getParent().navigate("Matches"))} style={{ height: windowHeight * 0.06, borderRadius: 5, justifyContent: 'center', borderWidth: 1, alignItems: 'center', paddingHorizontal: '5%', flexDirection: 'row', borderColor: 'white', width: '50%', marginTop: windowHeight * 0.02 }}>
+                            <Text style={{ color: 'white', fontWeight: '600', fontSize: windowHeight * 0.022 }}>Go To Matches </Text>
+                        </TouchableOpacity>
+                        <Dialog.Container visible={dialog}>
+                            <Dialog.Title>Reset</Dialog.Title>
+                            <Dialog.Description>
+                                Are you sure you want to reset all your swipe history?
+                            </Dialog.Description>
+                            <Dialog.Button label="Cancel" style={{ color: '#00B8FE' }} onPress={() => setdialog(false)} />
+                            <Dialog.Button label="Reset" style={{ color: '#00B8FE' }} onPress={() => Reset()} />
+                        </Dialog.Container>
+                    </View>
+                }
             </View>
             <View style={{ flex: 0.2, width: '100%', paddingHorizontal: 40, position: 'absolute', bottom: 0, justifyContent: 'space-around', flexDirection: 'row', alignItems: 'center', paddingBottom: 20 }}>
-                <TouchableOpacity onPress={() => disp ? null : SwipeRef?.current?.swipeLeft()}><View style={disp ? styles.button : (action == 0) ? styles.wrong : styles.button}><MaterialCommunityIcons name="close-circle-outline" size={30} color={disp ? "red" : (action == 0) ? "white" : "red"} /></View></TouchableOpacity>
+                <TouchableOpacity onPress={() => disp ? null : SwipeRef?.current?.swipeLeft()}><View style={styles.button}><MaterialCommunityIcons name="close-circle-outline" size={30} color={"red"} /></View></TouchableOpacity>
                 <TouchableOpacity onPress={() => disp ? null : SwipeRef?.current?.swipeTop()}><Image source={require('../../assets/football.png')} style={{ height: 50, width: 50 }} /></TouchableOpacity>
-                <TouchableOpacity onPress={() => disp ? null : SwipeRef.current?.swipeRight()}><View style={disp ? styles.button : (action == 1) ? styles.like : styles.button}><Image source={require("../../assets/path.png")} style={{ width: 35, height: 30 }} /></View></TouchableOpacity>
+                <TouchableOpacity onPress={() => disp ? null : SwipeRef.current?.swipeRight()}><View style={styles.button}><Image source={require("../../assets/path.png")} style={{ width: 35, height: 30 }} /></View></TouchableOpacity>
             </View>
 
 
