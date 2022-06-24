@@ -4,10 +4,11 @@ import { createStackNavigator, cardStyleInterpolator, CardStyleInterpolators } f
 import MessageList from './MessageList';
 const stack = createStackNavigator();
 import Chat from './Chat';
-export default function Message() {
+import CoachMessagesList from './CoachMessagesList';
+export default function CoachMessages() {
     return (
         <stack.Navigator>
-            <stack.Screen name="messagelist" options={{ headerStyle: { backgroundColor: '#004467' }, headerTitle: 'Messenger', headerTintColor: 'white', headerTitleStyle: { fontSize: 18, marginLeft: 20 }, }} component={MessageList} />
+            <stack.Screen name="messagelist" options={{ headerStyle: { backgroundColor: '#004467' }, headerTitle: 'Messenger', headerTintColor: 'white', headerTitleStyle: { fontSize: 18, marginLeft: 20 }, }} component={CoachMessagesList} />
             <stack.Screen name="chat" options={{
                 headerShown: false,
                 cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,

@@ -34,17 +34,20 @@ exports.getpositiondata = async () => {
         }
     });
 }
-exports.getweightunitdata = async () => {
+exports.getcolleges = async () => {
     const token = "Bearer " + await SecureStore.getItemAsync("token");
-    return axios.get("/api/getweightunit", {
+    return axios.get("/api/getcolleges", {
         headers: {
             "Authorization": token
         }
     });
 }
-exports.getheightdata = async () => {
+exports.getcities = async (id) => {
     const token = "Bearer " + await SecureStore.getItemAsync("token");
-    return axios.get("/api/getlengthunit", {
+    return axios.get("/api/getcities", {
+        params: {
+            "state": id
+        },
         headers: {
             "Authorization": token
         }

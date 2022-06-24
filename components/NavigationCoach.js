@@ -5,8 +5,8 @@ const Tab = createBottomTabNavigator();
 import Profile from './TabScreens/CoachProfile';
 import CoachDiscover from './TabScreens/CoachDiscover';
 import Matches from './TabScreens/CoachMatches';
-import Message from './TabScreens/Message';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import CoachMessages from './TabScreens/CoachMessages';
 
 export default function NavigationCoach() {
     return (
@@ -44,7 +44,7 @@ export default function NavigationCoach() {
             <Tab.Screen options={{ headerShown: false, title: "Profile" }} name="Profile" component={Profile} />
             <Tab.Screen options={{ headerShown: false, title: "Discovery" }} name="Discovery" component={CoachDiscover} />
             <Tab.Screen options={{ headerShown: false }} name="Matches" component={Matches} />
-            <Tab.Screen options={{ headerStyle: { backgroundColor: '#004467' }, headerTitle: 'Messenger', headerTintColor: 'white', headerTitleStyle: { fontSize: 18, marginLeft: 20 }, tabBarStyle: { display: 'none' }, title: "Chat" }} name="Chat" component={Message} />
+            <Tab.Screen options={{ headerShown: false, tabBarStyle: { display: 'none' } }} name="Chat" component={CoachMessages} />
         </Tab.Navigator >
     )
 }

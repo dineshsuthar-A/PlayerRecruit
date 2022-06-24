@@ -35,7 +35,6 @@ export default function ShowProfile({ route, navigation }) {
         data ?
             <ScrollView style={{ backgroundColor: 'white' }}>
                 <StatusBar barStyle="light-content" backgroundColor="#004467" />
-
                 <View style={{ width: '100%', display: 'flex', flexDirection: 'row' }}>
                     <ImageBackground source={{ uri: baseURL + "uploads/" + data.image }} style={{ flex: 1, width: '100%', height: undefined, aspectRatio: 5.5 / 4, display: 'flex', justifyContent: 'space-between' }} >
                         <View style={{ margin: '2%' }}>
@@ -51,11 +50,7 @@ export default function ShowProfile({ route, navigation }) {
                     </TouchableOpacity>
 
                 </View>
-
-
                 <View style={{ paddingHorizontal: '6%' }}>
-
-
                     <View style={{ marginTop: '6%' }}>
                         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', borderBottomWidth: 1, borderColor: '#00B8FE', paddingBottom: '1%', marginBottom: '2%' }}>
                             <Text style={{ color: "#00B8FE", fontWeight: '600', fontSize: windowHeight * 0.02 }} >Personal</Text>
@@ -106,9 +101,6 @@ export default function ShowProfile({ route, navigation }) {
                             </View>
                         </View>
                     </View>
-
-
-
                     <View>
                         <Text style={{ width: '100%', borderWidth: 0.5, height: 0.5, borderColor: 'lightgrey', marginVertical: '6%' }}></Text>
                         <View style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
@@ -128,8 +120,6 @@ export default function ShowProfile({ route, navigation }) {
                             </View>
                         </View>
                     </View>
-
-
                     <View >
                         <Text style={{ width: '100%', borderWidth: 0.5, height: 0.5, borderColor: 'lightgrey', marginVertical: '6%' }}></Text>
                         <View style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
@@ -150,13 +140,9 @@ export default function ShowProfile({ route, navigation }) {
                             </View>
                         </View>
                     </View>
-
-
-
                     <View style={{ marginTop: '6%' }}>
                         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', borderBottomWidth: 1, borderColor: '#00B8FE', paddingBottom: '1%', marginBottom: '6%' }}>
                             <Text style={{ color: "#00B8FE", fontWeight: '600', fontSize: windowHeight * 0.02 }} >Athletics</Text>
-
                         </View>
                         {
                             data.sport ? data.sport.map((i, index) =>
@@ -189,11 +175,6 @@ export default function ShowProfile({ route, navigation }) {
 
                         </View>
                     </View>
-
-
-
-
-
                 </View>
             </ScrollView >
             :

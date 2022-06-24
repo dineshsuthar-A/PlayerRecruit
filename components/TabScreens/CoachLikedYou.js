@@ -28,6 +28,21 @@ export default function CoachLikedYou(props) {
             console.log(err.response.data);
         });
     }
+    const match = async (data) => {
+        const token = "Bearer " + await SecureStore.getItemAsync("token");
+        axios.post("/api/match/add", {
+            "athleteid": data?.registration_id
+        }, {
+            headers: {
+                "Authorization": token
+            }
+        }).then((response) => {
+            console.log(response.data);
+            getdata();
+        }).catch((err) => {
+            console.log(err.response.data);
+        });
+    }
     useFocusEffect(React.useCallback(() => {
         getdata();
     }, []))
@@ -56,7 +71,7 @@ export default function CoachLikedYou(props) {
                                 </View>
                             </TouchableOpacity>
                             <View style={{ flex: 0.2, justifyContent: 'center', alignItems: 'center' }}>
-                                <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                                <TouchableOpacity onPress={() => match(i)} style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                                     <Feather name="plus-circle" size={windowHeight * 0.02} color="#00B8FE" />
                                     <Text style={{ fontWeight: '700', color: '#00B8FE' }}>  Add</Text>
                                 </TouchableOpacity>

@@ -99,10 +99,10 @@ export default function Registration_student({ navigation }) {
                         "age": 2,
                         "gender": s1.gender,
                         "state": s1.state,
-                        "city": s1.city.trim(),
+                        "city": s1.city.id,
                         "ethnicity": s1.ethnicity,
                         "school_type": s2.school,
-                        "school_name": s2.schoolname.trim(),
+                        "school_name": s2.schoolname.id,
                         "scholastic_year": s2.scholastic_year,
                         "gpa": s2.gpa,
                         "sat": parseFloat(s2.sat),
@@ -201,7 +201,7 @@ export default function Registration_student({ navigation }) {
 
                 <ScrollView ref={scrollBar} horizontal={true} pagingEnabled scrollEnabled={false} showsHorizontalScrollIndicator={false}
                     scrollEventThrottle={1}
-                    style={{ height: windowHeight * 0.75 }}
+                    style={{ height: windowHeight * 0.74 }}
                 >
                     <RegistrationStudentInfo />
                     <RegistrationStudentPersonal data={s1} setdata={sets1} />
@@ -211,7 +211,7 @@ export default function Registration_student({ navigation }) {
                 </ScrollView>
 
 
-                <View style={{ height: windowHeight * 0.14, width: '100%', paddingHorizontal: '11%', alignItems: 'center', marginTop: '3%' }}>
+                <View style={{ height: windowHeight * 0.18, width: '100%', paddingHorizontal: '11%', alignItems: 'center', marginTop: '3%' }}>
                     <View style={{ display: 'flex', flexDirection: 'row' }}>
                         <Text style={(step == 2 || step == 3 || step == 4 || step == 5) ? styles.activedot : styles.dot}></Text>
                         <Text style={(step == 3 || step == 4 || step == 5) ? styles.activedot : styles.dot}></Text>

@@ -62,14 +62,14 @@ export default function Swiping({ route, navigation }) {
     const swipedRight = async (id) => {
         const token = "Bearer " + await SecureStore.getItemAsync("token");
         axios.post("/api/swipe/right", {
-            "id": id
+            "coach_id": id
         }, {
             headers: {
                 "Authorization": token
             }
         }).then((response) => {
         }).catch((err) => {
-            console.log(err);
+            console.log(err.response.data);
         });
     }
     const swipeTop = async (id) => {

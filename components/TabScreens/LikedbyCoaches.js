@@ -19,7 +19,25 @@ export default function LikedbyCoaches(props) {
             }
         }).then((response) => {
             setSt(false);
-            setdata(response.data.data);
+            setdata(response?.data?.data);
+        }).catch((err) => {
+            setSt(false);
+            console.log(err.response.data);
+        });
+    }
+    const match = async (data) => {
+        const coachid = data;
+        const token = "Bearer " + await SecureStore.getItemAsync("token");
+        setSt(true);
+        axios.post("/api/match/add", {
+            coachid
+        }, {
+            headers: {
+                "Authorization": token
+            }
+        }).then((response) => {
+            console.log(response.data);
+            getdata();
         }).catch((err) => {
             setSt(false);
             console.log(err.response.data);
@@ -55,7 +73,7 @@ export default function LikedbyCoaches(props) {
                                 </TouchableOpacity>
 
                                 <View style={{ flex: 0.2, justifyContent: 'center', alignItems: 'center' }}>
-                                    <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                                    <TouchableOpacity onPress={() => match(i.registration_id)} style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                                         <Feather name="plus-circle" size={windowHeight * 0.02} color="#00B8FE" />
                                         <Text style={{ fontWeight: '700', color: '#00B8FE' }}> Add</Text>
                                     </TouchableOpacity>

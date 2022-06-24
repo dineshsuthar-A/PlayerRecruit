@@ -59,13 +59,13 @@ export default function Swiping({ navigation }) {
     const swipedRight = async (id) => {
         const token = "Bearer " + await SecureStore.getItemAsync("token");
         axios.post("/api/swipe/right", {
-            "id": id
+            "student_id": id
         }, {
             headers: {
                 "Authorization": token
             }
         }).catch((err) => {
-            console.log(err);
+            console.log(err.response.data);
         });
     }
     const Reset = async () => {

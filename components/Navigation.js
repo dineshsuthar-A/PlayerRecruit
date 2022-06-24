@@ -43,7 +43,7 @@ export default function Navigation() {
             <Tab.Screen options={{ headerShown: false, title: "Profile" }} name="Profile" component={Profile} />
             <Tab.Screen options={{ headerShown: false, }} name="Discovery" component={Discover} />
             <Tab.Screen options={{ headerShown: false }} name="Matches" component={Matches} />
-            <Tab.Screen options={{ headerStyle: { backgroundColor: '#004467' }, headerTitle: 'Messenger', headerTintColor: 'white', headerTitleStyle: { fontSize: 18, marginLeft: 20 }, tabBarStyle: { display: 'none' } }} name="Chat" component={Message} />
+            <Tab.Screen options={{ headerShown: false, tabBarStyle: { display: 'none' } }} name="Chat" component={Message} />
         </Tab.Navigator >
     )
 }

@@ -87,9 +87,9 @@ export default function Registration_coach({ navigation }) {
                         "dob": s1.dob,
                         "gender": s1.gender,
                         "state": s1.state,
-                        "city": s1.city.trim(),
+                        "city": s1.city.id,
                         "ethnicity": s1.ethnicity,
-                        "college_name": s2.college_name,
+                        "college_name": s2.college_name.id,
                         "college_state": s2.college_state,
                         "university_email": s2.universityemail,
                         "sport_coach": s3.sport,
@@ -186,7 +186,7 @@ export default function Registration_coach({ navigation }) {
 
                 <ScrollView ref={scrollBar} horizontal={true} pagingEnabled scrollEnabled={false} showsHorizontalScrollIndicator={false}
                     scrollEventThrottle={1}
-                    style={{ height: windowHeight * 0.75 }}
+                    style={{ height: windowHeight * 0.74 }}
                 >
                     <RegistrationCoachInfo />
                     <RegistrationStudentPersonal data={s1} setdata={sets1} />
@@ -196,7 +196,7 @@ export default function Registration_coach({ navigation }) {
                 </ScrollView>
 
 
-                <View style={{ height: windowHeight * 0.14, width: '100%', paddingHorizontal: '11%', alignItems: 'center', marginTop: '3%' }}>
+                <View style={{ height: windowHeight * 0.18, width: '100%', paddingHorizontal: '11%', alignItems: 'center', marginTop: '3%' }}>
                     <View style={{ display: 'flex', flexDirection: 'row' }}>
                         <Text style={(step == 2 || step == 3 || step == 4 || step == 5) ? styles.activedot : styles.dot}></Text>
                         <Text style={(step == 3 || step == 4 || step == 5) ? styles.activedot : styles.dot}></Text>

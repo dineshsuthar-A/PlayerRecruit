@@ -50,7 +50,7 @@ export default function CoachNeutral(props) {
         setSt(true);
         const token = "Bearer " + await SecureStore.getItemAsync("token");
         axios.post("/api/swipe/right", {
-            "id": id
+            "student_id": id
         }, {
             headers: {
                 "Authorization": token

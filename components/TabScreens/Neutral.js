@@ -49,7 +49,7 @@ export default function Neutral(props) {
         setSt(true);
         const token = "Bearer " + await SecureStore.getItemAsync("token");
         axios.post("/api/swipe/right", {
-            "id": id
+            "coach_id": id
         }, {
             headers: {
                 "Authorization": token

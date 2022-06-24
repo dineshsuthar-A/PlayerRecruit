@@ -5,12 +5,16 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useFocusEffect } from '@react-navigation/native';
 import dataapis from "../../apicalls/dataapis";
 const windowHeight = Dimensions.get('window').height;
+import { Feather } from '@expo/vector-icons';
 const windowwidth = Dimensions.get('window').width;
 export default function RegistrationStudentPersonal(props) {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [date, setDate] = useState();
     const [statedata, setstatedata] = useState();
     const [etha, setEtha] = useState();
+    const [city, setcity] = useState([]);
+    const [data, setdata] = useState([]);
+    const [texref, settexref] = useState(false);
 
     const showDatePicker = () => {
         setDatePickerVisibility(true);
@@ -43,6 +47,33 @@ export default function RegistrationStudentPersonal(props) {
         }).catch((error) => {
             ToastAndroid.show("Some error occured, not able to reach server.", ToastAndroid.SHORT);
         });
+    }
+
+    const statechange = (itemValue) => {
+        props.setdata({
+            ...props.data,
+            "city": undefined
+        });
+        props.setdata({
+            ...props.data,
+            "state": itemValue
+        });
+        dataapis.getcities(itemValue).then((response) => {
+            setcity(response.data.cities);
+            setdata(response.data.cities);
+        }).catch((err) => {
+            console.log(err.response.data);
+        })
+    }
+    const filter = (t) => {
+        props.setdata({
+            ...props.data,
+            "city": undefined
+        });
+        const d = city.filter((i) => {
+            return i.city_name.toUpperCase().indexOf(t.toString().toUpperCase()) > -1;;
+        });
+        setdata(d);
     }
     useFocusEffect(React.useCallback(() => {
         getdata();
@@ -78,10 +109,7 @@ export default function RegistrationStudentPersonal(props) {
 
             <View style={styles.main}>
                 <View style={{ width: "100%", borderRadius: 5, overflow: "hidden", backgroundColor: "white", height: windowHeight * 0.07, alignItems: 'center', paddingRight: 10, paddingLeft: 2 }}>
-                    <Picker style={styles.pickerbox} selectedValue={props.data.state} onValueChange={(itemValue, itemIndex) => props.setdata({
-                        ...props.data,
-                        "state": itemValue
-                    })} >
+                    <Picker style={styles.pickerbox} selectedValue={props.data.state} onValueChange={(itemValue, itemIndex) => statechange(itemValue)} >
                         <Picker.Item label="State" style={{ fontSize: windowHeight * 0.02, marginLeft: 20, color: 'grey' }} />
                         {statedata ?
                             statedata.map((i, index) => <Picker.Item style={{ fontSize: windowHeight * 0.02, fontFamily: "Roboto" }} label={i.statename} value={i.id} key={index} />)
@@ -89,10 +117,36 @@ export default function RegistrationStudentPersonal(props) {
                         }
                     </Picker>
                 </View>
-                <TextInput selectionColor={"#004467"} value={props.data.city} placeholder='City' onChangeText={(t) => props.setdata({
-                    ...props.data,
-                    "city": t
-                })} placeholderTextColor="grey" style={styles.textBox} />
+                <View style={{ width: '100%' }}>
+                    <TextInput value={props?.data?.city?.city_name} onChangeText={(t) => filter(t)} onSubmitEditing={() => settexref(false)} onFocus={() => settexref(true)} selectionColor={"#004467"} placeholder='City' placeholderTextColor='grey' style={{
+                        backgroundColor: "white",
+                        marginTop: windowHeight * 0.02,
+                        color: "black",
+                        width: "100%",
+                        height: windowHeight * 0.07,
+                        borderRadius: 5,
+                        includeFontPadding: false,
+                        paddingLeft: 20,
+                        fontSize: windowHeight * 0.02
+                    }} />
+                    <ScrollView automaticallyAdjustContentInsets={false}
+                        keyboardShouldPersistTaps="always" scrollEnabled style={{ display: texref ? "flex" : "none", backgroundColor: 'white', width: '100%', position: 'absolute', top: windowHeight * 0.085, zIndex: 2, maxHeight: windowHeight * 0.2, }}>
+                        {data ?
+                            data.map((i, index) => (
+                                <TouchableOpacity key={index} onPress={() => {
+                                    props.setdata({
+                                        ...props.data,
+                                        "city": i
+                                    });
+                                    settexref(false);
+                                }} style={{ borderTopWidth: 0.2, width: '100%', padding: windowHeight * 0.02, borderColor: 'grey', flexDirection: 'row', alignItems: "center", justifyContent: 'space-between' }}>
+                                    <Text style={{ fontWeight: 'bold' }}>{i.city_name}</Text>
+                                    <Feather name="arrow-up-left" size={windowHeight * 0.02} color="grey" />
+                                </TouchableOpacity>))
+                            : null
+                        }
+                    </ScrollView>
+                </View>
 
                 <View style={styles.pickerOuter}>
                     <Picker
@@ -161,7 +215,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingRight: 10,
         marginTop: '5%',
-        paddingLeft: 2
+        paddingLeft: 2,
+        overflow: 'hidden'
     },
     main: {
         display: "flex",
