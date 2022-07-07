@@ -63,7 +63,7 @@ export default function LikedbyCoaches(props) {
                                     <View style={{ flex: 0.7, flexDirection: 'column', justifyContent: 'center' }}>
                                         <Text style={{ fontWeight: '600', fontSize: windowHeight * 0.025 }}>{i.firstname} {i.lastname}</Text>
                                         <View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>
-                                            <Text style={{ fontSize: windowHeight * 0.015, fontWeight: '600' }}>{i.division}</Text>
+                                            <Text style={{ fontSize: windowHeight * 0.015, fontWeight: '600' }}>{i.divisions}</Text>
                                             <Entypo name="dot-single" size={windowHeight * 0.02} color="black" />
                                             <Text style={{ fontSize: windowHeight * 0.015, fontWeight: '600' }}>{i.jobtitle}</Text>
                                             <Entypo name="dot-single" size={windowHeight * 0.02} color="black" />
@@ -82,7 +82,7 @@ export default function LikedbyCoaches(props) {
                         ) : null
                 }
             </ScrollView>
-            <View style={{ width: '100%', height: '20%', justifyContent: 'center', alignItems: 'center', }}>
+            {/* <View style={{ width: '100%', height: '20%', justifyContent: 'center', alignItems: 'center', }}>
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: windowHeight * 0.02 }}>
                     <Text style={{ color: 'white', fontWeight: '600' }}>225</Text>
                     <Text style={{ color: 'white', fontWeight: '600' }}>Views</Text>
@@ -93,7 +93,7 @@ export default function LikedbyCoaches(props) {
                     </TouchableOpacity>
                 </View>
 
-            </View>
+            </View> */}
         </ImageBackground >
     )
 }

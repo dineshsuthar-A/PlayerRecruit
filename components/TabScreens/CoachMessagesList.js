@@ -105,9 +105,19 @@ export default function CoachMessagesList({ navigation }) {
         });
         setpeople(d);
     }
-    useEffect(() => {
+    const showprofile = (id) => {
+        navigation.navigate("profile", { "id": id })
+    }
+    const openchat = (i) => {
+        navigation.navigate("chat", {
+            "userid": personal,
+            "receiver": i
+        })
+
+    }
+    useFocusEffect(React.useCallback(() => {
         personalData();
-    }, []);
+    }, []));
     return (
         userid ?
             <View style={{ width: '100%', height: '100%' }}>
@@ -128,13 +138,13 @@ export default function CoachMessagesList({ navigation }) {
 
                         </View>
                         <View style={{ flex: 0.1, marginTop: 4 }}>
-                            <TouchableOpacity><Text> <AntDesign name="setting" size={24} color="grey" /></Text></TouchableOpacity>
+                            {/* <TouchableOpacity><Text> <AntDesign name="setting" size={24} color="grey" /></Text></TouchableOpacity> */}
                         </View>
                     </View>
 
                     <View style={{ marginTop: 20, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Text style={{ color: '#4B5155', fontSize: 18 }}>Active Chats</Text>
-                        <TouchableOpacity onPress={() => logout()} style={{ marginTop: 8, marginRight: 6 }}><Entypo name="plus" size={20} color="#4B5155" /></TouchableOpacity>
+                        {/* <TouchableOpacity onPress={() => logout()} style={{ marginTop: 8, marginRight: 6 }}><Entypo name="plus" size={20} color="#4B5155" /></TouchableOpacity> */}
                     </View>
 
                     <View style={{ marginTop: 20, width: '100%', height: 45, backgroundColor: '#F9FAFC', justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', paddingHorizontal: '3%', borderRadius: 8, borderColor: '#DBE5ED', borderWidth: 1 }}>
@@ -146,12 +156,8 @@ export default function CoachMessagesList({ navigation }) {
                 <ScrollView style={{ width: '100%', height: '100%', paddingTop: windowHeight * 0.02, paddingHorizontal: windowWidth * 0.02, backgroundColor: 'white' }}>
                     {people ?
                         people.map((i, index) => (
-                            <TouchableOpacity key={index} onPress={() => navigation.navigate("chat", {
-                                "userid": personal,
-                                "receiver": i
-                            })}>
-                                <ChatUserListItem data={i} text={(i?.text)} count={i?.count} user={personal} />
-                            </TouchableOpacity>
+                            <ChatUserListItem key={index} showprof={showprofile} chatid={openchat} data={i} text={(i?.text)} count={i?.count} user={personal} />
+
                         )
                         ) : null
                     }

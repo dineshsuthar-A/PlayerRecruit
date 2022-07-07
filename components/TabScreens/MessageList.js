@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions, Animated, TouchableHighlight } from 'react-native'
+import React, { useEffect, useState, useRef } from 'react'
 import { AntDesign } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -13,8 +13,16 @@ const windowHeight = Dimensions.get("window").height;
 const windowWidth = Dimensions.get("window").width;
 import { db } from '../../Firebase';
 import { collection, addDoc, doc, setDoc, getDocuments, serverTimestamp, query, orderBy, onSnapshot, limit, getDoc, where, FieldPath, documentId, getDocs, QuerySnapshot, Unsubscribe } from 'firebase/firestore';
+import { SwipeListView } from 'react-native-swipe-list-view';
 
+const rowTranslateAnimatedValues = {};
+Array(20)
+  .fill('')
+  .forEach((_, i) => {
+    rowTranslateAnimatedValues[`${i}`] = new Animated.Value(1);
+  });
 export default function MessageList({ navigation }) {
+
   const [personal, setpersonal] = useState();
   const [userid, setuserid] = useState();
   const [chatlist, setchatlist] = useState();
@@ -46,7 +54,7 @@ export default function MessageList({ navigation }) {
       setchatlist(response.data.data);
       const t = response.data.data;
       for (var i = 0; i < t.length; i++) {
-        t[i] = { ...t[i], "time": 0 }
+        t[i] = { ...t[i], "time": 0, "key": i }
       }
       snapshot(id, t);
     }).catch((err) => {
@@ -97,6 +105,7 @@ export default function MessageList({ navigation }) {
       }
     }
   }
+
   const onsearch = (txt) => {
     const d = peopledata.filter((i) => {
       const name = i.firstname + " " + i.lastname;
@@ -104,10 +113,66 @@ export default function MessageList({ navigation }) {
     });
     setpeople(d);
   }
+  const showprofile = (id) => {
+    navigation.navigate("profile", { "id": id })
+  }
+  const openchat = (i) => {
+    navigation.navigate("chat", {
+      "userid": personal,
+      "receiver": i
+    })
 
-  useEffect(() => {
+  }
+  const animationIsRunning = useRef(false)
+  const onSwipeValueChange = swipeData => {
+    const { key, value } = swipeData;
+    if (
+      value < -Dimensions.get('window').width &&
+      !animationIsRunning.current
+    ) {
+      animationIsRunning.current = true;
+      Animated.timing(rowTranslateAnimatedValues[key], {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true
+      }).start(() => {
+        const newData = [...people];
+        const prevIndex = people.findIndex(item => item.key === key);
+        newData.splice(prevIndex, 1);
+        setpeople(newData);
+        animationIsRunning.current = false;
+      });
+    }
+  };
+
+  const renderItem = data => (
+    <Animated.View
+      style={[
+        styles.rowFrontContainer,
+        {
+          height: rowTranslateAnimatedValues[
+            data.item.key
+          ].interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, 50],
+          }),
+        },
+        { height: 70 }]}
+    >
+      <ChatUserListItem showprof={showprofile} chatid={openchat} data={data?.item} text={(data?.item?.text)} count={data?.item?.count} user={personal} />
+    </Animated.View>
+  );
+
+  const renderHiddenItem = () => (
+    <View style={styles.rowBack}>
+      <View style={[styles.backRightBtn, styles.backRightBtnRight]}>
+        <Text style={styles.backTextWhite}>Block</Text>
+      </View>
+    </View>
+  );
+  useFocusEffect(React.useCallback(() => {
     personalData();
-  }, []);
+  }, []));
   return (
     userid ?
       <View style={{ width: '100%', height: '100%' }}>
@@ -127,13 +192,13 @@ export default function MessageList({ navigation }) {
               </View>
             </View>
             <View style={{ flex: 0.1, marginTop: 4 }}>
-              <TouchableOpacity><Text> <AntDesign name="setting" size={24} color="grey" /></Text></TouchableOpacity>
+              {/* <TouchableOpacity><Text> <AntDesign name="setting" size={24} color="grey" /></Text></TouchableOpacity> */}
             </View>
           </View>
 
           <View style={{ marginTop: 20, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <Text style={{ color: '#4B5155', fontSize: 18 }}>Active Chats</Text>
-            <TouchableOpacity onPress={() => logout()} style={{ marginTop: 8, marginRight: 6 }}><Entypo name="plus" size={20} color="#4B5155" /></TouchableOpacity>
+            {/* <TouchableOpacity onPress={() => logout()} style={{ marginTop: 8, marginRight: 6 }}><Entypo name="plus" size={20} color="#4B5155" /></TouchableOpacity> */}
           </View>
 
           <View style={{ marginTop: 20, width: '100%', height: 45, backgroundColor: '#F9FAFC', justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center', paddingHorizontal: '3%', borderRadius: 8, borderColor: '#DBE5ED', borderWidth: 1 }}>
@@ -142,22 +207,58 @@ export default function MessageList({ navigation }) {
               <TouchableOpacity><FontAwesome5 name="search" size={20} color="#AFBBC6" /></TouchableOpacity></View>
           </View>
         </View>
-        <ScrollView style={{ width: '100%', height: '100%', paddingTop: windowHeight * 0.02, paddingHorizontal: windowWidth * 0.02, backgroundColor: 'white' }}>
+        {/* <ScrollView style={{ width: '100%', height: '100%', paddingTop: windowHeight * 0.02, paddingHorizontal: windowWidth * 0.02, backgroundColor: 'white' }}>
           {people ?
             people.map((i, index) => (
-              <TouchableOpacity key={index} onPress={() => navigation.navigate("chat", {
-                "userid": personal,
-                "receiver": i
-              })}>
-                <ChatUserListItem data={i} text={(i?.text)} count={i?.count} user={personal} />
-              </TouchableOpacity>
+              <ChatUserListItem key={index} showprof={showprofile} chatid={openchat} data={i} text={(i?.text)} count={i?.count} user={personal} />
             )
             ) : null
           }
-        </ScrollView>
+        </ScrollView> */}
+        <SwipeListView
+          disableRightSwipe
+          data={people}
+          renderItem={renderItem}
+          renderHiddenItem={renderHiddenItem}
+          rightOpenValue={-Dimensions.get('window').width}
+          previewRowKey={'0'}
+          previewOpenValue={-40}
+          previewOpenDelay={3000}
+          onSwipeValueChange={onSwipeValueChange}
+          useNativeDriver={false}
+          style={{ paddingVertical: 5, backgroundColor: 'white' }}
+        />
       </View>
       : null
   )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'white',
+    flex: 1,
+  },
+  backTextWhite: {
+    color: '#FFF',
+  },
+  rowBack: {
+    alignItems: 'center',
+    backgroundColor: 'red',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingLeft: 15,
+  },
+  backRightBtn: {
+    alignItems: 'center',
+    bottom: 0,
+    justifyContent: 'center',
+    position: 'absolute',
+    top: 0,
+    width: 75,
+  },
+  backRightBtnRight: {
+    backgroundColor: 'red',
+    right: 0,
+  },
+})

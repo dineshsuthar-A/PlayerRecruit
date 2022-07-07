@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TextInput, Dimensions, TouchableOpacity, StatusBar, Image, BackHandler } from 'react-native'
+import { View, Text, ScrollView, TextInput, Dimensions, TouchableOpacity, StatusBar, Image, BackHandler, ActivityIndicatorBase, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState, useCallback, useRef } from 'react'
 import { FontAwesome5 } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
@@ -17,10 +17,11 @@ import { async } from '@firebase/util';
 export default function Chat({ route, navigation }) {
   const userid = route?.params?.userid?.registration_id;
   const rid = route?.params?.receiver?.registration_id;
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState();
   const [txtbox, settxtbox] = useState();
   const [offset, setoffset] = useState();
   const gifchat = useRef();
+  const [ismore, setismore] = useState(true);
   const [unsub, setunsub] = useState();
   const docid = route.params.userid.registration_id > route?.params.receiver.registration_id ? route?.params?.userid?.registration_id + "-" + route?.params?.receiver?.registration_id : route?.params.receiver.registration_id + "-" + route.params.userid.registration_id;
 
@@ -36,8 +37,26 @@ export default function Chat({ route, navigation }) {
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const message = [];
       querySnapshot?.forEach((doc) => {
-        message.push({ ...doc?.data(), "createdAt": doc?.data()?.createdAt?.toDate() ? doc?.data()?.createdAt?.toDate() : new Date() });
+        if (route?.params?.userid?.registration_id == doc?.data()?.user?._id) {
+          const userdata = {
+            "_id": route?.params?.userid?.registration_id,
+            "name": route?.params?.userid?.firstname + route?.params?.userid?.lastname,
+            "avatar": baseURL + "uploads/" + route.params.userid.image,
+          }
+          message.push({ ...doc?.data(), "createdAt": doc?.data()?.createdAt?.toDate() ? doc?.data()?.createdAt?.toDate() : new Date(), "user": userdata });
+        }
+        else {
+          const userdata = {
+            "_id": route?.params?.receiver?.registration_id,
+            "name": route?.params?.receiver?.firstname + route?.params?.userid?.lastname,
+            "avatar": baseURL + "uploads/" + route.params.receiver.image,
+          }
+          message.push({ ...doc?.data(), "createdAt": doc?.data()?.createdAt?.toDate() ? doc?.data()?.createdAt?.toDate() : new Date(), "user": userdata });
+        }
       });
+      if (message.length < 40) {
+        setismore(false);
+      }
       setMessages(message);
       setupdate();
     });
@@ -54,8 +73,27 @@ export default function Chat({ route, navigation }) {
       const querySnapshot = await getDocs(q);
       const data = []
       querySnapshot.forEach((doc) => {
-        data.push({ ...doc?.data(), "createdAt": doc?.data()?.createdAt?.toDate() ? doc?.data()?.createdAt?.toDate() : new Date() });
+
+        if (route?.params?.userid?.registration_id == doc?.data()?.user?._id) {
+          const userdata = {
+            "_id": route?.params?.userid?.registration_id,
+            "name": route?.params?.userid?.firstname + route?.params?.userid?.lastname,
+            "avatar": baseURL + "uploads/" + route.params.userid.image,
+          }
+          data.push({ ...doc?.data(), "createdAt": doc?.data()?.createdAt?.toDate() ? doc?.data()?.createdAt?.toDate() : new Date(), "user": userdata });
+        }
+        else {
+          const userdata = {
+            "_id": route?.params?.receiver?.registration_id,
+            "name": route?.params?.receiver?.firstname + route?.params?.userid?.lastname,
+            "avatar": baseURL + "uploads/" + route.params.receiver.image,
+          }
+          data.push({ ...doc?.data(), "createdAt": doc?.data()?.createdAt?.toDate() ? doc?.data()?.createdAt?.toDate() : new Date(), "user": userdata });
+        }
       });
+      if (data.length < 20) {
+        setismore(false);
+      }
       setMessages([...messages, ...data]);
     }
   }
@@ -100,8 +138,6 @@ export default function Chat({ route, navigation }) {
   }
 
 
-
-
   return (
     <View style={{ display: 'flex', width: '100%', height: '100%', backgroundColor: 'white' }}>
       <StatusBar color="#004467" />
@@ -112,23 +148,29 @@ export default function Chat({ route, navigation }) {
         <Text style={{ fontSize: 17, color: 'white', marginLeft: 20 }}>{route?.params?.receiver?.firstname} {route?.params.receiver.lastname}</Text>
       </View>
       <GiftedChat
-        messages={messages}
+        messages={messages ? messages : []}
         ref={gifchat}
         style={{ backgroundColor: 'white' }}
         onSend={messages => {
           onSend(messages);
         }}
         renderChatEmpty={() => {
-          return (
-            <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-              <View style={{ backgroundColor: '#F9FAFC', paddingHorizontal: 20, paddingVertical: 10, borderRadius: 5 }}>
-                <Text style={{ transform: [{ rotateX: '180deg' }], fontSize: windowHeight * 0.02, fontWeight: '600' }}> Say Hi </Text>
+          if (messages && messages?.length < 1) {
+            return (
+              <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+                <View style={{ backgroundColor: '#F9FAFC', paddingHorizontal: 20, paddingVertical: 10, borderRadius: 5 }}>
+                  <Text style={{ transform: [{ rotateX: '180deg' }], fontSize: windowHeight * 0.02, fontWeight: '600' }}> Say Hi </Text>
+                </View>
               </View>
-            </View>
-          )
+            )
+          } else {
+
+            return (
+              <View></View>
+            )
+          }
         }}
         listViewProps={{
-          onEndReachedThreshold: 0.3,
           onEndReached: () => loadMore()
         }}
 
@@ -154,6 +196,12 @@ export default function Chat({ route, navigation }) {
         showUserAvatar={true}
         alwaysShowSend
         renderAvatarOnTop={true}
+        loadEarlier={ismore}
+        renderLoadEarlier={() => {
+          return (
+            <ActivityIndicator style={{ marginVertical: 10 }} size="large" color={"#004467"} />
+          )
+        }}
       // renderInputToolbar={(props) => {
       //   return (
       //     <View style={{ alignItems: 'center', width: '100%', paddingHorizontal: 10, justifyContent: 'center', height: windowHeight * 0.053 }}>

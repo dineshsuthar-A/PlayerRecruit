@@ -79,7 +79,6 @@ export default function RegistrationStudentFinal(props) {
                 }}>
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-
                         <View style={{ alignItems: 'center' }}>
                             <TextInput value={props?.data?.video} autoCapitalize="none" selectionColor={"#004467"} onChangeText={(t) => props.setdata({
                                 ...props.data,
@@ -89,8 +88,6 @@ export default function RegistrationStudentFinal(props) {
                         </View>
                     </View>
                 </View>
-
-
             </Modal>
         </View>
 

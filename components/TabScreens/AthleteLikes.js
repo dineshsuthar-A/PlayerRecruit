@@ -5,6 +5,7 @@ import Me from './LikedbyMe';
 import Coaches from './LikedbyCoaches';
 import { Dimensions, StatusBar } from 'react-native';
 import Neutral from './Neutral';
+import AtheleteMatched from './AtheleteMatched';
 const windowHeight = Dimensions.get("window").height;
 const Tab = createMaterialTopTabNavigator();
 
@@ -21,6 +22,7 @@ export default function AthleteLikes() {
                 <Tab.Screen name="Liked By Me" component={Me} />
                 <Tab.Screen name="Liked By Coaches" component={Coaches} />
                 <Tab.Screen name="Neutral" component={Neutral} />
+                <Tab.Screen name="Matched" component={AtheleteMatched} />
             </Tab.Navigator>
         </View>
 

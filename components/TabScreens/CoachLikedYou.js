@@ -78,7 +78,7 @@ export default function CoachLikedYou(props) {
                             </View>
                         </View>) : null}
             </ScrollView>
-            <View style={{ width: '100%', height: '20%', justifyContent: 'center', alignItems: 'center', }}>
+            {/* <View style={{ width: '100%', height: '20%', justifyContent: 'center', alignItems: 'center', }}>
                 <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: windowHeight * 0.02 }}>
                     <Text style={{ color: 'white', fontWeight: '600' }}>225</Text>
                     <Text style={{ color: 'white', fontWeight: '600' }}>Views</Text>
@@ -89,7 +89,7 @@ export default function CoachLikedYou(props) {
                     </TouchableOpacity>
                 </View>
 
-            </View>
+            </View> */}
         </ImageBackground >
     )
 }

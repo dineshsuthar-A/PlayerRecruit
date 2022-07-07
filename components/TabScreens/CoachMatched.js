@@ -1,71 +1,55 @@
-import { StyleSheet, Text, View, ImageBackground, ScrollView, Image, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native'
-import React, { useState } from 'react';
+import { StyleSheet, Text, View, ImageBackground, ToastAndroid, TouchableOpacity, Image, ActivityIndicator, ScrollView, Dimensions } from 'react-native'
+import React, { useState } from 'react'
+import { baseURL } from '../../config';
+import { async } from '@firebase/util';
+import { useFocusEffect } from '@react-navigation/native';
+import { AntDesign } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
-import { useFocusEffect } from '@react-navigation/native';
 import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
-import { AntDesign } from '@expo/vector-icons';
-import { baseURL } from '../../config';
 const windowHeight = Dimensions.get("window").height;
-export default function LikedbyMe(props) {
-    const [data, setdata] = useState();
+const windowWidth = Dimensions.get('window').width;
+
+
+export default function CoachMatched(props) {
     const [st, setSt] = useState(false);
+    const [data, setdata] = useState();
     const getdata = async () => {
-        setSt(true)
         const token = "Bearer " + await SecureStore.getItemAsync("token");
-        axios.get("/api/student/likebyme", {
+        axios.get("/api/coach/matches", {
+            headers: {
+                "Authorization": token
+            }
+        }).then((res) => {
+            setdata(res.data.data);
+        }).catch((err) => {
+            if (err?.message == "Network Error") {
+                ToastAndroid.show("Can't able to reach to the server,Please enable your internet.", ToastAndroid.SHORT);
+            } else
+                ToastAndroid.show("Error occured", ToastAndroid.SHORT);
+        });
+    }
+    const Remove = async (id) => {
+        const token = "Bearer " + await SecureStore.getItemAsync("token");
+        axios.post("api/match/remove", {
+            "athleteid": id
+        }, {
             headers: {
                 "Authorization": token
             }
         }).then((response) => {
-            setSt(false);
-            setdata(response.data.data);
+            console.log(response.data);
+            getdata();
         }).catch((err) => {
-            setSt(false);
             console.log(err.response.data);
-        });
-    }
-    const swipedleft = async (id) => {
-        setSt(true);
-        const token = "Bearer " + await SecureStore.getItemAsync("token");
-        axios.post("/api/swipe/left", {
-            "id": id
-        }, {
-            headers: {
-                "Authorization": token
-            }
-        }).then((response) => {
-            setSt(false);
-            getdata();
-        }).catch((err) => {
-            setSt(false);
-            console.log(err);
-        });
-    }
-    const swipedTop = async (id) => {
-        setSt(true);
-        const token = "Bearer " + await SecureStore.getItemAsync("token");
-        axios.post("/api/swipe/neutral", {
-            "id": id
-        }, {
-            headers: {
-                "Authorization": token
-            }
-        }).then((response) => {
-            setSt(false);
-            getdata();
-        }).catch((err) => {
-            setSt(false);
-            console.log(err);
-        });
+        })
     }
     useFocusEffect(React.useCallback(() => {
         getdata();
     }, []))
     return (
         <ImageBackground source={require('../../assets/bg.png')} style={{ width: '100%', height: '100%' }}>
-
             <ActivityIndicator size="large" animating={st} color="#004467" style={{ position: "absolute", top: '50%', left: '45%', zIndex: 10 }} />
             <ScrollView style={{ paddingHorizontal: '4%', paddingVertical: '4%', height: '90%' }} contentContainerStyle={{ flexGrow: 1 }} >
 
@@ -80,29 +64,22 @@ export default function LikedbyMe(props) {
                                 <View style={{ flex: 0.7, flexDirection: 'column', justifyContent: 'center', marginLeft: '3%' }}>
                                     <Text numberOfLines={1} style={{ fontWeight: '600', fontSize: windowHeight * 0.02 }}>{i.firstname} {i.lastname}</Text>
                                     <View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>
-                                        <Text numberOfLines={2} style={{ fontSize: windowHeight * 0.015, fontWeight: '600' }}>{i.divisions}</Text>
+                                        <Text numberOfLines={2} style={{ fontSize: windowHeight * 0.015, fontWeight: '600' }}>{i.gpa}</Text>
                                         <Entypo name="dot-single" size={windowHeight * 0.02} color="black" />
-                                        <Text numberOfLines={2} style={{ fontSize: windowHeight * 0.015, fontWeight: '600' }}>{i.jobtitle}</Text>
+                                        <Text numberOfLines={2} style={{ fontSize: windowHeight * 0.015, fontWeight: '600' }}>{i.scholastic_year}</Text>
                                         <Entypo name="dot-single" size={windowHeight * 0.02} color="black" />
-                                        <Text numberOfLines={2} style={{ fontSize: windowHeight * 0.015, fontWeight: '600' }}>{i.college_name}</Text>
+                                        <Text numberOfLines={2} style={{ fontSize: windowHeight * 0.015, fontWeight: '600' }}>{i.school_name}</Text>
                                     </View>
                                 </View>
                             </TouchableOpacity>
                             <View style={{ flex: 0.3, justifyContent: 'center', alignItems: 'center', paddingVertical: '2%' }}>
-                                <TouchableOpacity onPress={() => swipedleft(i.registration_id)} style={{ flex: 0.5, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                                <TouchableOpacity onPress={() => Remove(i.registration_id)} style={{ flex: 0.5, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                                     <View style={{ borderWidth: 1, paddingVertical: windowHeight * 0.01, paddingHorizontal: windowHeight * 0.01, borderRadius: windowHeight * 0.02, paddingVertical: windowHeight * 0.002, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', borderColor: "red" }}>
                                         <AntDesign name="closecircleo" size={windowHeight * 0.015} color="red" />
-                                        <Text style={{ fontWeight: '700', color: 'red', fontSize: windowHeight * 0.015 }}> Dislike</Text></View>
+                                        <Text style={{ fontWeight: '700', color: 'red', fontSize: windowHeight * 0.015 }}> Remove</Text></View>
                                 </TouchableOpacity>
-                                <TouchableOpacity onPress={() => swipedTop(i.registration_id)} style={{ flex: 0.5, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                                    <View style={{ borderWidth: 1, paddingVertical: windowHeight * 0.01, paddingHorizontal: windowHeight * 0.01, borderRadius: windowHeight * 0.02, paddingVertical: windowHeight * 0.002, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', borderColor: 'orange' }}>
-                                        <AntDesign name="pausecircleo" size={windowHeight * 0.015} color="orange" />
-                                        <Text style={{ fontWeight: '700', color: 'orange', fontSize: windowHeight * 0.015 }}> Neutral</Text></View>
-                                </TouchableOpacity>
-
                             </View>
                         </View>) : null}
-
             </ScrollView>
         </ImageBackground >
     )
